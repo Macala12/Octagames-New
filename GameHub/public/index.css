@@ -1,0 +1,1440 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body{
+    background-color: #0B0C10 !important;
+    color: #fff !important;
+    font-family: "Montserrat", sans-serif !important;
+    height: 100vh;
+    position: relative;
+}
+h4,h5{
+    /* font-family: "Boldonse", system-ui; */
+    font-weight: 900 !important;
+}
+hr{
+    border: 1px solid #cccccc6c !important;
+    margin-top: 0.5rem !important;
+}
+button{
+    color: #fff !important;
+}
+.swal2-title {
+    font-size: 17px !important;
+    font-weight: bold;
+}
+
+.swal2-html-container {
+    font-size: 14px !important;
+}
+.custom-confirm-btn {
+    background-color: #66FCF1;
+    color: #000 !important;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    width: 250px !important; 
+    border: none !important;
+}
+.info{
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+._back_arr{
+    color: #000;
+    background-color: #66FCF1;
+    padding: 6px 10px 5px;
+    border-radius: 50%;
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    font-size: 18px;
+}
+._delete{
+    position: absolute;
+    bottom: 10px;
+    right: 2px;
+    color: #d9293b !important;
+}
+._header{
+    font-size: 17px;
+    text-shadow:
+    0 0 1px #1b7d77,
+    1px 1px 1px #1b7d77;
+}
+._empty{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: #1F2833;
+    text-align: center;
+    border-radius: 10px;
+    height: 100px;
+}
+._empty h6{
+    font-size: 12px !important;
+    width: 100%;
+}
+._empty h6 b{
+    color: #66FCF1;
+}
+._empty i{
+    font-size: 20px;
+    display: block;
+    margin-bottom: 10px;
+}
+.container-fluid{
+    padding-bottom: 20px;
+    position: relative;
+}
+._alert_box{
+    margin-top: 10px;
+}
+.alert{
+    font-size: 14px;
+    margin-bottom: 0px !important;
+}
+.alert button{
+    color: #fff !important;
+    opacity: 1 !important;
+}
+.badge{
+    font-size: 10px !important;
+    background-color: #66FCF1;
+    color: #000;
+    padding: 5px;
+}
+._top_navigation{
+    display: flex;
+    justify-content: space-between;
+}
+.rewardHover{
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    align-items: center;
+    top: 0px;
+    left: 0px;
+    background-color: #000000cd;
+    z-index: 1;
+    padding: 0px 30px;
+    display: none;
+}
+.rewardHover .text-center{
+    width: 100%;
+    background-color: #1F2833;
+    color: #fff !important;
+    padding: 15px;
+    border-radius: 15px;
+    position: relative;
+}
+.rewardHover .text-center b{
+    color: #66FCF1;
+}
+.rewardHover h5{
+    font-size: 17px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.rewardHover .icon_box{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    top: -19px;
+    left: 33%;
+}
+.rewardHover .icon_box img{
+    width: 150%;
+    height: 150%;
+    object-fit: contain;
+    margin-top: -50px;
+    /* animation: bounce 1s infinite; */
+}
+.rewardHover h6{
+    font-size: 14px;
+    font-weight: 400 !important;
+}
+.rewardHover button{
+    background-color: #66FCF1;
+    padding: 10px;
+    font-weight: 700;
+    color: #000 !important;
+    width: 90%;
+    font-size: 14px;
+    border-radius: 20px;
+    margin-top: 10px;
+}
+.rewardHover box{
+    font-size: 13px;
+}
+
+/* Loading Screen */
+  .loader_box{
+    margin: 0;
+    background-color: #121212;
+    font-family: 'Press Start 2P', cursive;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    color: #fff;
+  }
+
+  .loader-wrapper {
+    text-align: center;
+  }
+
+  .controller {
+    width: 100px;
+    height: 40px;
+    background-color: #66FCF1;
+    border-radius: 30px;
+    position: relative;
+    margin: 0 auto;
+    animation: bounce 1s infinite;
+  }
+
+  .controller::before,
+  .controller::after {
+    content: "";
+    position: absolute;
+    background-color: #fff;
+    border-radius: 50%;
+  }
+
+  .controller::before {
+    width: 12px;
+    height: 12px;
+    top: 15px;
+    left: 20px;
+  }
+
+  .controller::after {
+    width: 8px;
+    height: 8px;
+    top: 17px;
+    right: 20px;
+  }
+
+  .loading-text {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #66FCF1;
+  }
+
+/* Animation */
+
+  @keyframes slideInOut {
+    0% {margin-top: -400px; display: block;}
+    10% {margin-top: 0px; display: block;}
+    25% {margin-top: 0px; display: block;}
+    50% {margin-top: 0px; display: block;}
+    90% {margin-top: 0px; display: block;}
+    100% { margin-top: -400px; display: none;}
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  @keyframes loadProgress {
+    0% { width: 0%; }
+    100% { width: 100%; }
+  }
+
+/* Other Pages */
+._active_tournament_head{
+    font-size: 12px !important;
+}
+
+/* Bottom Sheet Styling */
+.bottom-sheet {
+    position: fixed;
+    bottom: -100%; /* Initially hidden */
+    left: 0;
+    width: 100%;
+    background: #1F2833;
+    color: #fff;
+    box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+    transition: bottom 0.3s ease-in-out;
+    z-index: 1;
+}
+.bottom-sheet input{
+    color: #fff !important;
+}
+.bottom-sheet input:focus{
+    color: #000 !important;
+}
+.bottom-sheet h4{
+    font-size: 13px;
+    margin-bottom: 10px !important;
+}
+.bottom-sheet p, .bottom-sheet label{
+    font-size: 13px;
+    margin-bottom: 10px !important;
+}
+.bottom-sheet .w-100{
+    background-color: #66FCF1;
+    color: #000 !important;
+    font-weight: 700;
+}
+.bottom-sheet input{
+    border: none;
+    border-radius: 10px;
+    background-color: #000;
+    padding: 25px;
+}
+.close_sheet{
+    position: absolute;
+    right: 20px;
+    top: 30px;
+}
+.drag-handle {
+    width: 40px;
+    height: 5px;
+    background: gray;
+    border-radius: 10px;
+    margin: 0px auto 20px;
+    cursor: grab;
+}
+
+/* User */
+._us_name h6{
+    font-weight: 600 !important;  
+    font-size: 13px;  
+    margin-bottom: 2px !important;
+}
+._us_name p{
+    font-size: 10px !important;
+    font-weight: 400 !important;
+    margin-bottom: 2px !important;
+}
+._us_img{
+    width: 40px;
+    height: 40px;
+}
+._us_img img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: contain;
+}
+._us_credentials{
+    width: fit-content;
+}
+._us_credentials button{
+    font-size: 22px;
+}
+._us_credentials a {
+    color: #000;
+    background-color: #66FCF1;
+    max-height: 45px;
+    border-radius: 7px;
+}
+._us_credentials a .top_coin_box{
+    width: 25px;
+    height: 35px;
+    margin-left: 5px;
+}
+._us_credentials a .top_coin_box img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+._us_credentials a h6{
+    font-size: 12px;
+    font-weight: 600;
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 12px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+._us_credentials span{
+    display: block;
+    padding-top: 6px;
+    margin-left: 5px;
+    color: #66FCF1;
+}
+._us_credentials a button{
+    color: #66FCF1 !important;
+    background-color: #1F2833;
+    padding: 5px 13px 0px !important;
+    font-size: 13px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border: 1px solid #1F2833;
+}
+._us_credentials .ml-2{
+    font-size: 15px !important;
+    font-weight: 600;
+    padding-top: 6px;
+}
+
+/* User Game Profile */
+._us_gme_profile{
+    padding: 10px 10px 15px 10px;
+    border-radius: 5px;
+}
+._us_gme_profile_details{
+    position: relative;
+}
+._us_gme_profile_details button{
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    font-size: 13px;
+    font-weight: 600;
+}
+._us_gme_profile_character img{
+    border-radius: 50%;
+} 
+.name h4{
+    font-size: 13px !important;
+    margin-bottom: 0px  !important;
+}
+.tag{
+    margin-top: 3px;
+    margin-bottom: 2px;
+}
+.tag span{
+    font-size: 12px !important;
+}
+.level h6{
+    font-size: 12px;
+}
+.rank_board{
+    margin-bottom: 10px;
+    padding: 5px 15px 10px;
+    border-radius: 10px;
+    background-color: #1F2833;
+}
+.rank_board h6{
+    font-size: 11px;
+    padding-top: 10px;
+}
+.rank_board_inner{
+    justify-content: space-around;
+}
+.rank_board h5{
+    font-size: 13px !important;
+    margin-top: 5px;
+    margin-bottom: 13px !important;
+}
+.rank_board img{
+    width: 40px;
+    height: 40px;
+}
+._next_rank, ._current_rank{
+    text-align: center;
+}
+.rank_board ._progress{
+    width: 50% !important;
+}
+.rank_board ._progress p{
+    font-size: 10px;
+}
+.records{
+    display: flex;
+}
+.records .d-inline-flex{
+    position: relative;
+    width: 100%;
+}
+.records .icon img{
+    margin-top: 3px;
+}
+.records .records_box{
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 5px;
+    background-color: #1F2833;
+    margin: 5px;
+    padding: 10px;
+    width: 100%;
+}
+.records .records_box box{
+    display: flex;
+}
+.records .records_box box .ml-2{
+    width: 55%;
+}
+.records h5{
+    font-weight: 600 !important;
+    font-size: 17px !important;
+    margin-top: 6px;
+    margin-bottom: 0px !important;
+}
+.progress{
+    border-radius: 20px !important;
+    height: 0.2rem !important;
+    width: 100%;
+    margin-top: 20px;
+}
+.progress-bar{
+    border-radius: 20px;
+    background-color: #66FCF1 !important;
+    color: #fff !important;
+    font-weight: 700;
+}
+
+/* Navigation */
+._navigation_bar_container{
+    position: fixed;
+    bottom: -2px;
+    left: 0px;
+    width: 100%;
+}
+._navigation_bar_container nav{
+    display: flex;
+    justify-content: space-around;
+    width: inherit;
+    background-color: #1F2833;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+._navigation_bar_container nav a{
+    color: #fff !important;
+    padding-top: 5px !important;
+}
+._navigation_bar_container nav .active{
+    color: #66FCF1 !important;
+    border-bottom: 4px solid #66FCF1;
+}
+._navigation_bar_container i{
+    font-size: 13px;
+}
+._navigation_bar_container p{
+    margin-top: 5px;
+    margin-bottom: 0px !important;
+    font-weight: 500;
+    font-size: 11px;
+}
+
+/* Tournament / Game */
+._tournament, ._exclusive_box{
+    display: inline-flex;
+    width: 100%;
+    overflow: auto;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    white-space: nowrap;
+    padding-bottom: 20px;
+}
+._tournament_box, ._exclusive{
+    /* background: linear-gradient(to bottom, rgba(43, 43, 43, 0.6), rgba(20, 20, 20, 0.3), rgba(58, 58, 58, 0.389)); */
+    background-color: #1F2833;
+    border-radius: 15px;
+    position: relative;
+    /* border: 1px solid #66FCF1; */
+    margin-right: 10px;
+    min-width: 180px;
+}
+._exclusive{
+    min-width: 290px;
+}
+._exclusive .badge{
+    background-color: #000;
+    color: #66FCF1;
+}
+._game_name h6{
+    font-size: 14px !important;
+    font-weight: 600;
+    margin-bottom: 3px !important;
+}
+._exclusive ._game_img{
+    padding: 0px;
+    height: 175px;
+    position: relative;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+}
+._game_img{
+    width: auto;
+    height: 130px;
+    padding: 5px;
+}
+._game_img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+._game_desc p{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background-color: #1F2833;
+    padding: 6px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 10px;
+    font-size: 10px !important;
+}
+._game_desc a{
+    font-size: 12px;
+    color: #fff;
+    text-decoration: underline;
+}
+._game_win_amount{
+    font-size: 12px;
+    font-weight: 500;
+}
+._game_win_amount span{
+    max-width: 100%;
+    display: block;
+    white-space: wrap;
+    margin-bottom: 5px;
+    text-align: justify;
+    font-size: 10px;
+}
+._tournament_box p, ._exclusive_box p {
+    margin-bottom: 0px;
+    font-size: 12px;
+}
+._tournament_box p b, ._exclusive_box p b{
+    font-family: 'bungee inline';
+    font-size: 13px;
+}
+._game_player_join a, #joinBtn a{
+    width: 100%;
+    color: #fff !important;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 10px;
+    padding: 0px;
+}
+#joinBtn a{
+    width: 90%;
+}
+._game_player_join a .d-flex, #joinBtn a .d-flex{
+    background-color: #292929;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-size: 13px;
+}
+._game_player_join a .pointDiv, ._game_player_join a .joinDiv, #joinBtn a .pointDiv, #joinBtn a .joinDiv{
+    width: 100%;
+    padding: 10px;
+}
+._tournament_page_header .active{
+    width: 90%;
+}
+._active_tournament a .d-flex, .active a .d-flex{
+    background-color: transparent !important;
+}
+._active_tournament a .pointDiv, .active a .pointDiv{
+    background-color: #121212 !important;
+    color: #fff !important;
+}
+._game_player_join a .pointDiv, #joinBtn a .pointDiv{
+    background-color: #66FCF1;
+    color: #000 ;
+    font-weight: 600;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 25px;
+}
+._tournament_page_header{
+    position: relative;
+    height: 300px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+._tournament_page_inner{
+    position: absolute;
+    bottom: -190px;
+    padding-left: 10px;
+    z-index: 1 !important;
+}
+._tournament_page_inner p{
+    font-size: 10px;
+    margin-bottom: 5px !important;
+}
+._players_joined .desc{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+._players_joined .desc h6{
+    margin-bottom: 4px !important;
+    font-size: 13px;
+}
+._players_joined_user_img .topThree img{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    z-index: 1;
+}
+._players_joined_user_img .secondUser, ._players_joined_user_img .thirdUser{
+    margin-left: -10px;
+}
+._players_joined_user_img span{
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 10px;
+    margin-left: -10px;
+}
+._players_joined_user_img span b{
+    font-family: 'bungee inline';
+    font-size: 12px;
+}
+.reward{
+    font-weight: 600;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-evenly;
+    width: 95vw;
+}
+.reward_box_{
+    padding: 10px;
+    /* background-color: #1F2833; */
+    border-radius: 15px;
+    text-align: center;
+    color: #fff;
+}
+.reward_box_ h5{
+    font-size: 17px;
+}
+.reward_box_ h6{
+    font-size: 12px;
+}
+._players_joined button{
+    width: 48%;
+    border-radius: 5px;
+    font-size: 14px;
+}
+.join_btn{
+    color: #66FCF1 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    border: 2px solid #66FCF1 !important;
+    border-radius: 10px !important;
+    width: 85vw;
+}
+.joined_btn{
+    background-color: #66FCF1 !important;
+}
+.play_btn{
+    background-color: #66FCF1 !important;
+    color: #000 !important;
+    font-weight: 700 !important;
+    padding: 15px !important;
+    border-radius: 10px !important;
+    position: fixed;
+    bottom: 15px;
+    left: 8px;
+    width: 96%;
+    display: block;
+}
+._live_session_info{
+    margin-top: 60px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 10px;
+}
+._live_session_info p{
+    margin-bottom: 0px !important;
+}
+._leaderboard{
+    margin-top: 200px;
+}
+._leaderboard table{
+    color: #fff !important;
+    font-size: 13px;
+}
+._leaderboard table .d-flex img{
+    width: 15px;
+    height: 15px;
+}
+._leaderboard table{
+    margin-bottom: 0px !important;
+}
+._leaderboard table td, ._leaderboard table th{
+    text-align: center;
+}
+._leaderboard{
+    background-color: #1F2833;
+    padding: 20px 10px 10px;
+    border-radius: 15px;
+}
+._leaderboard h5{
+    font-size: 13px;
+    color: #000;
+}
+.tournament_end{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0%;
+    left: 0px;
+    background-color: #66FCF1;
+    align-items: center;
+    display: none;
+}
+.marquee_box{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+}
+.marquee_box marquee{
+    padding: 5px;
+    color: #404040;
+    font-weight: 600;
+}
+.tournament_end_box{
+    width: 100%;
+    z-index: 1;
+    padding: 10px 20px;
+    color: #000;
+}
+.tournament_end_box h4{
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 20px !important;
+}
+.tournament_end_box h5{
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 14px !important;
+}
+.tournament_end_box a{
+    display: block;
+    width: 90%;
+    padding: 15px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+}
+.tournament_end_content{
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 40px;
+    border-radius: 15px;
+    width: 100%;
+}
+._top_three_player{
+    width: fit-content;
+}
+.t_t_l_user_img_box{
+    display: flex;
+    justify-content: center;
+}
+._t_t_l_user_img{
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+._t_t_l_user_img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    padding: 3px;
+}
+._t_t_l_user_img span{
+    position: absolute;
+    bottom: -15px;
+    left: 32%;
+    background-color: #66FCF1;
+    color: #000;
+    padding: 1px 8px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    font-size: 14px;
+    font-weight: 800;
+}
+._t_t_l_user_name{
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 10px;
+    text-align: center;
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+._t_t_l_score{
+    font-size: 12px;
+    text-align: center;
+}
+._under_three{
+    border-radius: 20px;
+}
+
+.leaderboard_player{
+    padding: 10px;
+    color: #fff;
+}
+.leaderboard_player .d-flex{
+    position: relative;
+}
+.leaderboard_player ._leaderboard_score{
+    position: absolute;
+    top: 12px;
+    right: 10px;
+}
+.leaderboard_player img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+.leaderboard_player h6{
+    font-size: 14px;
+    padding-left: 8px;
+    padding-top: 12px;
+}
+._active_user{
+    background-color: #66FCF1;
+    color: #000;
+}
+
+/* Active Tournament */
+._active_tournament_box{
+    margin-top: 10px;
+    display: inline-flex;
+    width: 100%;
+    overflow: auto;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    white-space: nowrap;
+    padding-bottom: 20px;
+}
+._active_tournament{
+    background-color: #1F2833;
+    border-radius: 15px;
+    position: relative;
+    margin-right: 10px;
+    min-width: 180px;
+}
+._active_tournament p {
+    margin-bottom: 0px;
+    font-size: 12px;
+    font-weight: 600;
+}
+._active_tournament p b{
+    font-family: 'bungee inline';
+    font-size: 13px;
+}
+._active_tournament button{
+    width: 100%;
+    color: #fff !important;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 20px;
+}
+._active_tournament ._game_player_join a{
+    width: 100%;
+    background-color: #28a745;
+    color: #2E1A47 !important;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 10px;
+}
+
+/* Coin */
+._coin_container p{
+    font-size: 13px !important;
+    margin-bottom: 15px !important;
+    margin-top: 10px !important;
+}
+._coin{
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 10px;
+    row-gap: 20px;
+}
+._coin_box{
+    background-color: #1F2833;
+    border-radius: 15px;
+    position: relative;
+    padding: 10px;
+}
+._coin_box .d-flex{
+    justify-content: center;
+}
+._coin_img{
+    width: 70px;
+    height: 70px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+}
+._coin_img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+._coin_name h6{
+    font-size: 12px !important;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-align: center;
+}
+._coin_box button{
+    width: 100%;
+    background-color: #66FCF1;
+    color: #2E1A47 !important;
+    font-weight: 600;
+    font-size: 12px;
+    border-radius: 5px;
+}
+/* Reward */
+._reward_box{
+    margin-top: 30px;
+    padding: 10px;
+    position: relative;
+}
+._reward_box ._reward_icon{
+    font-size: 22px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #66FCF1;
+    color: #000;
+    border-radius: 50%;
+    padding: 3px 8px 0px;
+}
+._reward_box h4{
+    font-size: 20px;
+}
+._reward_box h6{
+    font-size: 13px;
+    font-weight: 600;
+}
+._reward_box p{
+    font-size: 13px;
+}
+._reward_box button{
+    width: 40%;
+    background-color: #66FCF1;
+    color: #000 !important;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 10px;
+}
+._reward_box span{
+    padding-top: 7px;
+}
+._reward_box span a{
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+}
+._addBankBtn{
+    background-color: transparent !important;
+    border: 2px solid #66FCF1 !important;
+    color: #66FCF1 !important;
+    padding: 10px !important;
+    border-radius: 15px !important;
+    margin-top: 20px;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+}
+._redeem_box{
+    margin-top: 10px;
+    display: flex;
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+}
+._bank_acoount_box{
+    position: relative;
+    justify-content: space-between;
+    padding: 15px 15px 10px;
+    background-color: #1F2833;
+    border-left: 4px solid #66FCF1;
+    border-radius: 5px;
+    margin-right: 15px;
+    min-width: 260px;
+}
+._bank_acoount_box h6{
+    font-size: 13px;
+    margin-bottom: 4px !important;
+}
+._redeem_box p{
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 10px !important;
+}
+._bank_acoount_box img{
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    width: 40px;
+}
+#_reward_history_box{
+    max-height: 200px;
+    overflow: auto;
+    white-space: nowrap;
+}
+._reward_history h6{
+    font-size: 14px;
+}
+._reward_history h6 .float-right{
+    color: #ccc;
+    font-size: 13px;
+}
+._reward_history_box{
+    background-color: #1F2833;
+    padding: 15px 15px 1px 15px;
+    border-radius: 5px;
+    border-left: 4px solid #66FCF1;
+    margin-bottom: 10px;
+    position: relative;
+}
+._reward_history_box .hidden_details{
+    display: none;
+}
+._reward_history_box i{
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 22px;
+    color: #66FCF1;
+}
+._reward_history_box h6{
+    font-size: 14px;
+}
+._reward_history_box p{
+    font-size: 13px;
+    margin-bottom: 15px !important;
+}
+#optionBox .opBox{
+    background-color: #000;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding-left: 20px;
+}
+.optionBox h6{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+.bank_details{
+    padding: 15px;
+    background-color: #000;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: none;
+}
+.bank_details h6{
+    font-size: 14px;
+    color: #66FCF1 !important;
+}
+
+/* Profile */
+._profile{
+    margin-top: 100px;
+}
+._profile_history h6{
+    font-size: 14px;
+}
+._profile_history_box{
+    padding: 15px 15px 1px 15px;
+    border-radius: 10px;
+    background-color: #1F2833;
+    margin-bottom: 10px;
+}
+._profile_history_box h6{
+    font-size: 14px;
+}
+._profile_history_box p{
+    font-size: 13px;
+    margin-bottom: 15px !important;
+}
+._profile_header_box{
+    height: 300px;
+    position: relative;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, #000000 100%),
+    url('./Assets/_games/_img/auth_background1.jpg');    
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+.relative_box{
+    position: absolute;
+    bottom: -80px;
+    width: 100%;
+}
+.relative_box .player_stats{
+    font-weight: 700;
+    font-size: 12px;
+    padding: 5px 10px 5px 5px;
+    background-color: #1F2833;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+.relative_box ._stats{
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+.relative_box .stat_box i{
+    color: #66FCF1;
+}
+.relative_box .stat_box h5{
+    font-size: 16px;
+    margin-bottom: 0px;
+}
+.relative_box .stat_box b{
+    font-size: 11px;
+}
+.relative_box .circular-progress {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #000;
+    padding: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+  
+.relative_box .circular-progress .circular-image {
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-position: center;
+    background-size: contain;
+    border-radius: 50%;
+}
+
+  
+/* ._profile_user_image{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+._profile_user_image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+} */
+._profile_user_name h5{
+    font-size: 16px;
+    text-align: center;
+}
+.profile_user_tag span{
+    font-size: 13px;
+    padding-right: 10px;
+}
+._profile p{
+    margin-bottom: 0px;
+    margin-top: 5px;
+}
+._profile_button{
+    display: block;
+    background-color: #1F2833;
+    color: #fff;
+    padding: 20px 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+._profile_button h6{
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 0px !important;
+}
+._profile_button p{
+    font-size: 12px;
+}
+._profile_button i{
+    font-size: 20px;
+}
+
+.mainAlert{
+    position: absolute;
+    top: 20px;
+    width: 90vw;
+    z-index: 1;
+}
+.mainAlert .alert{
+    animation: slideInOut 5s forwards;
+    width: 100%;
+    margin-bottom: 10px !important;
+}
+
+.alertDanger{
+    background-color: #dc35469c;
+    border-left: 4px solid #d9293b !important;
+    font-weight: 700;
+    padding: 15px !important;
+    border-radius: 5px !important;
+}
+.alertSuccess{
+    background-color: #28a7459c;
+    border-left: 4px solid #28a745 !important;
+    font-weight: 700;
+    padding: 15px !important;
+    border-radius: 5px !important;
+}
+.alertInfo{
+    background-color: #1F2833;
+    border-left: 4px solid #66FCF1 !important;
+    font-weight: 500;
+    font-size: 12px;
+    padding: 15px !important;
+    border-radius: 5px !important;
+}
+.container-fluid{
+    position: relative;
+}
+._auth_box{
+    margin-top: 90px !important;
+}
+._auth_box h5{
+    font-size: 16px;
+}
+._auth_box p{
+    font-size: 13px;
+    margin-top: 15px !important;
+    margin-bottom: 10px !important;
+}
+._auth_box label{
+    font-size: 13px;
+    font-weight: 600;
+}
+._auth_box input{
+    margin-bottom: 13px;
+    padding: 25px;
+    border-radius: 10px;
+    background-color: #1F2833;
+    color: #fff;
+    border: none;
+}
+._auth_box input::placeholder{
+    font-size: 14px;
+}
+._auth_box button{
+    background-color: #66FCF1;
+    color: #000 !important;
+    font-weight: 800;
+    padding: 15px;
+    margin-top: 10px;
+}
+._verification_box{
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    align-items: center;
+    height: 100vh;
+}
+._verification_box h4{
+    font-size: 16px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+._verification_box p{
+    font-size: 14px;
+}
+._verification_box button{
+    background-color: #66FCF1;
+    color: #000 !important;
+    font-weight: 700;
+    border-radius: 15px;
+    width: 100%;
+    padding: 13px;
+    margin-top: 20px;
+}
+._verification_box a{
+    display: block;
+    margin-top: 10px;
+    color: #66FCF1;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Modal Styling */
+.modal-content{
+    background-color: #1F2833 !important;
+}
+.modal-header{
+    border: none !important;
+    padding-bottom: 10px !important;
+}
+.modal-header h4{
+    font-size: 13px ;
+}
+.modal-body{
+    font-size: 13px !important;
+    padding-top: 5px !important;
+    padding-bottom: 10px !important;
+    font-weight: 600;
+}
+.modal-body form label{
+    margin-top: 30px;
+}
+.modal-body form .account_name{
+}
+.modal-body form p{
+    margin-bottom: 1px;
+}
+.modal-body select, .modal-body input{
+    background-color: #000 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 2px solid #66FCF1;
+    color: #fff;
+    border-radius: 0px !important;
+    font-size: 14px !important;
+    margin-top: 5px;
+}
+.modal-footer{
+    border: none !important;
+}
+.modal-footer button{
+    background-color: #66FCF1;
+    color: #000 !important;
+    padding: 13px;
+    font-size: 13px;
+    font-weight: 600;
+}
+.otp-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .otp-input {
+    width: 50px;
+    height: 60px;
+    font-size: 24px;
+    text-align: center;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.2s ease-in-out;
+  }
+  
+  .otp-input:focus {
+    border-color: #66FCF1;
+    box-shadow: 0 0 5px #66FCF1;
+  }
+  

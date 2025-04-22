@@ -1,0 +1,104 @@
+body{
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, #0B0C10 100%),
+    url('./Assets/_games/_img/auth_background3.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 300px;
+}
+.alertDanger{
+    background-color: #dc35469c;
+    border-left: 4px solid #d9293b !important;
+    font-weight: 700;
+    padding: 15px !important;
+    border-radius: 5px !important;
+}
+.container-fluid{
+    height: 100vh;
+    position: relative;
+}
+.user_select_img{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.user_select_img .img_box{
+    display: flex;
+    justify-content: center;
+}
+.user_select_img .img_box .loaderImg{
+    display: none;
+}
+.user_select_img button{
+    font-weight: 600;
+    font-size: 10px;
+    margin-top: 10px;
+    padding: 7px;
+}
+._auth_box{
+    margin-top: 200px !important;
+}
+._auth_box h5{
+    font-size: 16px;
+}
+._auth_box p{
+    font-size: 13px;
+    margin-top: 15px !important;
+    margin-bottom: 10px !important;
+}
+._auth_box label{
+    font-size: 13px;
+    font-weight: 600;
+}
+._auth_box input{
+    margin-bottom: 13px;
+    padding: 25px;
+    border-radius: 10px;
+    background-color: #1a1a1a;
+    color: #fff;
+    border: none;
+}
+._auth_box input::placeholder{
+    font-size: 14px;
+}
+/* ._auth_box button{
+    background-color: #FFC107;
+    color: #000 !important;
+    font-weight: 800;
+    padding: 15px;
+    margin-top: 10px;
+} */
+._auth_box .text-center{
+    display: block;
+    font-size: 13px;
+    color: #FFC107;
+    text-decoration: none;
+    margin-top: 10px;
+}
+._auth_box .forgot_password_link{
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #FFC107;
+    /* border: 2px solid #FFC107; */
+    text-decoration: none;
+    margin-top: 10px;
+}
+._auth_login_footer{
+    position: absolute;
+    bottom: 50px;
+    left: 20px;
+    width: 90vw;
+}
+.password_span{
+    position: relative;
+    display: block;
+    width: 100%;
+}
+.password_span .reveal_icon{
+    position: absolute;
+    top: 14px;
+    right: 20px;
+}

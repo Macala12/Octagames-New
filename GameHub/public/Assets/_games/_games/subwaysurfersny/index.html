@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <link rel="stylesheet" href="/css/footer.css"> -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4874616183592939"
+     crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="🕹Opium Games is a free unblocked games service hosting over 100+ unblocked games, also includes many selectable proxies and emulators to use along with tab cloakers and history hiders! 🎮">
+    <meta name="author" content="CybriaTech">
+    <meta name="keywords" content="games, unblocked games, unblocked games, video games, unity, webgl, swf, html5, cybriagames, cybriagames sequel, emulators">
+    <!-- <link rel="stylesheet" href="/css/header.css"> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="icon" href="/images/logo/favi/logo-16x16.png" sizes="16x16">
+    <link rel="icon" href="/images/logo/favi/logo-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="/images/logo/favi/apple-touch-icon.png" sizes="180x180">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Boldonse&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+   
+    <title>Subway Surfers NYC | Opium</title>
+    <!-- <link rel="stylesheet" href="/css/index.css"> -->
+    <!-- Google tag (gtag.js)
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-20CSCVKLF3"></script> -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-20CSCVKLF3');
+</script>
+<style>
+  body{
+    background-color: #0B0C10 !important;
+    font-family: "Montserrat", sans-serif !important;
+    margin: 0px;
+    padding: 0px;
+    width: 100vw;
+    height: 100vh;
+  }
+  main, iframe{
+    width: 100vw !important;
+    height: 100vh !important; 
+  }
+  .loading-text {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #fff !important;
+    text-align: center;
+  }
+  .loader-main{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .loader-container {
+    width: 60%;
+    position: relative;
+    margin: 40px auto;
+  }
+  .loader-container h5{
+    color: #66FCF1;
+    font-size: 20px !important;
+    font-weight: 600;
+    text-align: center;
+    animation: character 2s infinite;
+    margin-bottom: 20px !important;
+  }
+
+  .loader-progress-wrapper{
+    height: 5px;
+    border-radius: 20px;
+    background-color: #333;
+  }
+
+  .loading-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #35c6bc, #66FCF1);
+    transition: width 0.3s ease;
+    border-radius: 20px;
+  }
+
+  @keyframes character {
+    0% {color: #66FCF1;}
+    50% {color: #fff;}
+    100% {color: #66FCF1;}
+  }
+</style>
+</head>
+<body>
+  <div class="loader-main">
+    <div class="loader-container">
+       <h5>Octagames</h5>
+      <div class="loader-progress-wrapper">
+        <div class="loading-bar"></div>
+      </div>
+      <div class="loading-text">
+        <p id="loadingText"></p>
+      </div>
+    </div>
+  </div>
+  <main id="main">
+  </main>
+<script>
+  const API_BASE_URL = 'http://localhost:3000';
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("id");
+  const main = document.getElementById("main");
+  const loaderMain = document.querySelector(".loader-main");
+
+  const loadingBar = document.querySelector('.loading-bar');
+  const loadingText = document.getElementById('loadingText');
+
+  const texts = [
+  "Loading game engine...",
+  "Spawning enemies...",
+  "Placing rewards...",
+  "Get ready!"
+  ];
+
+  let progress = 0;
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/tournament_page?Id=${id}`)
+      const result = await response.json();
+
+      if (!response.ok) {
+        console.log(result.message);
+      }
+      else{
+        console.log("Has not ended");
+        const interval = setInterval(() => {
+          progress += 1;
+          loadingBar.style.width = `${progress}%`;
+          
+          if (progress >= 0 && progress < 25) {
+            loadingText.textContent = texts[0];
+          } else if (progress >= 25 && progress < 50) {
+            loadingText.textContent = texts[1];
+          } else if (progress >= 50 && progress < 75) {
+            loadingText.textContent = texts[2];
+          } else if (progress >= 75 && progress <= 100) {
+            loadingText.textContent = texts[3];
+          }
+          
+          if (progress >= 100) {
+            clearInterval(interval);
+            setTimeout(() => {
+              loadingText.textContent = "Done!";
+              loaderMain.style.display = "none";
+              main.innerHTML = `<iframe src="game.html?id=${id}"></iframe>`;
+            }, 500);
+          }
+        }, 50);
+      }
+    } 
+    catch (error) { 
+    }
+  });
+
+  var elem = document.querySelector('.grid');
+</script>
+</body>
+</html>

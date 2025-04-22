@@ -1,0 +1,1417 @@
+require('dotenv').config();
+const express = require("express");
+const mongoose = require('mongoose');
+const axios = require('axios');
+const bcrypt = require('bcryptjs');
+const path = require("path");
+const app = express();
+const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
+});
+const { handleMultipleTournaments } = require('./public/controllers/tournamentController');
+const { paymentProcessor } = require('./public/controllers/paymentController');
+
+//Models
+const User = require('./public/models/User');
+const UserGameInfo = require('./public/models/UserGameInfo');
+const Otp = require('./public/models/Otp');
+const liveTournament = require('./public/models/LiveTournament');
+const Leaderboard = require('./public/models/Leaderboard');
+const redeemRewardHistories = require('./public/models/RedeemRewardHistories');
+const bankInfo = require('./public/models/BankInfo');
+const rewardInfo = require('./public/models/RewardInfo');
+const Coins = require('./public/models/Coins');
+const transactionHistories = require('./public/models/Transactionhistories');
+const payoutHistories = require('./public/models/PayoutHistories');
+const { error } = require("console");
+const { umask } = require('process');
+
+// Serve static files from the "public" folder
+app.use(express.static(path.join(__dirname, "public")));
+
+// Middleware to parse JSON requests
+app.use(express.json());
+
+// Connect to MongoDB 
+mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mongodb.net/octagames", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log("MongoDB Connected");
+    handleMultipleTournaments();
+    paymentProcessor();
+})
+.catch(err => console.log("DB Connection Error:", err));
+
+    //Signup Route / Endpoint
+    app.post('/signup', async (req, res) => {
+        try {
+            const {userImg, firstName, lastName, username, email, phoneNumber, password} = req.body;
+            // Checking for existing email
+            const existingUsername = await User.findOne({ username });
+            if (existingUsername) return res.status(400).json({ message: 'Username is already taken' });
+
+            const existingEmail = await User.findOne({ email });
+            if (existingEmail) return res.status(400).json({ message: 'Email is already registered' });
+
+            const existingPhonenumber = await User.findOne({ phoneNumber });
+            if (existingPhonenumber) return res.status(400).json({ message: 'Phone Number is already registered' });
+
+            //Hash Passward
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+
+            const newUser = new User({
+                userImg,
+                firstName,
+                lastName,
+                username,
+                email,
+                phoneNumber,
+                password: hashedPassword
+            });
+            await newUser.save();
+
+            const newGameInfo = new UserGameInfo({
+                userId: newUser._id,
+                userOctacoin: 0,
+                userLevel: 1,
+                userXP: 0,
+                userStreak: 0,
+                userTopWins: 0,
+                userGamesPlayed: 0
+            });
+            await newGameInfo.save();
+
+            const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+            const verificationLink = `http://localhost:3000/verify-email?token=${token}`;
+
+            await transporter.sendMail({
+            from: `"Octagames" <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: "Verify Your Email",
+            html: `
+                <style>@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');</style>
+                <div style="font-family: 'Press Start 2P', cursive; background-color: #1a1a1a; color: #ffffff; padding: 30px; border-radius: 10px; max-width: 600px; margin: auto; box-shadow: 0 0 20px #FFC107;">
+                <h2 style="text-align: center; color: #FFC107;">🎮 Welcome to G-Run Arena!</h2>
+                <p style="font-size: 16px; line-height: 1.6;">
+                    Hey Gamer,<br><br>
+                    You're just one click away from entering the arena! To verify your email and activate your G-Run account, tap the button below:
+                </p>
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="${verificationLink}" style="background-color: #FFC107; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
+                    ✅ Verify Email
+                    </a>
+                </div>
+                <p style="font-size: 14px; color: #cccccc;">
+                    If you didn’t sign up for G-Run, you can safely ignore this message. Otherwise, get ready to dominate the leaderboard!
+                </p>
+                <p style="font-size: 14px; text-align: center; color: #666666; margin-top: 40px;">
+                    ⚡ Powered by Octagames
+                </p>
+                </div>
+            `          
+            });
+
+            res.status(200).json({ message: 'User registered successfully'})
+
+        } catch (error) {
+            console.error('Error during signup:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    });
+
+    app.get('/resend_link', async (req, res) => {
+        try {
+            const { email } = req.query;
+
+            const fetchedUserId = await User.findOne({ email });
+            if (!fetchedUserId) {
+                return res.status(400).json({ message: 'User not found' });
+            }
+            
+            const token = jwt.sign({ userId: fetchedUserId._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+            const verificationLink = `http://localhost:3000/verify-email?token=${token}`;
+
+            await transporter.sendMail({
+            from: `"Octagames" <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: "Verify Your Email (Resend)",
+            html: `
+                <h2>Welcome to G-Run Arena!</h2>
+                <p>Click the link below to verify your email:</p>
+                <a href="${verificationLink}">Verify Email</a>
+            `
+            });
+
+            res.status(200).json({ message: 'Verication link has been resent' });
+
+        } catch (error) {
+            
+        }
+    });
+
+    app.post('/otp', async (req, res) => {
+       try {
+        const { userid } = req.body;
+        const objectuserId = new mongoose.Types.ObjectId(userid);
+
+        const userEmail = await User.findById(objectuserId);
+        if (!userEmail) {
+            return res.status(400).json({ message: 'Could not find user' });
+        }
+
+        const email = userEmail.email;
+        const generateOTP = () => Math.floor(100000 + Math.random() * 900000);
+        const otp = generateOTP();
+
+        await transporter.sendMail({
+            from: `"Octagames" <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: "OTP Code",
+            html: `
+                <div style="width: 100%; display: flex; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; border-radius: 10px; background-color: #1a1a1a; color: #ffffff; max-width: 600px; margin: auto;">
+                <div style="padding: 30px;">
+                    <h2 style="text-align: left; color: #FFC107;">Redeem Reward OTP</h2>
+                    <p style="font-size: 16px; text-align: left; line-height: 1.6;">
+                        Hey ${userEmail.firstName + " " + userEmail.lastName},<br><br>
+                        To complete your redeem request please enter the OTP code provided below in the website. The code will expire in <b>10 minutes</b>
+                    </p>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <span style="font-size: 20px; margin-right: 10px;"><b>${otp}</b></span> <i class="fi fi-rr-copy-alt"></i>
+                    </div>
+                    <div style="width: 90%; font-weight: 600; text-align: left; padding: 15px; background-color: #fff3cd; color: #856404; border-radius: 10px;">
+                        <i class="fi fi-rr-triangle-warning"></i> OTP code will expire in:  <span style="font-weight: 700;">05:06</span>
+                    </div>
+                    <p style="font-size: 14px; color: #cccccc; line-height: 1.6;">
+                        You can only use the code once. If you didn't request for the security code. Kindly contact our <a href="">support team</a>
+                    </p>
+                    <p style="text-align: center; margin-top: 25px !important; margin-bottom: 10px !important;">
+                        <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-facebook"></i></a>
+                        <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-instagram"></i></a>
+                        <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-twitter-alt-circle"></i></a>
+                        <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-whatsapp"></i></a>
+                    </p>
+                    <p style="text-align: center; font-size: 14px;">
+                        Lagos, Nigeria
+                    </p>
+                    <p style="font-size: 14px; text-align: center; color: #666666; margin-top: 20px;">
+                    ⚡ Powered by Octagames <br>
+                    Level up your gaming experience with our competitive tournaments, rewards, and non-stop action.
+                    </p>
+                </div>
+            </div>
+            `
+        });
+
+        const newOtp = new Otp({
+            email,
+            otp
+        });
+        await newOtp.save();
+
+        return res.status(200).json({ message: 'success' });
+
+       } catch (error) {
+        
+       } 
+    });
+
+    app.get('/verify_otp', async (req, res) => {
+        const { userid, otp } = req.query;
+        try {
+            const objectuserId = new mongoose.Types.ObjectId(userid);
+
+            const userEmail = await User.findById(objectuserId);
+            if (!userEmail) {
+                return res.status(400).json({ message: 'Could not find user' });
+            }
+
+            const otpChecker = await Otp.findOne({ email: userEmail.email, otp: otp });
+            if (!otpChecker) {
+                return res.status(400).json({ message: 'Invalid OTP or OTP has expired' })
+            }
+
+            return res.status(200).json({ message: 'success' });
+        } catch (err) {
+            console.error(err);
+            res.status(400).send('Invalid or expired OTP.');
+        }
+    });
+    //Verify Email Route
+    app.get('/verify-email', async (req, res) => {
+        const { token } = req.query;
+    
+        try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.userId;
+    
+        await User.findByIdAndUpdate(userId, { emailConfirmed: true });
+    
+        res.send(`Email verified successfully! You can now log in. <a href="./public/login.html" class="btn btn-success">Login</a>`);
+        } catch (err) {
+        console.error(err);
+        res.status(400).send('Invalid or expired token.');
+        }
+    });
+
+    //Login Route / Endpoint
+    app.post('/login', async (req, res) => {
+        try {
+            const {email, password} = req.body;
+
+            const user = await User.findOne({ email });
+            if (!user) {
+                return res.status(400).json({message: 'Invalid Email'});
+            }
+
+            if (user.emailConfirmed == false) {
+                return res.status(400).json({message: 'You have not verified your email'});  
+            }
+        
+            const isMatched = await bcrypt.compare(password, user.password);
+            if (!isMatched) {
+                return res.status(400).json({message: 'Incorrect Password'});
+            }
+        
+            const userId = user._id ? user._id.toString() : null;
+        
+            res.status(200).json({
+                message: 'Login Successful',
+                userid: userId
+            });
+        } catch (error) {
+            console.error('Login error:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    });
+
+    //Fetch Info Route / Endpoint
+    app.get('/fetch_info', async (req, res) =>{
+        try {
+            const { userid } = req.query;
+
+            const fetchedUser = await User.findOne({ _id: new mongoose.Types.ObjectId(userid) });
+        
+            if (!fetchedUser) {
+                return res.status(400).json({ message: "No userid exist" });
+            }else{
+                res.status(200).json(fetchedUser);
+            }
+        } catch (error) {
+            console.error('Fetching error:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    });
+
+    //Fetch Game Info Route / Endpoint
+    app.get('/fetch_game_info', async (req, res) =>{
+        try {
+            const { userid } = req.query;
+
+            const fetchedUserGameInfo = await UserGameInfo.findOne({ userId: new mongoose.Types.ObjectId(userid) });
+        
+            if (!fetchedUserGameInfo) {
+                return res.status(400).json({ message: "No userid exist" });
+            }else{
+                res.status(200).json(fetchedUserGameInfo);
+            }
+        } catch (error) {
+            console.error('Fetching error:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    });
+
+    //Update User Info
+    app.get('/update_user', async (req, res) => {
+        try {
+        const { userid, email, phoneNumber, username } = req.query;
+    
+        const objectUserId = new mongoose.Types.ObjectId(userid);
+    
+        const updates = {};
+    
+        // Check and validate email
+        if (email && email !== '') {
+            const checkEmail = await User.findOne({ email });
+            if (checkEmail) {
+            return res.status(400).json({ message: 'Email already registered: Use another email' });
+            }
+            updates.email = email;
+        }
+    
+        // Check and validate phone number
+        if (phoneNumber && phoneNumber !== '') {
+            const checkPhonenumber = await User.findOne({ phoneNumber });
+            if (checkPhonenumber) {
+            return res.status(400).json({ message: 'Phone number already registered: Use another number' });
+            }
+            updates.phoneNumber = phoneNumber;
+        }
+    
+        // Check and validate username
+        if (username && username !== '') {
+            const checkUsername = await User.findOne({ username });
+            if (checkUsername) {
+            return res.status(400).json({ message: 'Username already registered: Use another username' });
+            }
+            updates.username = username;
+        }
+    
+        // If there's nothing to update
+        if (Object.keys(updates).length === 0) {
+            return res.status(400).json({ message: 'No valid fields to update' });
+        }
+    
+        // Update user
+        const updatedUser = await User.findByIdAndUpdate(objectUserId, updates, { new: true });
+        if (!updatedUser) {
+            return res.status(400).json({ message: 'Unable to update user info' });
+        }
+    
+        res.status(200).json({ message: 'Updated successfully', user: updatedUser });
+        } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+        }
+    });
+
+    //Update User Password
+    app.get('/send_email', async (req, res) => {
+        const { userid } = req.query;
+
+        objectId = new mongoose.Types.ObjectId(userid);
+        const userEmail = await User.findOne({ _id: objectId });
+
+        if (!userEmail) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        const nodemailer = require('nodemailer');
+        const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+        },
+        });
+
+        const token = jwt.sign({ userId: userEmail._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        const verificationLink = `http://localhost:3000/public/update_password.html?id=${userid}`;
+
+        await transporter.sendMail({
+        from: `"Octagames" <${process.env.EMAIL_USER}>`,
+        to: userEmail.email,
+        subject: "Update Your Password",
+        html: `
+            <h2>Welcome to G-Run Arena!</h2>
+            <p>Click the link below to update your password:</p>
+            <a href="${verificationLink}">Update Your Password</a>
+        `
+        });
+
+        res.status(200).json({ message: 'Verication link has been resent' });
+    });
+
+    app.post('/update_password', async (req, res) => {
+        try {
+            const { userid, password } = req.body;
+
+            const objectUserId = new mongoose.Types.ObjectId(userid)
+
+            //Hash Passward
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+
+            const updatePassword = await User.findByIdAndUpdate(objectUserId, {password: hashedPassword});
+            if (!updatePassword) {
+                return res.status(400).json({ message: 'Cannot update password' });
+            }
+
+            res.status(200).json({ message: 'Password Updated Successfully' });
+        } catch (error) {
+            
+        }
+    });
+
+    app.get('/forgot_password', async (req, res) => {
+        try {
+            const { email } = req.query;
+
+            const checkEmail = await User.findOne({ email });
+            if (!checkEmail) {
+                return res.status(400).json({ message: 'Invalid Email' })
+            }
+
+            const nodemailer = require('nodemailer');
+            const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+            });
+
+            const verificationLink = `http://localhost:3000/update_forgot_password.html?email=${email}&userid=${checkEmail._id}`;
+            await transporter.sendMail({
+            from: `"Octagames" <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: "Forgot Your Password",
+            html: `
+                <h2>Welcome to G-Run Arena!</h2>
+                <p>Click the link below to reset your password:</p>
+                <a href="${verificationLink}">Reset Password</a>
+            `
+            });
+            res.status(200).json({ message: 'User registered successfully'});
+
+        } catch (error) {
+            
+        }
+    });
+
+// Coins Logics ---------------------------------------------------------------//
+    app.get('/fetch_coins', async (req, res) => {
+        try {
+            const coin = await Coins.find();
+
+            if (!coin) {
+                return res.status(404).json({ message: "No Coins avaliable" });
+            }else{
+                res.json(coin);
+            }
+        } catch (error) {
+            console.error('Error Occured', error);
+            res.status(500).json({message: 'Internal Server Error'});
+        }
+    });
+
+// Tournament Logics ---------------------------------------------------------------//
+    //Create new (live) tournament
+    app.post('/new_tournaments', async (req, res) => {
+        try {
+            const { tournamentName, tournamentImgUrl, tournamentReward, tournamentStartTime, tournamentEndTime } = req.body;
+
+            const newTournament = new liveTournament({
+                tournamentName,
+                tournamentImgUrl,
+                tournamentReward
+            });
+
+            await newTournament.save();
+
+            res.status(200).json({message: "Added Successfully"});
+        } catch (error) {
+            
+        }
+    });
+
+    //Fetch all (live) tournamet route / endpoint
+    app.get('/fetch_exclusive_tournaments', async (req, res) => {
+        try {
+            const exclusivetournament = await liveTournament.find({ type: 'exclusive' });
+
+            if (!exclusivetournament) {
+                return res.status(404).json({ message: "No Exclusive tournament avaliable" });
+            }else{
+                res.json(exclusivetournament);
+            }
+        } catch (error) {
+            console.error('Error Occured', error);
+            res.status(500).json({message: 'Internal Server Error'});
+        }
+    });
+
+    //Fetch all (live) tournamet route / endpoint
+    app.get('/fetch_live_tournaments', async (req, res) => {
+        try {
+            const livetournament = await liveTournament.find({ status: 'active' });
+
+            if (!livetournament) {
+                return res.status(404).json({ message: "No live tournament avaliable" });
+            }else{
+                res.json(livetournament);
+            }
+        } catch (error) {
+            console.error('Error Occured', error);
+            res.status(500).json({message: 'Internal Server Error'});
+        }
+    });
+
+    //Fetch all (upcoming) tournament route / endpoint
+    app.get('/fetch_upcoming_tournaments', async (req, res) => {
+        try {
+            const livetournament = await liveTournament.find({ status: 'upcoming' });
+
+            if (!livetournament) {
+                return res.status(404).json({ message: "No live tournament avaliable" });
+            }else{
+                res.json(livetournament);
+            }
+        } catch (error) {
+            console.error('Error Occured', error);
+            res.status(500).json({message: 'Internal Server Error'});
+        }
+    });
+
+    app.get('/fetch_active_tournament', async (req, res) => {
+        try {
+            const { userid } = req.query;
+
+            const userInGames = await Leaderboard.find({ userId: userid });
+
+            if (!userInGames) {
+                return res.status(400).json({ message: "No active game" });
+            }
+
+            const leaderboardIds = userInGames.map(entry => entry.leaderboardId);
+        
+            const tournaments = await liveTournament.find({ _id: { $in: leaderboardIds } });
+        
+            const tournamentMap = {};
+            tournaments.forEach(t => {
+            tournamentMap[t._id.toString()] = t;
+            });
+        
+            const combined = userInGames.map(entry => {
+            return {
+            tournament: tournamentMap[entry.leaderboardId.toString()] || null
+            };
+        });
+        
+        res.status(200).json(combined);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: "Server error" });
+        }
+
+    });
+
+    app.get('/check_user_is_joined', async (req, res) => {
+        const { userId, id} = req.query;
+        // Check if the user is already registered in the leaderboard
+        const leaderboardUserId = await Leaderboard.findOne({ userId: userId, leaderboardId: id });
+        if (leaderboardUserId) {
+            return res.status(200).json({ message: "joined" });
+        }else{
+            return res.status(200).json({ message: "notJoined" });
+        }
+    });
+ 
+    app.get('/tournament_page', async (req, res) => {
+        try {
+            const { Id, tag } = req.query;
+            const fetchedInfo = await liveTournament.findOne({_id: new mongoose.Types.ObjectId(Id)});
+            if (!fetchedInfo) {
+                return res.status(400).json({ message: "No Tournament does not exist" });
+            }
+            if (fetchedInfo.status == "ended") {
+                return res.status(400).json({ 
+                    message: "Tournament has ended", 
+                    status: "ended" 
+                  });
+            }
+            res.status(200).json(fetchedInfo);   
+        } catch (error) {
+            console.error('Fetching error:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    });
+
+    app.get('/tournament_winners', async (req, res) => {
+        try {
+            const { id } = req.query;
+
+            const tournamentWinner = await Leaderboard.find({ leaderboardId: id }).sort({ score: -1 }).limit(3).exec();
+            if (tournamentWinner.length == 0) {
+                return res.status(400).json({ message: 'No player in tournament' });
+            }else{
+                return res.status(200).json(tournamentWinner);
+            }
+        } catch (error) {
+            
+        }
+    })
+
+    app.get('/joined_users', async (req, res) => {
+    const { id } = req.query;
+    const fetchedLeaderboard = await Leaderboard.countDocuments({leaderboardId: id});
+    if (!fetchedLeaderboard) {
+        return res.status(400).json({ message: "No user in tournament yet" });
+    }
+    res.status(200).json(fetchedLeaderboard);
+    });
+    
+    //Fetch Leaderboard
+    app.get('/getLeaderboard', async (req, res) => {
+        try {
+            const { Id, tag } = req.query;
+            const fetchedLeaderboard = await Leaderboard.find({leaderboardId: Id}).sort({ score: -1 }).exec();
+            if (!fetchedLeaderboard) {
+                return res.status(400).json({ message: "No user in tournament yet" });
+            }
+            res.status(200).json({leaderboard: fetchedLeaderboard, number: fetchedLeaderboard.length});
+        } catch (error) {
+            console.error('Fetching error:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    });
+
+    //Add user to tournament
+    app.get('/join_tournament', async (req, res) => {
+        try {
+            const { userid, id } = req.query;
+
+            const objectId = new mongoose.Types.ObjectId(id);
+            const getTournamentEntryfee = await liveTournament.findById(objectId);
+
+            if (!getTournamentEntryfee) {
+                return res.status(404).json({ message: "No such tournament exists" });
+            }
+
+            if (getTournamentEntryfee.type === 'exclusive') {
+                if (getTournamentEntryfee.playerJoinedCount === 100 ) {
+                    return res.status(400).json({ message: 'Maximum Number of player joined' })
+                }
+            }
+
+            const entryfee = getTournamentEntryfee.entryAmount;
+
+            // Check if user coin is enough to join the tournament
+            const objectUserId = new mongoose.Types.ObjectId(userid);
+            const getUserCoin = await UserGameInfo.findOne({userId: objectUserId});
+            if (!getUserCoin) {
+                return res.status(400).json({ message: "Unable to find user" });
+            }
+
+            const userOctacoin = getUserCoin.userOctacoin;
+            if (userOctacoin < entryfee) {
+                return res.status(400).json({ message: "Octacoin is too low to join tournament" });
+            }else{
+                const newUserOctacoin = userOctacoin - entryfee;
+                // Check if the user is already registered in the leaderboard
+                const leaderboardUserId = await Leaderboard.findOne({ userId: userid, leaderboardId: id });
+                if (leaderboardUserId) {
+                    return res.status(400).json({ message: "Unable to add user: User is already registered" });
+                } else {
+
+                    // Convert userId to ObjectId to search for the user
+                    const userName = await User.findOne({ _id: objectUserId });
+
+                    // If user is not found
+                    if (!userName) {
+                        return res.status(400).json({ message: "No user found" });
+                    }
+
+                    // Create a new leaderboard entry for the user
+                    const joinTournament = new Leaderboard({
+                        leaderboardId: id,
+                        userId: userid,
+                        username: userName.username,
+                        userImg: userName.userImg,
+                        played: 0,
+                        score: 0
+                    });
+
+                    // Save the user to the leaderboard
+                    await joinTournament.save();
+
+                    const fetchedTournamentReward = await liveTournament.findOne({ _id: objectId });
+                    if (!fetchedTournamentReward) {
+                        return res.status(400).json({ message: "No tournament found" });
+                    }
+
+                    //Increase tournament reward
+                    const tournamentReward = fetchedTournamentReward.tournamentReward;
+                    const updateReward = await liveTournament.findByIdAndUpdate(fetchedTournamentReward._id,  
+                        {
+                        $inc: {
+                          tournamentReward: entryfee,
+                          playerJoinedCount: 1
+                        }
+                      });
+
+                    if (!updateReward) {
+                        return res.status(400).json({ message: "Could not update reward" });
+                    }
+
+                    // Increase XP & Games Played
+                    const getXp = await UserGameInfo.findOne({ userId: objectUserId })
+                    if (!getXp) {
+                        return res.status(400).json({ message: "No user found" });
+                    }
+                    const userXp = getXp.userXP;
+                    const newUserXp = userXp + 2;
+                    const updateXp = await UserGameInfo.findByIdAndUpdate(getXp._id,
+                        {
+                          $set: {
+                            userXP: newUserXp,
+                            userOctacoin: newUserOctacoin
+                          },
+                          $inc: {
+                            userGamesPlayed: 1
+                          }
+                        });
+                    if (!updateXp) {
+                        return res.status(400).json({ message: "Error Could not update XP" });
+                    }
+
+                    // Respond with success
+                    res.status(200).json({ message: "User added successfully" });
+                }
+            }
+        } catch (error) {
+            // Handle any errors that occur during the try block
+            console.error(error);
+            res.status(500).json({ message: "Server error, please try again later" });
+        }
+    });
+
+    app.get('/update_user_score', async (req, res) => {
+        try {
+            const { gameScore, userid, leaderboardId } = req.query;
+
+            const getLeaderboard = await Leaderboard.findOne({leaderboardId, userId: userid});
+            if (!getLeaderboard) {
+                return res.status(400).json({ message: 'Could not get score' });
+            }
+
+            if (gameScore < getLeaderboard.score) {
+                return res.status(400).json({ message: 'Not your best score' });
+            }else{
+                const updateScore = await Leaderboard.findByIdAndUpdate(
+                    getLeaderboard._id,
+                    { score: gameScore },
+                    { new: true }
+                );
+                
+                if (!updateScore) {
+                    return res.status(400).json({ message: 'Could not update score' });
+                }
+                
+                // Get all leaderboard entries sorted by score (highest first)
+                const sortedLeaderboard = await Leaderboard.find().sort({ score: -1 });
+                
+                // Find the index/position of the updated user
+                const position = sortedLeaderboard.findIndex(entry => entry._id.toString() === updateScore._id.toString()) + 1;
+                
+                res.status(200).json({
+                    ...updateScore._doc, 
+                    position              
+                });
+                
+            }
+        } catch (error) {
+            console.error("Error Updating Score", error)
+        }
+    });
+
+// Korapay Logics -------------------------------------------------------------------------//
+    app.get('/fetch_bank', async (req, res) => {
+        var config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: 'https://api.korapay.com/merchant/api/v1/misc/banks?countryCode=NG',
+        headers: { 
+            'Authorization': 'Bearer pk_test_bZPeyZAuUhUi3P1uev3p4WVP7F1ev7vDXbDKDKkz', 
+            'Content-Type': 'application/json'
+        }
+        };
+    
+        try {
+        const response = await axios(config);
+        const result = response.data;
+    
+        console.log(response.data.message);
+    
+        if (response.data.message === "Successful") {
+            return res.status(200).json(result);
+        } else {
+            return res.status(500).json({ error: "Failed to fetch bank data." });
+        }
+        } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "An error occurred while fetching banks." });
+        }
+    });
+
+    app.post('/fetch_bank_account', async (req, res) => {
+        try {
+            const { bank, account } = req.body;
+            
+            console.log(bank, account);
+            
+            var data = JSON.stringify({
+                "bank": bank,
+                "account": account
+            });
+    
+            var config = {
+                method: 'post',
+                maxBodyLength: Infinity,
+                url: 'https://api.korapay.com/merchant/api/v1/misc/banks/resolve',
+                headers: { 
+                  'Content-Type': 'application/json'
+                },
+                data : data
+            };
+        
+            try {
+            const response = await axios(config);
+            const result = response.data;
+        
+            console.log(response.data.message);
+            console.log(result);
+        
+            if (response.data.message == "Request completed") {
+                return res.status(200).json(result);
+            } else {
+                return res.status(500).json({ error: "Failed to fetch bank data." });
+            }
+            } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: "An error occurred while fetching banks." });
+            }
+        } catch (error) {
+            console.error('Error fetching bank account: ', error)
+        }
+    });
+
+    app.post('/reedem_reward', async (req, res) => {
+        try {
+            const { reference, userid, amount, bankname, bank, account, accountname, name, email } = req.body;
+                    
+            var data = JSON.stringify({
+                "reference": reference,
+                "destination": {
+                  "type": "bank_account",
+                  "amount": amount,
+                  "currency": "NGN",
+                  "narration": "Test Transfer Payment",
+                  "bank_account": {
+                    "bank": bank,
+                    "account": account
+                  },
+                  "customer": {
+                    "name": name,
+                    "email": email
+                  }
+                }
+            });
+    
+            var config = {
+                method: 'post',
+                maxBodyLength: Infinity,
+                url: 'https://api.korapay.com/merchant/api/v1/transactions/disburse',
+                headers: { 
+                    'Authorization': 'Bearer sk_live_ptDSddv11sZQyXTcq7cx3zYwmbZtbMa54u7biNmo', 
+                    'Content-Type': 'application/json'
+                },
+                data : data
+            };
+        
+            try {
+                objectUserId = new mongoose.Types.ObjectId(userid)
+                const response = await axios(config);
+                const result = response.data;
+            
+                console.log(response.data.message);
+                console.log(result);
+            
+                if (response.data.status == true) {
+                    const newPayoutHistory = new payoutHistories({
+                        reference: reference,
+                        status: result.data.status,
+                        userid: objectUserId,
+                        bankName: bankname,
+                        accountNo: account,
+                        accountName: accountname,
+                        amount: amount
+                    });
+                    await newPayoutHistory.save();
+
+                    return res.status(200).json(result);
+                } else {
+                    return res.status(500).json({ error: "Failed to fetch bank data." }, result);
+                }
+            } catch (error) {
+                console.error(error);
+                return res.status(500).json({ error: "An error occurred while fetching banks." });
+            }
+
+        } catch (error) {
+            console.error('Error fetching bank account: ', error)
+        }
+    });
+
+    app.post('/buy_coin', async (req, res) => {
+        const { coinid, redirect_url, reference, name, email } = req.body;
+
+        objectCoinId = new mongoose.Types.ObjectId(coinid)
+        const coin = await Coins.findById(objectCoinId);
+        if (!coin) {
+            return res.status(200).json({ message: 'Coin not valid' });
+        }
+
+
+        var data = `{\n    "amount": ${coin.nairaAmount},\n    "redirect_url": "${redirect_url}",\n    "currency": "NGN",\n    "reference": "${reference}",\n    "narration": "Payment for Octacoin",\n    "merchant_bears_cost": true,\n    "customer": {\n        "name": "${name}",\n        "email": "${email}"\n    },\n    "notification_url": "http://localhost:3000/webhook/korapay"\n}`;
+        
+        var config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://api.korapay.com/merchant/api/v1/charges/initialize',
+            headers: {
+                'Authorization': 'Bearer sk_live_ptDSddv11sZQyXTcq7cx3zYwmbZtbMa54u7biNmo', 
+                'Content-Type': 'application/json'
+            },
+            data : data
+        };
+        
+        try {
+            const response = await axios(config);
+            const result = response.data;
+        
+            console.log(result);
+        
+            if (response.data.status == true) {
+                return res.status(200).json(result);
+            } else {
+                return res.status(500).json({ error: "Failed to fetch bank data." }, result);
+            }
+        } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "An error occurred while fetching banks." });
+        }
+        
+    })
+
+    app.post('/buy_coin_rewards', async (req, res) => {
+        try {
+            const { coinid, reference, userid } = req.body;
+
+            objectCoinId = new mongoose.Types.ObjectId(coinid)
+            const coin = await Coins.findById(objectCoinId);
+            if (!coin) {
+                return res.status(400).json({ message: 'Coin not valid' });
+            }
+
+            objectUserId = new mongoose.Types.ObjectId(userid)
+            const userReward = await rewardInfo.findById(objectUserId);
+            if (!userReward) {
+                return res.status(400).json({ message: 'no user with rewards found' });
+            }
+
+            const reward = userReward.rewardAmount;
+            const coinNaira = coin.nairaAmount;
+
+            if (coin.bonus == true) {
+                var coinAmount = coin.coinAmount + coin.bonusAmount * 100;
+            }else{
+                var coinAmount = coin.coinAmount;
+            }
+            
+
+            if (coinNaira > reward) {
+                return res.status(400).json({ message: 'Not enough amount in rewards' });
+            }else{
+                const newReward = reward - coinNaira;
+                const userReward = await rewardInfo.findByIdAndUpdate(objectUserId, {rewardAmount: newReward});
+                if (!userReward) {
+                    return res.status(400).json({ message: 'Error updating rewards' });
+                }
+
+                const updateUserCoin = await UserGameInfo.findOneAndUpdate({ userId: objectUserId }, { $inc: { userOctacoin: coinAmount } });
+                if (!updateUserCoin) {
+                    return res.status(200).json({ message: 'Could not update coins' });
+                }
+
+                const newTransactionHistory = new transactionHistories({
+                    reference: reference,
+                    status: 'success',
+                    userid: objectUserId,
+                    amount: coin.nairaAmount,
+                    paymentfromAccNo: null,
+                    paymentfromBankName: 'Paid from rewards',
+                    paymentfromName: null
+                });
+                await newTransactionHistory.save();
+            
+                return res.status(200).json({ message: 'success' });
+            }
+
+        } catch (error) {
+            
+        }
+        
+    })
+
+    app.get('/verify_payment', async (req, res) => {
+        const { userid, id, reference } = req.query;
+
+        objectCoinId = new mongoose.Types.ObjectId(id)
+        const coin = await Coins.findById(objectCoinId);
+        if (!coin) {
+            return res.status(200).json({ message: 'Coin not valid' });
+        }
+
+        if (coin.bonus == true) {
+            var coinAmount = coin.coinAmount + coin.bonusAmount * 100;
+        }else{
+            var coinAmount = coin.coinAmount;
+        }
+
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://api.korapay.com/merchant/api/v1/charges/${reference}`,
+            headers: { 
+              'Authorization': 'Bearer sk_live_ptDSddv11sZQyXTcq7cx3zYwmbZtbMa54u7biNmo'
+            }
+        };
+
+        try {
+            const response = await axios(config);
+            const result = response.data;
+        
+            console.log(result);
+        
+            if (result.status == true) {
+                if (result.data.status == 'success') {
+                    objectuserId = new mongoose.Types.ObjectId(userid)
+                    const updateUserCoin = await UserGameInfo.findOneAndUpdate({ userId: objectuserId }, { $inc: { userOctacoin: coinAmount } });
+                    if (!updateUserCoin) {
+                        return res.status(200).json({ message: 'could not update coins' });
+                    }
+
+                    const newTransactionHistory = new transactionHistories({
+                        reference: reference,
+                        status: result.data.status,
+                        userid: objectuserId,
+                        amount: coin.nairaAmount,
+                        paymentfromAccNo: result.data.payer_bank_account.account_number,
+                        paymentfromBankName: result.data.payer_bank_account.bank_name,
+                        paymentfromName: result.data.payer_bank_account.account_name
+                    });
+                    await newTransactionHistory.save();
+
+                    return res.status(200).json(result.data);
+                }
+            } else {
+                return res.status(500).json({ error: "Failed to fetch payment data." }, result);
+            }
+
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: "An error occurred while fetching banks." });
+        }
+          
+    });
+
+    app.get('/verify_payout', async(req, res) => {
+        const { userid, id, reference } = req.query;
+
+        var config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://api.korapay.com/merchant/api/v1/transactions/${reference}`,
+            headers: { 
+              'Authorization': 'Bearer sk_live_ptDSddv11sZQyXTcq7cx3zYwmbZtbMa54u7biNmo'
+            }
+        };
+
+        try {
+            const response = await axios(config);
+            const result = response.data;
+        
+            console.log(result);
+        
+            if (result.status == true) {
+                if (result.data.status == 'success') {
+                    const updateHistory = await payoutHistories.findOneAndUpdate({reference: reference}, {status: result.data.status, updatedAt: Date.now})
+                    if (!updateHistory) {
+                        return res.status(400).json({ message: 'Could not update history' })
+                    }
+
+                    return res.status(200).json(result.data);
+                }
+            } else {
+                return res.status(500).json({ error: "Failed to fetch payment data." }, result);
+            }
+
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: "An error occurred while fetching banks." });
+        }
+    });
+  
+    app.post('/webhook/korapay', async (req, res) => {
+        try {
+          const event = req.body;
+      
+          console.log('🔔 Korapay Webhook received:', event);
+      
+          // Optionally verify the event (if Korapay supports it with a secret hash or signature)
+          
+          if (event.event === "charge.success") {
+            const paymentDetails = event.data;
+      
+            const reference = paymentDetails.reference;
+            const amount = paymentDetails.amount;
+            const customerEmail = paymentDetails.customer.email;
+      
+            // Update transaction in your database here
+            console.log(`✅ Payment successful. Ref: ${reference}, Amount: ${amount}`);
+      
+            // Send 200 OK to acknowledge receipt
+            return res.status(200).json({ status: 'success' });
+          }
+      
+          res.status(200).json({ status: 'ignored', message: 'Event not relevant' });
+        } catch (error) {
+          console.error('❌ Error handling Korapay webhook:', error.message);
+          res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+        }
+      });
+
+// Reward Logic -------------------------------------------------------------------------//
+    app.get('/reward_hover', async (req, res) => {
+        const { userid } = req.query;
+        const objectUserId = new mongoose.Types.ObjectId(userid);
+
+        const hasWonChecker = await rewardInfo.findById(objectUserId);
+        if (!hasWonChecker) {
+            return res.status(400).json({ message: 'No rewards record found' });
+        }
+
+        if (hasWonChecker.hasWon == false) {
+            return res.status(400).json({ message: 'Has not won any reward' });
+        }
+
+        return res.status(200).json(hasWonChecker);
+    });
+
+    app.get('/reward_hover_close', async (req, res) => {
+        const { userid } = req.query;
+        const objectUserId = new mongoose.Types.ObjectId(userid);
+
+        const hasWonChecker = await rewardInfo.findByIdAndUpdate(objectUserId, {hasWon: false});
+        if (!hasWonChecker) {
+            return res.status(400).json({ message: 'No rewards record found' });
+        }
+
+        return res.status(200).json({ message: hasWonChecker.hasWon });
+    });
+
+    app.get('/fetch_user_reward', async (req, res) => {
+        try {
+            const { userid } = req.query;
+
+            objectUserId = new mongoose.Types.ObjectId(userid);
+
+            const fetchedReward = await rewardInfo.findOne({ _id: objectUserId });
+
+            if (!fetchedReward) {
+                return res.status(400).json({ message: 'No rewards found' })
+            }
+
+            res.status(200).json(fetchedReward);
+        } catch (error) {
+            
+        }
+    });
+
+    app.get('/get_reward_info', async (req, res) => {
+       try {
+        const { userid } = req.query;
+
+        const objectUserId = new mongoose.Types.ObjectId(userid);
+        const fetchUserRewardInfo = await redeemRewardHistories.find({userid: objectUserId});
+
+        if (!fetchUserRewardInfo) {
+            return res.status(400).json({ message: 'No Rewards avaliable' });
+        }
+
+        res.status(200).json(fetchUserRewardInfo);
+
+       } catch (error) {
+            console.error(error);
+       } 
+    });
+
+    app.get('/get_payout_info', async (req, res) => {
+        try {
+         const { userid } = req.query;
+ 
+         const objectUserId = new mongoose.Types.ObjectId(userid);
+         const fetchUserPayoutInfo = await payoutHistories.find({userid: objectUserId});
+ 
+         if (!fetchUserPayoutInfo) {
+             return res.status(400).json({ message: 'No Rewards avaliable' });
+         }
+ 
+         res.status(200).json(fetchUserPayoutInfo);
+ 
+        } catch (error) {
+             console.error(error);
+        } 
+     });
+
+    app.post('/addReward', async (req, res) => {
+        const userid = '67ef81ffeb0282e51ace21a5';
+        const gameId = '67f39a3b4be9c2edce58ed09';
+        const gameName = 'Subway Surfers';
+        const gameReward = '5000';
+        const gamePlayers = '100';
+        const gameDateTime = '2025-04-06T12:54:18.081+00:00';
+        const gameType = 'reward';
+
+        const objectUserId = new mongoose.Types.ObjectId(userid);
+        const objectGameId = new mongoose.Types.ObjectId(gameId);
+
+        const newReward = new redeemRewardHistories({
+            userid: objectUserId,
+            gameId: objectGameId,
+            gameName,
+            gameReward,
+            gamePlayers,
+            gameDateTime,
+            gameType
+        });
+
+        await newReward.save();
+        res.status(200).json({ message: 'success' });
+    });
+
+    app.get('/get_bank_info', async (req, res) => {
+        try {
+            const { userid } = req.query;
+
+            objectUserId = new mongoose.Types.ObjectId(userid);
+            const fetchedBankInfo = await bankInfo.find({ userid: objectUserId });
+            if (!fetchedBankInfo) {
+                 return res.status(400).json({ message: 'No bank Information found' });
+            }              
+            res.status(200).json(fetchedBankInfo);     
+        } catch (error) {
+        }
+    });
+
+    app.get('/redeem_get_bank_info', async (req, res) => {
+        try {
+            const { userid, bankCode } = req.query;
+
+            objectUserId = new mongoose.Types.ObjectId(userid);
+            const fetchedBankInfo = await bankInfo.findOne({ userid: objectUserId, bankCode: bankCode });
+            if (!fetchedBankInfo) {
+                 return res.status(400).json({ message: 'No bank Information found' });
+            }              
+            res.status(200).json(fetchedBankInfo);     
+        } catch (error) {
+        }
+    });
+
+    app.post('/add_bank_info', async (req, res) => {
+        const { userid, bankName, bankCode, accountNo, accountName } = req.body;
+
+        objectUserId = new mongoose.Types.ObjectId(userid);
+
+        const checkName = await User.findById(objectUserId);
+        if (!checkName) {
+            return res.status(400).json({ message: 'Problem Finding User' });
+        }
+
+        const userFullName = checkName.firstName + " " + checkName.lastName;
+
+        const apiName = accountName;
+        const dbName = userFullName;
+    
+        // Step 1: Normalize API name parts
+        const normalize = (name) => {
+        return name
+            .replace(/,/g, '')
+            .toLowerCase()
+            .trim()
+            .split(/\s+/);  // Split by space
+        };
+    
+        const apiParts = normalize(apiName); // ['alaoma', 'chibudom', 'michael']
+    
+        // Step 2: Normalize DB name and extract first and last name
+        const dbParts = normalize(dbName);
+        const [firstName, lastName] = dbParts;
+    
+        // Step 3: Check if both exist in the API name
+        const isMatch = apiParts.includes(firstName) && apiParts.includes(lastName);
+    
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Name does not match ❌' });
+        }
+
+        const checkExistingBank = await bankInfo.find({ _id: objectUserId });
+        if (checkExistingBank.length == 3) {
+            return res.status(400).json({ message: 'Maximum bank account number reached' })
+        }
+
+        try {
+            const bankImagesResponse = await fetch('https://nigerianbanks.xyz/');
+            
+            if (!bankImagesResponse.ok) {
+              throw new Error('Failed to fetch bank data');
+            }
+          
+            const result = await bankImagesResponse.json();
+            // console.log(result);
+          
+            // Find bank info by code
+            const bankImg = result.find(b => b.code.trim() === String(bankCode).trim());
+
+            const newBankInfo = new bankInfo({
+                userid: objectUserId,
+                bankName,
+                bankCode,
+                bankImg: bankImg.logo,
+                accountNo,
+                accountName
+            });
+            await newBankInfo.save();
+                  
+        } catch (error) {
+            console.error('Error fetching bank info:', error);
+          
+            res.status(500).json({
+              status: 'error',
+              message: 'Something went wrong while fetching bank image.'
+            });
+        }
+
+        res.status(200).json({ message: 'Bank details added successfully' });
+    });
+
+    app.get('/delete_bank', async (req, res) => {
+        try {
+            const { id } = req.query;
+
+            objectId = new mongoose.Types.ObjectId(id);
+            const deleteBank = await bankInfo.findByIdAndDelete(objectId);
+            if (!deleteBank) {
+                return res.status(400).json({ message: 'Bank does not exist' })
+            }
+            return res.status(200).json({ message: 'success' });
+        } catch (error) {
+            
+        }
+    })
+
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});

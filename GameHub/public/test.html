@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Hub Loading</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    @import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css');
+    @import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css');
+
+    body {
+      margin: 0;
+      background-color: #121212;
+      font-family: 'Press Start 2P', cursive;
+      /* display: flex;
+      justify-content: center;
+      align-items: center; */
+      height: 100vh;
+      color: #fff;
+    }
+
+    .loader-wrapper {
+      text-align: center;
+    }
+
+    .controller {
+      width: 100px;
+      height: 40px;
+      background-color: #FFC107;
+      border-radius: 30px;
+      position: relative;
+      margin: 0 auto;
+      animation: bounce 1s infinite;
+    }
+
+    .controller::before,
+    .controller::after {
+      content: "";
+      position: absolute;
+      background-color: #fff;
+      border-radius: 50%;
+    }
+
+    .controller::before {
+      width: 12px;
+      height: 12px;
+      top: 15px;
+      left: 20px;
+    }
+
+    .controller::after {
+      width: 8px;
+      height: 8px;
+      top: 17px;
+      right: 20px;
+    }
+
+    .loading-text {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #ffaa00 !important;
+      text-align: center;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    .progress-bar {
+      margin-top: 25px;
+      width: 250px;
+      height: 14px;
+      background-color: #333;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-inline: auto;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(to right, #ffcc00, #ffaa00);
+      width: 0%;
+      animation: loadProgress 4s linear forwards;
+    }
+
+    .loader-container {
+      width: 100%;
+      max-width: 600px;
+      height: 20px;
+      position: relative;
+      margin: 40px auto;
+    }
+
+    .loader-progress-wrapper{
+      height: 10px;
+      border-radius: 20px;
+      background-color: #333;
+    }
+
+    .loading-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #ffcc00, #ffaa00);
+      transition: width 0.3s ease;
+      border-radius: 20px;
+    }
+
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    @keyframes loadProgress {
+      0% { width: 0%; }
+      25% {width: 25%;}
+      50% {width: 50%;}
+      100% { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- <img
+  src="https://api.dicebear.com/9.x/big-smile/svg?seed=George&radius=50&backgroundType=gradientLinear&randomizeIds=true&skinColor=643d19,8c5a2b,a47539,c99c62&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf"
+  alt="avatar" /> -->
+
+  <div class="loader-wrapper">
+    <div class="controller"></div>
+    <div class="loading-text">LOADING GAME HUB...</div>
+    <div class="progress-bar" >
+      <div class="progress"></div>
+    </div>
+  </div>
+
+  <br>
+  <br>
+  <br>
+
+  <span style="display: flex;"><img src="./Assets/_icons/naira white.png" class="img-fluid" width="20px" alt=""> <h6 style="margin-bottom: 0px; margin-top: 6px;">1000</h6></span>
+
+  <br>
+  <br>
+  <br>
+
+  <!--Game Start Loading Screen-->
+  <div class="loader-container">
+    <img src="./Assets/_icons/ghost.png" width="100px" alt="">
+    <div class="loader-progress-wrapper">
+      <div class="loading-bar"></div>
+    </div>
+    <div class="loading-text">
+      <p id="loadingText"></p>
+    </div>
+  </div>
+
+  <br>
+  <br>
+  <br> 
+  <br>
+
+  <!--Game Over Screen-->
+  <div class="game-over-contanier" style="text-align: center; max-width: 400px;">
+    <box style="display: flex; justify-content: center;">
+      <img src="./Assets/_icons/game-over.png" width="100px" alt="">
+    </box>
+    <gameDetails style="display: flex; justify-content: space-evenly;">
+      <gameDetailsBox>
+        <h6>Score</h6>
+        <p>200</p>
+      </gameDetailsBox>
+      <gameDetailsBox>
+        <h6>Current leaderboard position</h6>
+        <p>4</p>
+      </gameDetailsBox>
+      <gameDetailsBox>
+        <h6>Best Score</h6>
+        <p>200</p>
+      </gameDetailsBox>
+    </gameDetails>
+    <a href="" style="display: block; text-align: center; color: #FFC107; text-decoration: none; margin-top: 10px;">Play again</a>
+    <a href="${verificationLink}" style="margin-top: 20px; background-color: #FFC107; width: 90%; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
+      Close Game
+    </a>
+  </div>
+
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <!-- <img src="https://robohash.org/datboifrom_imo?set=set4&size=150x150" alt="User Avatar">
+  <img src="https://api.dicebear.com/7.x/pixel-art/svg?seed=datboifrom_imo" />
+  <img src="https://multiavatar.com/datboifromimo" />
+  <img src="https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Blank&facialHairType=Blank&clotheType=Hoodie&clotheColor=Blue03&eyeType=Happy&eyebrowType=Default&mouthType=Smile&skinColor=Light" /> -->
+  
+  <!--Verify your Email-->
+  <div style="width: 100%; display: flex; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; border-radius: 10px; background-color: #1a1a1a; color: #ffffff; max-width: 600px; margin: auto;">
+      <div style="padding: 30px;">
+          <h2 style="text-align: left; color: #FFC107;">Verify Your Email</h2>
+          <p style="font-size: 16px; text-align: left; line-height: 1.6;">
+            Hey there, Chief<br><br>
+            You're just one click away from entering the arena! To verify your email and activate your Octagames account, tap the button below:
+          </p>
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${verificationLink}" style="background-color: #FFC107; width: 80%; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
+              Verify Email
+            </a>
+          </div>
+          <p style="font-size: 14px; color: #cccccc; line-height: 1.6;">
+            If you didn’t sign up for Octagames, you can safely ignore this message. Otherwise, gear up and get ready to dominate the leaderboard!
+          </p>
+          <p style="text-align: center; margin-top: 25px !important; margin-bottom: 10px !important;">
+            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-facebook"></i></a>
+            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-instagram"></i></a>
+            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-twitter-alt-circle"></i></a>
+            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-whatsapp"></i></a>
+          </p>
+          <p style="text-align: center; font-size: 14px;">
+              Lagos, Nigeria
+          </p>
+          <p style="font-size: 14px; text-align: center; color: #666666; margin-top: 20px;">
+            ⚡ Powered by Octagames <br>
+            Level up your gaming experience with our competitive tournaments, rewards, and non-stop action.
+          </p>
+      </div>
+      <div style="border-top-right-radius: 10px; border-bottom-right-radius: 10px; width: 50vw; background-image: url('./Assets/_games/_img/auth_background3.png'); background-size: cover; background-position: right; background-repeat: no-repeat;">
+      </div>
+  </div>
+  
+  <br>
+
+  <!--Redeem Reward Email-->
+  <div style="width: 100%; display: flex; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; border-radius: 10px; background-color: #1a1a1a; color: #ffffff; max-width: 600px; margin: auto;">
+    <div style="padding: 30px;">
+        <h2 style="text-align: left; color: #FFC107;">Redeem Reward OTP</h2>
+        <p style="font-size: 16px; text-align: left; line-height: 1.6;">
+          Hey Michael Alaoma,<br><br>
+          To complete your redeem request please enter the OTP code provided below in the website. The code will expire in <b>10 minutes</b>
+        </p>
+        <div style="text-align: center; margin: 30px 0;">
+          <span style="font-size: 20px; margin-right: 10px;"><b>092345</b></span> <i class="fi fi-rr-copy-alt"></i>
+        </div>
+        <div style="width: 90%; font-weight: 600; text-align: left; padding: 15px; background-color: #fff3cd; color: #856404; border-radius: 10px;">
+          <i class="fi fi-rr-triangle-warning"></i> OTP code will expire in:  <span style="font-weight: 700;">05:06</span>
+        </div>
+        <p style="font-size: 14px; color: #cccccc; line-height: 1.6;">
+          You can only use the code once. If you didn't request for the security code. Kindly contact our <a href="">support team</a>
+        </p>
+        <p style="text-align: center; margin-top: 25px !important; margin-bottom: 10px !important;">
+          <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-facebook"></i></a>
+          <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-instagram"></i></a>
+          <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-twitter-alt-circle"></i></a>
+          <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-whatsapp"></i></a>
+      </p>
+        <p style="text-align: center; font-size: 14px;">
+            Lagos, Nigeria
+        </p>
+        <p style="font-size: 14px; text-align: center; color: #666666; margin-top: 20px;">
+          ⚡ Powered by Octagames <br>
+          Level up your gaming experience with our competitive tournaments, rewards, and non-stop action.
+        </p>
+    </div>
+  </div>
+
+  <br>
+
+  <!--Update your passward Email-->
+  <div style="width: 100%; display: flex; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; border-radius: 10px; background-color: #1a1a1a; color: #ffffff; max-width: 600px; margin: auto;">
+    <div style="padding: 30px;">
+        <h2 style="text-align: left; color: #FFC107;">Update Your Password</h2>
+        <p style="font-size: 16px; text-align: left; line-height: 1.6;">
+            Hey Michael,<br><br>
+            It looks like you requested to update your password. To continue, please click the button below:
+        </p>
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="${updatePasswordLink}" style="background-color: #FFC107; width: 80%; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
+                Update Password
+            </a>
+        </div>
+        <p style="font-size: 14px; color: #cccccc; line-height: 1.6;">
+            If you didn’t make this request, you can safely ignore this message. Your account will remain secure.
+        </p>
+        <p style="text-align: center; margin-top: 25px !important; margin-bottom: 10px !important;">
+            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-facebook"></i></a>
+            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-instagram"></i></a>
+            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-twitter-alt-circle"></i></a>
+            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-whatsapp"></i></a>
+        </p>
+        <p style="text-align: center; font-size: 14px;">
+            Lagos, Nigeria
+        </p>
+        <p style="font-size: 14px; text-align: center; color: #666666; margin-top: 20px;">
+            ⚡ Powered by Octagames <br>
+            Level up your gaming experience with our competitive tournaments, rewards, and non-stop action.
+        </p>
+    </div>
+  </div>
+  
+
+</body>
+<script>
+  const API_BASE_URL = 'http://localhost:3000';
+  const loadingBar = document.querySelector('.loading-bar');
+  const loadingText = document.getElementById('loadingText');
+
+const texts = [
+  "Loading game engine...",
+  "Spawning enemies...",
+  "Placing rewards...",
+  "Get ready!"
+];
+
+let progress = 0;
+
+const interval = setInterval(() => {
+  progress += 1;
+  loadingBar.style.width = `${progress}%`;
+
+  if (progress >= 0 && progress < 25) {
+    loadingText.textContent = texts[0];
+  } else if (progress >= 25 && progress < 50) {
+    loadingText.textContent = texts[1];
+  } else if (progress >= 50 && progress < 75) {
+    loadingText.textContent = texts[2];
+  } else if (progress >= 75 && progress <= 100) {
+    loadingText.textContent = texts[3];
+  }
+
+  if (progress >= 100) {
+    clearInterval(interval);
+    setTimeout(() => {
+      loadingText.textContent = "Done!";
+      // Optionally: trigger next screen here
+    }, 500);
+  }
+}, 50); // runs every 50ms
+
+
+
+  async function play() {
+    try {
+    const response = await fetch(`${API_BASE_URL}/testWinner`)
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch tournament');
+        }else{
+          
+        }
+    } catch (error) {
+      
+    }
+  }
+  play();
+</script>
+</html>
