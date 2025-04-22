@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://octagames-new-production.up.railway.app/';
+const API_BASE_URL = 'https://octagames-new-production.up.railway.app';
 
 function generateAvatar() {
     document.querySelector(".loaderImg").style.display = 'block';

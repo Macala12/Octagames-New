@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://octagames-new-production.up.railway.app/';
+const API_BASE_URL = 'https://octagames-new-production.up.railway.app';
 const userid = sessionStorage.getItem("userid");
 
 document.getElementById('passwordForm').addEventListener('submit', async (e) => {
