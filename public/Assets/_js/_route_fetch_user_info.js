@@ -1,4 +1,3 @@
-const API_BASE_URL = 'https://octagames-new-production.up.railway.app';
 const userid = sessionStorage.getItem("userid");
 const loader = document.getElementById("loader");
 const contentHolder = document.getElementById("mainContent");

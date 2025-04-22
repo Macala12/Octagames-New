@@ -1,4 +1,3 @@
-const API_BASE_URL = 'https://octagames-new-production.up.railway.app';
 const urlParams = new URLSearchParams(window.location.search);
 const email = urlParams.get("email");
 const alertBox = document.getElementById("_alert");

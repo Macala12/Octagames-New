@@ -33,12 +33,12 @@ async function createNewTournament(tournamentName, tournamentImgUrl, tournamentD
 
 async function createNewExclusiveTournament(tournamentName, tournamentImgUrl, tournamentDesc, tournamentReward, entryAmount, type, tagOne, tagTwo, tagThree, playerJoinedCount) {
     const now = new Date();
-    const lobbyDuration = 60 * 60 * 1000;  // Lobby duration (e.g., 5 minutes)
-    const tournamentDuration = 60 * 60 * 1000; // Tournament duration (e.g., 10 minutes)
+    const lobbyDuration = 60 * 60 * 1000;  // Lobby duration (e.g., 1 hour)
+    const tournamentDuration = 60 * 60 * 1000; // Tournament duration (e.g., 1 hour)
 
     // Set start and end times
-    const startTime = new Date(now.getTime() + lobbyDuration); // Start after 5 minutes from now
-    const endTime = new Date(startTime.getTime() + tournamentDuration); // End after 10 minutes of active time
+    const startTime = new Date(now.getTime() + lobbyDuration); // Start after 1 hour minutes from now
+    const endTime = new Date(startTime.getTime() + tournamentDuration); // End after 1 hour of active time
 
     // Create new tournament document in MongoDB
     const tournament = await Tournament.create({
@@ -242,6 +242,10 @@ async function handleMultipleTournaments() {
             0,
             100
         );
+        handleTournamentLifecycle(newTournament._id);
+    }, 5 * 60 * 1000); // Every 5 mins for regular tournament
+
+    setInterval(async () => {
         const newExclusiveTournament = await createNewExclusiveTournament(
             "Call of Duty Mobile: Single",
             "./Assets/_games/_img/codm.jpg",
@@ -254,9 +258,8 @@ async function handleMultipleTournaments() {
             'No Team',
             0
         );
-        handleTournamentLifecycle(newTournament._id);
         handleTournamentLifecycle(newExclusiveTournament._id);
-    }, 5 * 60 * 1000); // Every 5 mins
+    }, 180 * 60 * 1000); // Every 3 hours for regular tournament
 }
 
 

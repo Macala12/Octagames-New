@@ -1,4 +1,3 @@
-const API_BASE_URL = 'https://octagames-new-production.up.railway.app';
 
 document.getElementById('forgotPasswordForm').addEventListener('submit', async (e) => {
     e.preventDefault(); 
