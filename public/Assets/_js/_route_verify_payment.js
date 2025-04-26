@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             verificationBox.innerHTML = `
                 <div>
                     <div class="img_box d-flex justify-content-center">
-                        <img src="./Assets/_icons/check.png" width="160px" class="img-fluid" alt="">
+                        <img src="./Assets/_icons/checked.png" width="160px" class="img-fluid" alt="">
                     </div>
                     <h4>N${result.amount} payment was a ${result.status}</h4>
                     <p>Please check your inbox and follow the instruction to verify your account.</p>
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div class="img_box d-flex justify-content-center">
                     <img src="./Assets/_icons/check.png" width="160px" class="img-fluid" alt="">
                 </div>
-                <h4>N${result.amount} payment was a ${result.status}</h4>
+                <h4>N${result.amount} payment ${result.status}</h4>
                 <p>Please check your inbox and follow the instruction to verify your account.</p>
                 <button class="btn">Got It!</button>
             </div>

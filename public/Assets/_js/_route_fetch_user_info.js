@@ -5,6 +5,7 @@ const mainAlert = document.getElementById("mainAlert");
 
 var fullName ;
 var email ;
+var accountVerified;
 var octaCoin;
 var winStreak;
 var winRate;
@@ -35,6 +36,7 @@ function fetchUserInfo() {
         .then(data => {
             console.log('User data:', data); 
             fullName = data.firstName + " " + data.lastName;
+            accountVerified = data.emailConfirmed
             email = data.email;
             if (document.querySelector(".circular-image")) {
                 document.querySelector(".circular-image").style.background = `url('${data.userImg}')`;
@@ -45,8 +47,11 @@ function fetchUserInfo() {
             if (document.getElementById("lastname")) {
                 document.getElementById("lastname").innerHTML = data.lastName;
             }
-            if (document.querySelector(".username")) {
-                document.querySelector(".username").innerHTML = data.username;
+            if (document.querySelectorAll(".username")) {
+                document.querySelectorAll(".username").forEach(username => {
+                    username.innerHTML = data.username;
+                });
+                // document.querySelector(".username").innerHTML = data.username;
             }
             if (document.getElementById("email")) {
                 document.getElementById("email").innerHTML = data.email;
@@ -95,7 +100,7 @@ function fetchUserGameInfo() {
 
             console.log('User data:', data); 
             if (document.getElementById("octacoin")) {
-                document.getElementById("octacoin").innerHTML = data.userOctacoin;
+                document.getElementById("octacoin").innerHTML = data.userOctacoin + ".00";
             }
             if (document.getElementById("streak")) {
                 document.getElementById("streak").innerHTML = data.userStreak;
@@ -129,19 +134,20 @@ function fetchUserGameInfo() {
             const progressBar2 = document.getElementById("progress-bar2");
 
             if (data.userXP <= 500) {
-                percentCalculator = data.userXP * 100 / 500;
-                if (document.querySelector(".circular-progress")) {
-                    document.querySelector(".circular-progress").style.background = `conic-gradient(#66FCF1 ${percentCalculator}%, #66fcf200 ${percentCalculator}% 100%)`;
-                }                
-                progressBar1.style.width = percentCalculator+"%"
+                if (progressBar1) {
+                    percentCalculator = data.userXP * 100 / 500;
+                    if (document.querySelector(".circular-progress")) {
+                        document.querySelector(".circular-progress").style.background = `conic-gradient(#66FCF1 ${percentCalculator}%, #66fcf200 ${percentCalculator}% 100%)`;
+                    }                
+                    progressBar1.style.width = percentCalculator+"%"   
+                }
             }else{
-                percentCalculator = data.userXP * 100 / 1000;
-                progressBar1.style.width = "100%";
-                progressBar2.style.width = percentCalculator+"%"
+                if (progressBar1 & progressBar2) {
+                    percentCalculator = data.userXP * 100 / 1000;
+                    progressBar1.style.width = "100%";
+                    progressBar2.style.width = percentCalculator+"%"   
+                }
             }
-
-            loader.style.display = 'none'
-            contentHolder.style.display = 'block';
         })
         .catch(error => {
             console.error('Error fetching user data:', error);

@@ -14,6 +14,7 @@ const LiveTournamentSchema = new mongoose.Schema({
     playerJoinedCount: {type: Number, default: 0},
     tournamentStartTime: { type: Date, default: Date.now },
     tournamentEndTime: { type: Date, default: Date.now },
+    tournamentPlayUrl: String,
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 }, {versionKey: false});

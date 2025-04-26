@@ -8,6 +8,9 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     }
 
     try {
+        document.querySelector(".submitBtn").innerHTML = `
+        <span class="spinner-border spinner-border-sm"></span>
+        `;
         const response  = await fetch(`${API_BASE_URL}/login`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},

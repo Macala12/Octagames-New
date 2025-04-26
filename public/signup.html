@@ -43,7 +43,7 @@
                 
             </div>
             <div class="user_select_img">
-                <div>
+                <div> 
                     <div class="img_box">
                         <span class="loaderImg">
                             <span class="spinner-border spinner-border-sm"></span>
@@ -60,7 +60,8 @@
                 <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Doe" required>
 
                 <label for="username">Username</label>
-                <input type="text" name="firstname" id="username" class="form-control" placeholder="@johndoe" required>
+                <input type="text" name="firstname" id="username" class="form-control" placeholder="@johndoe" onblur="checkDetails()" required>
+                <p class="error_text pl-2"></p>
 
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" class="form-control" placeholder="john@doe.com" required>
@@ -71,6 +72,7 @@
                 <label for="password">Password</label>
                 <span class="password_span">
                     <input type="password" name="password" id="password" class="form-control password" placeholder="********" required>
+                    <p class="error_text_password pl-2"></p>
                     <span class="reveal_icon">
                         <i class="fi fi-rr-eye" onclick="passwordReveal()"></i>
                     </span>
@@ -81,7 +83,7 @@
 
                 <p>By signing up you agree to Octagames terms and conditions blah blah</p>
 
-                <button type="submit" class="btn w-100">Sign Up</button>
+                <button type="submit" class="btn submitBtn w-100">Sign Up</button>
 
                 <a href="./login.html" class="text-center">Already have an account? Login</a>
             </form>

@@ -7,7 +7,7 @@ const UserGameInfo = require('../models/UserGameInfo');
 
 
 // Function to create a new tournament
-async function createNewTournament(tournamentName, tournamentImgUrl, tournamentDesc, tournamentReward, entryAmount) {
+async function createNewTournament(tournamentName, tournamentImgUrl, tournamentDesc, tournamentReward, entryAmount, tournamentPlayUrl) {
     const now = new Date();
     const lobbyDuration = 5 * 60 * 1000;  // Lobby duration (e.g., 5 minutes)
     const tournamentDuration = 10 * 60 * 1000; // Tournament duration (e.g., 10 minutes)
@@ -24,7 +24,8 @@ async function createNewTournament(tournamentName, tournamentImgUrl, tournamentD
         tournamentReward,
         entryAmount,
         tournamentStartTime: startTime,
-        tournamentEndTime: endTime
+        tournamentEndTime: endTime,
+        tournamentPlayUrl
     });
 
     console.log(`New tournament created with ID: ${tournament._id}`);
@@ -235,14 +236,42 @@ async function handleMultipleTournaments() {
     });
 
     setInterval(async () => {
-        const newTournament = await createNewTournament(
+        const subwaySurfers = await createNewTournament(
             "Subway Surfers",
             "./Assets/_games/_img/subway.jpeg",
             "Lorem ispum",
             0,
-            100
+            100,
+            "./Assets/_games/_games/subwaysurfersny/"
         );
-        handleTournamentLifecycle(newTournament._id);
+        const basketballHoop = await createNewTournament(
+            "Basketball Hoop",
+            "./Assets/_games/_img/basketballhoop.jpg",
+            "Lorem ispum",
+            0,
+            100,
+            "./Assets/_games/_games/Basketball Hoop/"
+        );
+        const pieAttack = await createNewTournament(
+            "Pie Attack",
+            "./Assets/_games/_img/pie attack.png",
+            "Lorem ispum",
+            0,
+            100,
+            "./Assets/_games/_games/pieattack/"
+        );
+        const monsterCandy = await createNewTournament(
+            "Monster Candy",
+            "./Assets/_games/_img/monstercandy.png",
+            "Lorem ispum",
+            0,
+            100,
+            "./Assets/_games/_games/monstercandy/"
+        );
+        handleTournamentLifecycle(subwaySurfers._id);
+        handleTournamentLifecycle(basketballHoop._id);
+        handleTournamentLifecycle(pieAttack._id);
+        handleTournamentLifecycle(monsterCandy._id);
     }, 5 * 60 * 1000); // Every 5 mins for regular tournament
 
     setInterval(async () => {
@@ -259,7 +288,7 @@ async function handleMultipleTournaments() {
             0
         );
         handleTournamentLifecycle(newExclusiveTournament._id);
-    }, 180 * 60 * 1000); // Every 3 hours for regular tournament
+    }, 180 * 60 * 1000); // Every 3 hours for exclusive tournament
 }
 
 

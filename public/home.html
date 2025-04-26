@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gamehub">
+    <link rel="shortcut icon" href="./Assets/_profiles/avatar cature.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="./index.css">
+    <title>Octagames</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Bungee+Shade&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Boldonse&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+   
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="loader_box" id="loader">
+        <div class="loader-wrapper">
+            <div class="loading-text">
+                <div class="spinner-border"></div>
+                <div class="mt-2">
+                    <h5>Loading</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rewardHover" id="rewardHover">
+        <div class="confetti-wrapper">
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+        </div>
+        <div class="text-center">
+
+        </div>
+    </div>
+    <div class="container-fluid pt-2" id="mainContent" style="display: block;">
+        <main>
+            <div class="mainAlert" id="mainAlert">
+            </div>
+
+            <section class="mt-2">
+                <div class="_top_navigation w-100">
+                    <div class="_us_profile d-inline-flex">
+                        <div class="_us_img" id="_us_img">
+                        </div>
+                        <div class="_us_name mt-1 ml-2">
+                            <h6><b class="username"></b></h6>
+                            <p>Ready to conquer?</p>
+                        </div>
+                    </div>
+                    <div class="_us_credentials">
+                        <a href class="d-flex">
+                            <div class="top_coin_box">
+                                <img src="./Assets/_icons/coin2.png" alt="">
+                            </div>
+                            <h6 class="" id="octacoin"></h6>
+                            <button class="btn">
+                                <i class="fi fi-br-add"></i>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </section> 
+            
+            <section class="mt-3">
+                <div class="_us_gme_profile_box">
+                    <div class="rank_board w-100">
+                        <h6>Get <b>300XP</b> to reach the <b>Lv 3</b> and win <b>N20,000</b></h6>
+                        <div class="mt-3">
+                            <h5 id="xp"></h5>
+                        </div>
+
+                        <hr>
+
+                        <div class="rank_board_inner d-flex">
+                            <div class="_current_rank">
+                                <img src="./Assets/_icons/one.png"  alt="">
+                                <h5 id="level"></h5>
+                            </div>
+        
+                            <div class="_progress">
+                                <div class="progress">
+                                    <div class="progress-bar" id="progress-bar1"></div>
+                                </div>
+                            </div>
+        
+                            <div class="_next_rank pr-1 pl-1">
+                                <img src="./Assets/_icons/two.png" alt="">
+                                <h5 id="nextLevel">Lv 2</h5>
+                            </div>
+
+                            <div class="_progress">
+                                <div class="progress">
+                                    <div class="progress-bar" id="progress-bar2"></div>
+                                </div>
+                            </div>
+        
+                            <div class="_next_rank">
+                                <img src="./Assets/_icons/three.png" alt="">
+                                <h5 id="nextLevel">Lv 3</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="records">
+                        <div class="records_box pt-2 pb-2 pr-2">
+                            <box>
+                                <div class="icon">
+                                    <img src="./Assets/_icons/fire.png" class="img-fluid" width="25px" alt="">
+                                </div>
+                                <div class="ml-2">
+                                    <h5 class="" id="streak"></h5>
+                                </div>
+                            </box>
+                            <div class="mt-2">
+                                Days Streak
+                            </div>
+                        </div>
+                        <div class="records_box pt-2 pb-2 pr-2">
+                            <box>
+                                <div class="icon">
+                                    <img src="./Assets/_icons/podium.png" class="img-fluid" width="25px" alt="">
+                                </div>
+                                <div class="ml-2">
+                                    <h5 class="mb-2" id="topThree"></h5>
+                                </div>
+                            </box>
+                            <div class="mt-2">
+                                Top 3 Wins
+                            </div>
+                        </div>
+                        <div class="records_box pt-2 pb-2 pr-2">
+                            <box>
+                                <div class="icon">
+                                    <img src="./Assets/_icons/trophy.png" class="img-fluid" width="25px" alt="">
+                                </div>
+                                <div class="ml-2">
+                                    <h5 class="mb-2" id="winRate"></h5>
+                                </div>
+                            </box>
+                            <div class="mt-2">
+                                Win Rate
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mt-4">
+                <h5 class="mb-3 _header">Big Winner</h5>
+                <div class="_exclusive_box" id="_exclusive_box">
+                </div>
+                <div class="tournament_arrows">
+                    <button class="btn tournament_arrow" onclick="scrollLeftBtn('_exclusive_box')">
+                        <span class="mr-1"><i class="fi fi-br-arrow-left"></i></span> Back
+                    </button>
+                    <button class="btn tournament_arrow" onclick="scrollRightBtn('_exclusive_box')">
+                        Next <span class="ml-1"><i class="fi fi-br-arrow-right"></i></span>
+                    </button>
+                </div>
+            </section>
+
+            <section class="mt-4">
+                <h5 class="mb-3 _header">Live Tournaments</h5>
+                <div class="_tournament" id="_tournamentLive">
+                </div>
+                <div class="tournament_arrows">
+                    <button class="btn tournament_arrow" onclick="scrollLeftBtn('_tournamentLive')">
+                        <span class="mr-1"><i class="fi fi-br-arrow-left"></i></span> Back
+                    </button>
+                    <button class="btn tournament_arrow" onclick="scrollRightBtn('_tournamentLive')">
+                        Next <span class="ml-1"><i class="fi fi-br-arrow-right"></i></span>
+                    </button>
+                </div>
+            </section>
+
+            <section class="mt-3">
+                <h5 class="mb-3 _header">Upcoming Tournaments</h5>
+                <div class="_tournament" id="_tournamentUpcoming">
+
+                </div>
+                <div class="tournament_arrows">
+                    <button class="btn tournament_arrow" onclick="scrollLeftBtn('_tournamentUpcoming')">
+                        <span class="mr-1"><i class="fi fi-br-arrow-left"></i></span> Back
+                    </button>
+                    <button class="btn tournament_arrow" onclick="scrollRightBtn('_tournamentUpcoming')">
+                        Next <span class="ml-1"><i class="fi fi-br-arrow-right"></i></span>
+                    </button>
+                </div>
+            </section>
+
+            <section>
+                <div class="how_to_win_container">
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation Bar-->
+        <div class="_navigation_bar_container">
+            <nav>
+                <a href="./home.html" class="btn active">
+                    <i class="fi fi-rr-house-chimney"></i>
+                    <p>Home</p>
+                </a>
+                <a href="./points.html" class="btn">
+                    <i class="fi fi-rr-usd-circle"></i>
+                    <p>Points</p>
+                </a>
+                <a href="./tournament.html" class="btn">
+                    <i class="fi fi-rr-chess-clock-alt"></i>
+                    <p>Tournament</p>
+                </a>
+                <a href="./reward.html" class="btn">
+                    <i class="fi fi-rr-gift"></i>
+                    <p>Rewards</p>
+                </a>
+                <a href="./profile.html" class="btn">
+                    <i class="fi fi-rr-user"></i>
+                    <p>Profile</p>
+                </a>
+            </nav>
+        </div>
+    </div>
+</body>
+<script src="./Assets/_js/config.js"></script>
+<script src="./Assets/_js/reward_hover.js"></script>
+<script src="./Assets/_js/_route_notifications.js"></script>
+<script src="./Assets/_js/_route_fetch_user_info.js"></script>
+<script src="./Assets/_js/_route_fetch_live_tournament.js"></script>
+<script src="./Assets/_js/main.js"></script>
+<!-- jQuery library -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</html>

@@ -1,4 +1,10 @@
 
+const alertBox = document.getElementById("_alert");
+const usernameChecker = document.getElementById("username");
+const passwordChecker = document.getElementById("password");
+const errorText = document.querySelector(".error_text");
+const errorTextPassword = document.querySelector(".error_text_password")
+
 function generateAvatar() {
     document.querySelector(".loaderImg").style.display = 'block';
     document.getElementById("avatar").style.display = 'none';
@@ -12,15 +18,66 @@ function generateAvatar() {
     }, 5 * 1000);
 }
 
+usernameChecker.addEventListener('input', async () => {
+    const username = usernameChecker.value;
+    function containsEmoji(text) {
+        const emojiRegex = /(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu;
+        return emojiRegex.test(text);
+    }
+    if (!containsEmoji(username)) {
+        errorText.style.color = "red";
+        errorText.style.fontSize = "12px"
+        errorText.style.fontWeight = "600"
+        errorText.innerHTML = 'Please include at least one emoji in your username 😄';
+    }else{
+        errorText.innerHTML = "OK";
+        errorText.style.color = "#66fcf1";
+        errorText.style.fontSize = "12px"
+    }
+})
+
+passwordChecker.addEventListener('input', async () => {
+    const password = passwordChecker.value;
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!regex.test(password)) {
+        errorTextPassword.style.color = "red";
+        errorTextPassword.style.fontSize = "10px"
+        errorTextPassword.style.fontWeight = "600"
+        errorTextPassword.innerHTML = 'Password must contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character, and be at least 8 characters long.';
+    }else{
+        errorTextPassword.innerHTML = "";
+    }
+})
+
+async function checkDetails() {
+    try {
+        errorText.style.color = "#66fcf1";
+        errorText.innerHTML = `
+            <span class="spinner-border spinner-border-sm"></span> checking username...
+        `;
+
+        const response = await fetch(`${API_BASE_URL}/check_signup_info?username=${usernameChecker.value}`);
+        const result = await response.json();
+
+        if (!response.ok) {
+            errorText.innerHTML = `
+                Oops... username is already taken 😬
+            `;
+            errorText.style.color = "red";
+            errorText.style.fontSize = "12px"
+            errorText.style.fontWeight = "600"
+        }else{
+            errorText.innerHTML = '';
+        }
+    } catch (error) {
+        
+    }
+}
+
 document.getElementById('signupForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmpassword").value;
-    // const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    // if (!regex.test(password)) {
-    //     alert("Password must contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character, and be at least 8 characters long.");
-    //     e.preventDefault(); // Prevent form submission
-    // }
 
     if (password !== confirmPassword) {
         const alertBox = document.getElementById("_alert");
@@ -43,6 +100,9 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
         };
     
         try {
+            document.querySelector(".submitBtn").innerHTML = `
+                 <span class="spinner-border spinner-border-sm"></span>
+            `;
             const response = await fetch(`${API_BASE_URL}/signup`,  {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -53,12 +113,14 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
             console.log("Server Response:", result);
 
             if (!response.ok) {
-                const alertBox = document.getElementById("_alert");
                 alertBox.innerHTML = `
                     <div class="alert alertDanger alert-dismissible fade show">
                         <strong><i class="fi fi-rr-info mr-1"></i></strong> ${result.message}
                         <!-- <button type="button" class="close" data-dismiss="alert">&times;</button> -->
                     </div>
+                `;
+                document.querySelector(".submitBtn").innerHTML = `
+                    Sign Up
                 `;
             }else{
                 window.location.href = "verification_link.html?email="+email;

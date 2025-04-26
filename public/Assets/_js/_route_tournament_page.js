@@ -1,3 +1,4 @@
+document.querySelector("main").style.display = "none";
 const userId = sessionStorage.getItem("userid");
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
@@ -7,7 +8,832 @@ var topOne;
 var topTwo;
 var topThree;
 var rank;
+var tournamentStatus;
+var entryAmount;
 var playersNumber;
+var _players_joinedinnerHTML = `
+    <div class="_players_joined">
+        <h5></h5>
+        <div class="desc">
+            <h6>Description</h6>
+                <div class="mb-2 tags">
+                    <span class="badge tagOne"></span>
+                    <span class="badge tagTwo"></span>
+                    <span class="badge tagThree"></span>
+                </div>
+            <p></p>
+        </div>
+        <div class="_players_joined_user_img" data-start-time="" data-end-time="">
+            <i class="topThree" id="topthree">
+                <img src="" alt="">
+                <img src="" alt="">
+                <img src="" alt="">
+            </i>
+            <span class="_players_numbers" id="_players_numbers">
+            </span>
+            <span class="float-right mr-2" id="time">
+
+            </span>
+            <div class="exclusive_count">
+                <p class="mt-2"><i class="fi fi-rr-joystick mr-1"></i> <kbd class="count"></kbd> players / 100 joined</p>
+            </div>
+            <div class="reward mt-3">
+                <div class="reward_box_">
+                    <div class="d-flex justify-content-center mb-3">
+                        <img src="./Assets/_icons/2nd-place.png" width="30px" alt="">
+                    </div>
+                    <h5 id="secondPrize"></h5>
+                    <h6>2nd Place Prize</h6>
+                </div>
+                <div class="reward_box_">
+                    <div class="d-flex justify-content-center mb-3">
+                        <img src="./Assets/_icons/1st-prize.png" width="30px" alt="">
+                    </div>
+                    <h5 id="firstPrize"></h5>
+                    <h6>1st Place Prize</h6>
+                </div>
+                <div class="reward_box_">
+                    <div class="d-flex justify-content-center mb-3">
+                        <img src="./Assets/_icons/3rd-place.png" width="30px" alt="">
+                    </div>
+                    <h5 id="thirdPrize"></h5>
+                    <h6>3rd Place Prize</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center mt-2" id="joinBtn">
+    </div>
+    <div class="social_sharing d-inline-flex mt-2">
+        <div class="d-flex justify-content-center mr-2 pt-1">
+            <img src="./Assets/_icons/send-mail.png" class="img-fluid" width="100px" alt="">
+        </div>
+        <div>
+        <h5>Share the fun 😁</h5>
+        <p>Only you, why not share the fun with friends, beat them and win even more! ✨</p>
+        <div class="social_links">
+            <a href="https://wa.me/?text=I'm playing G-Run on Octagames! Check it out: https://yourwebsite.com" target="_blank">
+            <i class="fi fi-brands-whatsapp"></i>
+            </a>
+
+            <a href="https://twitter.com/intent/tweet?text=I'm playing G-Run on Octagames! 🔥 Try it out! https://yourwebsite.com" target="_blank">
+            <i class="fi fi-brands-twitter-alt-circle"></i>
+            </a>
+
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://yourwebsite.com" target="_blank">
+            <i class="fi fi-brands-facebook"></i>
+            </a>
+        </div>
+        </div>
+    </div>
+`;
+
+document.addEventListener('DOMContentLoaded', async () => {
+    document.getElementById("_players_joined").innerHTML = _players_joinedinnerHTML;
+    // try {
+    //     const response = await fetch(`${API_BASE_URL}/getLeaderboard?Id=${id}`);
+
+    //     if (!response.ok) {
+    //         const error = await response.json();
+    //         const alert = document.createElement("div");
+    //         alert.classList.add('alert');
+    //         alert.classList.add('alertDanger');
+    //         alert.classList.add('alert-dismissible');
+    //         alert.classList.add('fade');
+    //         alert.classList.add('show');
+
+    //         alert.innerHTML = `
+    //            <i class="fi fi-rr-exclamation"></i> ${error.message}!
+    //             <button type="button" class="close" data-dismiss="alert">&times;</button>
+    //         `;
+
+    //         mainAlert.appendChild(alert);
+    //         console.log("API Error:", error.message || "Unknown error");
+    //         return;
+    //     }
+
+    //     const players = await response.json();
+    //     playersNumber = players.number
+
+    //     if (players.leaderboard.length < 1) {
+    //         document.querySelector("table").innerHTML = `
+    //             <div class="_empty">
+    //                 <h6>No player has <b>joined tournament</b> yet</h6>
+    //             </div>
+    //         `;
+    //     }else{
+    //         console.log("Fetched Players:", players.leaderboard); 
+    //         const leaderboardTable = document.querySelector("#leaderboardTable tbody");
+    //         players.leaderboard.forEach((player, index) => {
+    //             const row = document.createElement("tr");
+    //             row.id = `${player.userId}`;
+    //             var status = `<i class="fi fi-rr-angles-up-down text-warning"></i>`;
+
+    //             if (row.id == userId) {
+    //                 // row.style.border = "2px solid #ffc107";
+    //                 row.style.color = "#66FCF1";  
+    //                 row.style.fontWeight = "600"      
+    //                 rank = index + 1;
+    //                 const previousRank = sessionStorage.getItem(player.leaderboardId);
+    //                 if (!previousRank) {
+    //                    sessionStorage.setItem(player.leaderboardId, rank)
+    //                 }else{
+    //                     if (previousRank > rank) {
+    //                         status = `<i class="fi fi-rr-caret-up text-success"></i>`;
+    //                         sessionStorage.setItem(player.leaderboardId, rank)
+    //                     }
+    //                     if(previousRank == rank){
+    //                         status = `<i class="fi fi-rr-menu-dots"></i>`;
+    //                     }
+    //                     else{
+    //                         status = `<i class="fi fi-rr-caret-down text-danger"></i>`;
+    //                         sessionStorage.setItem(player.leaderboardId, rank)
+    //                     }
+    //                 }
+                    
+    //             }
+
+    //             row.innerHTML = `
+    //                 <td>${status}</td>
+    //                 <td>${index + 1}</td>
+    //                 <td class="d-flex"><img src="${player.userImg}" class="img-fluid mr-1" alt="user-pic" width="15px"> ${player.username}</td>
+    //                 <td>${player.played}</td>
+    //                 <td>${player.score}</td>
+    //                 <td></td>
+    //             `;
+            
+    //             leaderboardTable.appendChild(row);
+    //         });
+
+    //         const topThree = players.leaderboard.slice(0, 3);
+    //         topOne = topThree[0].userImg;
+    //         topTwo = topThree[1].userImg;
+    //         topThree = topThree[2].userImg;
+    //     }
+    // } catch (error) {    
+    // }
+    // refetching();
+
+    // try {
+    //     const response = await fetch(`${API_BASE_URL}/tournament_page?Id=${id}&tag=${tag}`)
+    //     const result = await response.json();
+
+    //     if (!response.ok) {
+    //         console.log(result.message);
+    //         console.log(result)
+    //         if (result.status == 'ended') {
+    //             try {
+    //                 const response = await fetch(`${API_BASE_URL}/tournament_winners?id=${id}`);
+    //                 const result = await response.json();
+
+    //                 if (!response.ok) {
+    //                     const alert = document.createElement("div");
+    //                     alert.classList.add('alert');
+    //                     alert.classList.add('alertDanger');
+    //                     alert.classList.add('alert-dismissible');
+    //                     alert.classList.add('fade');
+    //                     alert.classList.add('show');
+        
+    //                     alert.innerHTML = `
+    //                        <i class="fi fi-rr-exclamation"></i> ${result.message}!
+    //                         <button type="button" class="close" data-dismiss="alert">&times;</button>
+    //                     `;
+        
+    //                     mainAlert.appendChild(alert);
+    //                     console.log(result.message)
+    //                     window.location.href = "index.html";
+    //                 }else{
+    //                     const tournamentEnd = document.getElementById("tournament_end_content");
+    //                     const sound = new Audio('./Assets/_sound/mixkit-game-level-completed-2059.wav');
+    //                     result.forEach(winner => {
+    //                         const aWinner = document.createElement("div");
+    //                         aWinner.classList.add('top_three_player');
+
+    //                         aWinner.innerHTML = `
+    //                             <div class="top_three_player">
+    //                                 <div class="t_t_l_user_img_box">
+    //                                     <div class="_t_t_l_user_img text-center">
+    //                                         <div class="glow"></div>
+    //                                         <img src="${winner.userImg}" alt="">
+    //                                     </div>
+    //                                 </div>
+    //                                 <div class="_t_t_l_user_name">
+    //                                    ${winner.username}
+    //                                 </div>
+    //                                 <div class="_t_t_l_score">
+    //                                     <b>Score:</b> ${winner.score}
+    //                                     <b>N3000</b>
+    //                                 </div>
+    //                             </div>
+    //                         `;
+
+    //                         tournamentEnd.appendChild(aWinner);
+    //                     });
+                        
+    //                     if (rank == undefined) {
+    //                         rank = 0;
+    //                     }
+    //                     const topPercent = rank / playersNumber * 100;
+    //                     document.getElementById("rankPercent").innerHTML = `You are among the top ${topPercent}% at rank ${rank}`;
+    //                     document.getElementById("tournament_end").style.display = "flex";
+    //                     sound.play();
+    //                 }
+    //             } catch (error) {
+                    
+    //             }
+    //         }
+    //     }else{
+    //         const _players_joined = document.getElementById("_players_joined");
+    //         if (result.type == 'exclusive') {
+    //             const tagOne = result.tagOne;
+    //             const tagTwo = result.tagTwo;
+    //             const tagThree = result.tagThree;
+    //             var tagBox = `
+    //                 <div class="mb-2">
+    //                     <span class="badge">${tagOne}</span>
+    //                     <span class="badge">${tagTwo}</span>
+    //                     <span class="badge">${tagThree}</span>
+    //                 </div>
+    //             `;
+    //             var avaliableSlot = `
+    //                 <div>
+    //                     <p class="mt-2"><i class="fi fi-rr-joystick mr-1"></i> <kbd>${result.playerJoinedCount}</kbd> players / 100 joined</p>
+    //                 </div>
+    //             `;
+    //             _players_joined.innerHTML = `
+    //             <div class="_players_joined">
+    //                 <h5>${result.tournamentName}</h5>
+    //                 ${tagBox}
+    //                 <div class="desc">
+    //                  <h6>Description</h6>
+    //                  <p>${result.tournamentDesc}</p>
+    //                 </div>
+    //                 <div class="_players_joined_user_img" data-start-time="${result.tournamentStartTime}" data-end-time="${result.tournamentEndTime}">
+    //                     <i class="topThree" id="topthree">
+    //                         <img src="${topOne}" alt="">
+    //                         <img src="${topTwo}" alt="">
+    //                         <img src="${topThree}" alt="">
+    //                     </i>
+    //                     <span class="_players_numbers" id="_players_numbers">
+    //                     </span>
+    //                     <span class="float-right mr-2">
+    //                         <i id="status-${result._id}"></i>
+    //                         <b id="timer-${result._id}"></b>
+    //                     </span>
+    //                     ${avaliableSlot}
+    //                     <div class="reward mt-3">
+    //                         <div class="reward_box_">
+    //                             <div class="d-flex justify-content-center mb-3">
+    //                                 <img src="./Assets/_icons/2nd-place.png" width="30px" alt="">
+    //                             </div>
+    //                             <h5 id="secondPrize"></h5>
+    //                             <h6>2nd Place Prize</h6>
+    //                         </div>
+    //                         <div class="reward_box_">
+    //                             <div class="d-flex justify-content-center mb-3">
+    //                                 <img src="./Assets/_icons/1st-prize.png" width="30px" alt="">
+    //                             </div>
+    //                             <h5 id="firstPrize"></h5>
+    //                             <h6>1st Place Prize</h6>
+    //                         </div>
+    //                         <div class="reward_box_">
+    //                             <div class="d-flex justify-content-center mb-3">
+    //                                 <img src="./Assets/_icons/3rd-place.png" width="30px" alt="">
+    //                             </div>
+    //                             <h5 id="thirdPrize"></h5>
+    //                             <h6>3rd Place Prize</h6>
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //             <div class="d-flex justify-content-center mt-2" id="joinBtn">
+    //             </div>
+    //             `;
+    //         }
+    //         if (result.type == 'regular') {
+    //             _players_joined.innerHTML = `
+    //             <div class="_players_joined">
+    //                 <h5>${result.tournamentName}</h5>
+    //                 <div class="desc">
+    //                  <h6>Description</h6>
+    //                  <p>${result.tournamentDesc}</p>
+    //                 </div>
+    //                 <div class="_players_joined_user_img" data-start-time="${result.tournamentStartTime}" data-end-time="${result.tournamentEndTime}">
+    //                     <i class="topThree" id="topthree">
+    //                         <img src="${topOne}" alt="">
+    //                         <img src="${topTwo}" alt="">
+    //                         <img src="${topThree}" alt="">
+    //                     </i>
+    //                     <span class="_players_numbers" id="_players_numbers">
+    //                     </span>
+    //                     <span class="float-right mr-2">
+    //                         <i id="status-${result._id}"></i>
+    //                         <b id="timer-${result._id}"></b>
+    //                     </span>
+    //                     <div class="reward mt-3">
+    //                         <div class="reward_box_">
+    //                             <div class="d-flex justify-content-center mb-3">
+    //                                 <img src="./Assets/_icons/2nd-place.png" width="30px" alt="">
+    //                             </div>
+    //                             <h5 id="secondPrize"></h5>
+    //                             <h6>2nd Place Prize</h6>
+    //                         </div>
+    //                         <div class="reward_box_">
+    //                             <div class="d-flex justify-content-center mb-3">
+    //                                 <img src="./Assets/_icons/1st-prize.png" width="30px" alt="">
+    //                             </div>
+    //                             <h5 id="firstPrize"></h5>
+    //                             <h6>1st Place Prize</h6>
+    //                         </div>
+    //                         <div class="reward_box_">
+    //                             <div class="d-flex justify-content-center mb-3">
+    //                                 <img src="./Assets/_icons/3rd-place.png" width="30px" alt="">
+    //                             </div>
+    //                             <h5 id="thirdPrize"></h5>
+    //                             <h6>3rd Place Prize</h6>
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //             </div>
+    //             <div class="d-flex justify-content-center mt-2" id="joinBtn">
+    //             </div>
+    //         `;
+    //         }
+    //         joinedUsers();
+    //         tournamentStatus = result.status;
+    //         entryAmount = result.entryAmount;
+    //         checkIfUserIsJoined(result.status, result._id, result.entryAmount);
+    //         setupTournamentTimer(result._id, result.tournamentStartTime, result.tournamentEndTime);
+
+    //         const prize = result.tournamentReward;
+    //         const firstPrize = document.getElementById("firstPrize");
+    //         const secondPrize = document.getElementById("secondPrize");
+    //         const thirdPrize = document.getElementById("thirdPrize");
+    //         const pageHeader = document.getElementById("_tournament_page_header");
+
+    //         pageHeader.style.backgroundImage = `linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%,#0B0C10 100%),url('${result.tournamentImgUrl}')`;
+    //         firstPrize.innerHTML = "N" + 0.4 * prize;
+    //         secondPrize.innerHTML = "N" + 0.2 * prize;
+    //         thirdPrize.innerHTML = "N" + 0.1 * prize;
+
+    //         firstPrize.style.color = "#fff";
+    //         secondPrize.style.color = "#fff";
+    //         thirdPrize.style.color = "#fff";
+    //     }
+        
+    // } catch (error) {
+        
+    // }
+
+    // try {
+    //     document.querySelector("table").innerHTML = "loading..."
+    //     console.log("fetched...");
+        
+    //     const response = await fetch(`${API_BASE_URL}/getLeaderboard?Id=${id}`);
+
+    //     if (!response.ok) {
+    //         const error = await response.json();
+    //         const alert = document.createElement("div");
+    //         alert.classList.add('alert');
+    //         alert.classList.add('alertDanger');
+    //         alert.classList.add('alert-dismissible');
+    //         alert.classList.add('fade');
+    //         alert.classList.add('show');
+
+    //         alert.innerHTML = `
+    //            <i class="fi fi-rr-exclamation"></i> ${error.message}!
+    //             <button type="button" class="close" data-dismiss="alert">&times;</button>
+    //         `;
+
+    //         mainAlert.appendChild(alert);
+    //         console.log("API Error:", error.message || "Unknown error");
+    //         return;
+    //     }
+
+    //     const players = await response.json();
+    //     playersNumber = players.number
+
+    //     if (players.leaderboard.length < 1) {
+    //         document.querySelector("table").innerHTML = `
+    //             <div class="_empty">
+    //                 <h6>No player has <b>joined tournament</b> yet</h6>
+    //             </div>
+    //         `;
+    //     }else{
+    //         document.querySelector("table").innerHTML = `
+                // <thead class="">
+                //     <tr>
+                //     <th>Status</th>
+                //     <th>No</th>
+                //     <th>Username</th>
+                //     <th>Played</th>
+                //     <th>Score</th>
+                //     <th>Prize</th>
+                //     </tr>
+                // </thead>
+                // <tbody>
+                   
+                // </tbody>
+    //         `;
+    //         console.log("Fetched Players:", players.leaderboard); 
+    //         const leaderboardTable = document.querySelector("#leaderboardTable tbody");
+    //         players.leaderboard.forEach((player, index) => {
+    //             const row = document.createElement("tr");
+    //             row.id = `${player.userId}`;
+    //             var status = `<i class="fi fi-rr-angles-up-down text-warning"></i>`;
+
+    //             if (row.id == userId) {
+    //                 // row.style.border = "2px solid #ffc107";
+    //                 row.style.color = "#66FCF1";  
+    //                 row.style.fontWeight = "600"      
+    //                 rank = index + 1;
+    //                 const previousRank = sessionStorage.getItem(player.leaderboardId);
+    //                 if (!previousRank) {
+    //                    sessionStorage.setItem(player.leaderboardId, rank)
+    //                 }else{
+    //                     if (previousRank > rank) {
+    //                         status = `<i class="fi fi-rr-caret-up text-success"></i>`;
+    //                         sessionStorage.setItem(player.leaderboardId, rank)
+    //                     }
+    //                     if(previousRank == rank){
+    //                         status = `<i class="fi fi-rr-menu-dots"></i>`;
+    //                     }
+    //                     else{
+    //                         status = `<i class="fi fi-rr-caret-down text-danger"></i>`;
+    //                         sessionStorage.setItem(player.leaderboardId, rank)
+    //                     }
+    //                 }
+                    
+    //             }
+
+    //             row.innerHTML = `
+    //                 <td>${status}</td>
+    //                 <td>${index + 1}</td>
+    //                 <td class="d-flex"><img src="${player.userImg}" class="img-fluid mr-1" alt="user-pic" width="15px"> ${player.username}</td>
+    //                 <td>${player.played}</td>
+    //                 <td>${player.score}</td>
+    //                 <td></td>
+    //             `;
+            
+    //             leaderboardTable.appendChild(row);
+    //         });
+
+    //         const topThree = players.leaderboard.slice(0, 3);
+    //         topOne = topThree[0].userImg;
+    //         topTwo = topThree[1].userImg;
+    //         topThree = topThree[2].userImg;
+    //     }
+    // } catch (error) {    
+    // }
+});
+
+async function refetching() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/tournament_page?Id=${id}&tag=${tag}`);
+        const result = await response.json();
+
+        if (!response.ok) {
+            console.log(result.message);
+            if (result.status == 'ended') {
+                try {
+                    const winnerRes = await fetch(`${API_BASE_URL}/tournament_winners?id=${id}`);
+                    const winnerResult = await winnerRes.json();
+
+                    if (!winnerRes.ok) {
+                        showAlert(winnerResult.message);
+                        window.location.href = "index.html";
+                    } else {
+                        displayWinners(winnerResult);
+                    }
+                } catch (err) {
+                    console.log("Error fetching winners:", err);
+                }
+            }
+            return;
+        }
+        updateTournamentUI(result);
+        checkIfUserIsJoined(result.status, result._id, result.entryAmount, result.tournamentPlayUrl);
+    } catch (err) {
+        console.log("Error fetching tournament:", err);
+    }
+}
+
+async function getLeaderboard(id) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/getLeaderboard?Id=${id}`);
+
+        if (!response.ok) {
+            const error = await response.json();
+            showAlert(error.message || "Unknown error");
+            return;
+        }
+
+        const players = await response.json();
+        playersNumber = players.number;
+
+        const leaderboardTable = document.querySelector("#leaderboardTable tbody");
+        leaderboardTable.innerHTML = ""; 
+
+        const leaderboard = players.leaderboard;
+
+        if (leaderboard.length === 0) {
+            leaderboardTable.innerHTML = `
+                <tr>
+                    <td colspan="5">
+                        <div class="_empty text-center py-2">
+                            <h6>No player has <b>joined tournament</b> yet</h6>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        leaderboard.forEach((player, index) => {
+            const row = document.createElement("tr");
+            row.id = `${player.userId}`;
+
+            let statusIcon = `<i class="fi fi-rr-angles-up-down text-warning"></i>`;
+            if (player.userId == userId) {
+                row.style.color = "#66FCF1";
+                row.style.fontWeight = "600";
+
+                rank = index + 1;
+                console.log(rank);
+                const prevRank = parseInt(sessionStorage.getItem(player.leaderboardId));
+
+                if (!prevRank) {
+                    sessionStorage.setItem(player.leaderboardId, rank);
+                } else {
+                    if (prevRank > rank) {
+                        statusIcon = `<i class="fi fi-rr-caret-up text-success"></i>`;
+                    } else if (prevRank === rank) {
+                        statusIcon = `<i class="fi fi-rr-menu-dots"></i>`;
+                    } else {
+                        statusIcon = `<i class="fi fi-rr-caret-down text-danger"></i>`;
+                    }
+                    sessionStorage.setItem(player.leaderboardId, rank);
+                }
+            }
+
+            row.innerHTML = `
+                <td>${statusIcon}</td>
+                <td>${index + 1}</td>
+                <td class="d-flex align-items-center">
+                    <img src="${player.userImg}" class="img-fluid mr-1" alt="user-pic" width="15px"> 
+                    ${player.username}
+                </td>
+                <td>${player.played}</td>
+                <td>${player.score}</td>
+                <td></td>
+            `;
+
+            leaderboardTable.appendChild(row);
+        });
+
+        // Safely assign top 3 user images
+        const topThree = leaderboard.slice(0, 3);
+        topOne = topThree[0]?.userImg || "default1.png";
+        topTwo = topThree[1]?.userImg || "default2.png";
+        topThreeImg = topThree[2]?.userImg || "default3.png";
+
+    } catch (error) {
+        showAlert("Network error. Try again.");
+        console.error("Leaderboard Fetch Error:", error);
+    }
+}
+setInterval(() => {
+    getLeaderboard(id);
+}, 10000);
+
+function updateTournamentUI(result) {
+    if (result.type == 'exclusive') {
+        const tags = document.querySelector(".tags");
+        const tagOne = document.querySelector(".tagOne");
+        const tagTwo = document.querySelector(".tagTwo");
+        const tagThree = document.querySelector(".tagThree");
+        const exclusiveCount = document.querySelector(".exclusive_count");
+        const exclusiveKBD = document.querySelector(".count");
+        const joinedSection = document.querySelector("._players_joined h5");
+        const descParagraph = document.querySelector("._players_joined .desc p");
+        const userImgContainer = document.querySelector("._players_joined_user_img");
+        const pageHeader = document.getElementById("_tournament_page_header");
+        const timer = document.getElementById("time");
+        const firstPrize = document.getElementById("firstPrize");
+        const secondPrize = document.getElementById("secondPrize");
+        const thirdPrize = document.getElementById("thirdPrize");
+        document.querySelector(".leaderboard_main").style.marginTop = "415px"
+    
+        if (joinedSection) {
+            joinedSection.textContent = result.tournamentName;
+        } else {
+            console.warn("Missing: ._players_joined h5");
+        }
+
+        if (tagOne) {
+            tagOne.textContent = result.tagOne;
+        }
+
+        if (tagTwo) {
+            tagTwo.textContent = result.tagTwo;
+        }
+
+        if (tagThree) {
+            tagThree.textContent = result.tagThree;
+        }
+    
+        if (descParagraph) {
+            descParagraph.textContent = result.tournamentDesc;
+        } else {
+            console.warn("Missing: ._players_joined .desc p");
+        }
+    
+        if (timer) {
+            if (!document.getElementById(`status-${result._id}`)) {
+                timer.innerHTML = `
+                    <i id="status-${result._id}"></i>
+                    <b id="timer-${result._id}"></b>
+                `;
+            }
+    
+            const statusEl = document.getElementById(`status-${result._id}`);
+            const timerEl = document.getElementById(`timer-${result._id}`);
+            
+            if (statusEl) {
+                statusEl.textContent = document.getElementById(`status-${result._id}`).innerHTML || '';
+            }
+            if (timerEl) {
+                timerEl.textContent = document.getElementById(`timer-${result._id}`).innerHTML || '';
+            }
+    
+        } else {
+            console.warn("Missing: timer");
+        }
+    
+        if (userImgContainer) {
+            userImgContainer.setAttribute("data-start-time", result.tournamentStartTime);
+            userImgContainer.setAttribute("data-end-time", result.tournamentEndTime);
+        } else {
+            console.warn("Missing: ._players_joined_user_img");
+        }
+
+        if (exclusiveKBD) {
+            exclusiveKBD.textContent = result.playerJoinedCount;
+        }
+    
+        if (firstPrize) firstPrize.innerHTML = "N" + 0.4 * result.tournamentReward;
+        else console.warn("Missing: #firstPrize");
+    
+        if (secondPrize) secondPrize.innerHTML = "N" + 0.2 * result.tournamentReward;
+        else console.warn("Missing: #secondPrize");
+    
+        if (thirdPrize) thirdPrize.innerHTML = "N" + 0.1 * result.tournamentReward;
+        else console.warn("Missing: #thirdPrize");
+    
+        if (pageHeader) {
+            pageHeader.style.backgroundImage = `linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%,#0B0C10 100%),url('${result.tournamentImgUrl}')`;
+        } else {
+            console.warn("Missing: #_tournament_page_header");
+        }
+    
+        joinedUsers(); // if you still want to refresh avatars
+        tournamentStatus = result.status;
+        entryAmount = result.entryAmount;
+        setupTournamentTimer(result._id, result.tournamentStartTime, result.tournamentEndTime);   
+    }else{
+        const tags = document.querySelector(".tags");
+        const exclusiveCount = document.querySelector(".exclusive_count");
+        const joinedSection = document.querySelector("._players_joined h5");
+        const descParagraph = document.querySelector("._players_joined .desc p");
+        const userImgContainer = document.querySelector("._players_joined_user_img");
+        const pageHeader = document.getElementById("_tournament_page_header");
+        const timer = document.getElementById("time");
+        const firstPrize = document.getElementById("firstPrize");
+        const secondPrize = document.getElementById("secondPrize");
+        const thirdPrize = document.getElementById("thirdPrize");
+
+        tags.style.display = "none";
+        exclusiveCount.style.display = "none";
+    
+        if (joinedSection) {
+            joinedSection.textContent = result.tournamentName;
+        } else {
+            console.warn("Missing: ._players_joined h5");
+        }
+    
+        if (descParagraph) {
+            descParagraph.textContent = result.tournamentDesc;
+        } else {
+            console.warn("Missing: ._players_joined .desc p");
+        }
+    
+        if (timer) {
+            if (!document.getElementById(`status-${result._id}`)) {
+                timer.innerHTML = `
+                    <i id="status-${result._id}"></i>
+                    <b id="timer-${result._id}"></b>
+                `;
+            }
+    
+            const statusEl = document.getElementById(`status-${result._id}`);
+            const timerEl = document.getElementById(`timer-${result._id}`);
+            
+            if (statusEl) {
+                statusEl.textContent = document.getElementById(`status-${result._id}`).innerHTML || '';
+            }
+            if (timerEl) {
+                timerEl.textContent = document.getElementById(`timer-${result._id}`).innerHTML || '';
+            }
+    
+        } else {
+            console.warn("Missing: timer");
+        }
+    
+        if (userImgContainer) {
+            userImgContainer.setAttribute("data-start-time", result.tournamentStartTime);
+            userImgContainer.setAttribute("data-end-time", result.tournamentEndTime);
+        } else {
+            console.warn("Missing: ._players_joined_user_img");
+        }
+    
+        if (firstPrize) firstPrize.innerHTML = "N" + 0.4 * result.tournamentReward;
+        else console.warn("Missing: #firstPrize");
+    
+        if (secondPrize) secondPrize.innerHTML = "N" + 0.2 * result.tournamentReward;
+        else console.warn("Missing: #secondPrize");
+    
+        if (thirdPrize) thirdPrize.innerHTML = "N" + 0.1 * result.tournamentReward;
+        else console.warn("Missing: #thirdPrize");
+    
+        if (pageHeader) {
+            pageHeader.style.backgroundImage = `linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%,#0B0C10 100%),url('${result.tournamentImgUrl}')`;
+        } else {
+            console.warn("Missing: #_tournament_page_header");
+        }
+    
+        joinedUsers(); // if you still want to refresh avatars
+        tournamentStatus = result.status;
+        entryAmount = result.entryAmount;
+        setupTournamentTimer(result._id, result.tournamentStartTime, result.tournamentEndTime);   
+    }
+}
+
+function displayWinners(winners) {
+    const tournamentEnd = document.getElementById("tournament_end_content");
+    tournamentEnd.innerHTML = ""; // clear first
+    const sound = new Audio('./Assets/_sound/mixkit-game-level-completed-2059.wav');
+
+    winners.forEach(winner => {
+        const aWinner = document.createElement("div");
+        aWinner.classList.add('top_three_player');
+        aWinner.innerHTML = `
+            <div class="top_three_player">
+                <div class="t_t_l_user_img_box">
+                    <div class="_t_t_l_user_img text-center">
+                        <div class="glow"></div>
+                        <img src="${winner.userImg}" alt="">
+                    </div>
+                </div>
+                <div class="_t_t_l_user_name">${winner.username}</div>
+                <div class="_t_t_l_score">
+                    <b>Score:</b> ${winner.score}
+                </div>
+            </div>
+        `;
+        tournamentEnd.appendChild(aWinner);
+    });
+
+    const topPercent = rank ? (rank / playersNumber * 100).toFixed(2) : 0;
+    document.getElementById("rankPercent").innerHTML = `You are among the top ${topPercent}% at rank ${rank}`;
+    document.getElementById("tournament_end").style.display = "flex";
+    sound.play();
+}
+
+function showAlert(message) {
+    const alert = document.createElement("div");
+    alert.classList.add('alert', 'alertDanger', 'alert-dismissible', 'fade', 'show');
+
+    alert.innerHTML = `
+        <i class="fi fi-rr-exclamation"></i> ${message}!
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    `;
+
+    mainAlert.appendChild(alert);
+}
+
+async function startTournamentRefetching() {
+    while (true) {
+        await refetching();
+        await new Promise(resolve => setTimeout(resolve, 10000));
+        setTimeout(() => {
+            document.querySelector("main").style.display = "block";
+            document.getElementById("loader").style.display = "none";
+        }, 2000);
+    }
+}
+
+startTournamentRefetching();
+
 
 async function addUserToTournament() {
     try {
@@ -36,258 +862,13 @@ async function addUserToTournament() {
             `;
             console.log(result.message)
         }else{
-            console.log(result);
+            checkIfUserIsJoined(tournamentStatus, id, entryAmount)
         }
         
     } catch (error) {
         
     }
 }
-
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/getLeaderboard?Id=${id}`);
-
-        if (!response.ok) {
-            const error = await response.json();
-            const alert = document.createElement("div");
-            alert.classList.add('alert');
-            alert.classList.add('alertDanger');
-            alert.classList.add('alert-dismissible');
-            alert.classList.add('fade');
-            alert.classList.add('show');
-
-            alert.innerHTML = `
-               <i class="fi fi-rr-exclamation"></i> ${error.message}!
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-            `;
-
-            mainAlert.appendChild(alert);
-            console.log("API Error:", error.message || "Unknown error");
-            return;
-        }
-
-        const players = await response.json();
-        playersNumber = players.number
-
-        if (players.leaderboard.length < 1) {
-            document.querySelector("table").innerHTML = `
-                <div class="_empty">
-                    <h6>No player has <b>joined tournament</b> yet</h6>
-                </div>
-            `;
-        }else{
-            console.log("Fetched Players:", players.leaderboard); 
-            const leaderboardTable = document.querySelector("#leaderboardTable tbody");
-            players.leaderboard.forEach((player, index) => {
-                const row = document.createElement("tr");
-                row.id = `${player.userId}`;
-                var status = `<i class="fi fi-rr-angles-up-down text-warning"></i>`;
-
-                if (row.id == userId) {
-                    // row.style.border = "2px solid #ffc107";
-                    row.style.color = "#66FCF1";  
-                    row.style.fontWeight = "600"      
-                    rank = index + 1;
-                    const previousRank = sessionStorage.getItem(player.leaderboardId);
-                    if (!previousRank) {
-                       sessionStorage.setItem(player.leaderboardId, rank)
-                    }else{
-                        if (previousRank > rank) {
-                            status = `<i class="fi fi-rr-caret-up text-success"></i>`;
-                            sessionStorage.setItem(player.leaderboardId, rank)
-                        }
-                        if(previousRank == rank){
-                            status = `<i class="fi fi-rr-menu-dots"></i>`;
-                        }
-                        else{
-                            status = `<i class="fi fi-rr-caret-down text-danger"></i>`;
-                            sessionStorage.setItem(player.leaderboardId, rank)
-                        }
-                    }
-                    
-                }
-
-                row.innerHTML = `
-                    <td>${status}</td>
-                    <td>${index + 1}</td>
-                    <td class="d-flex"><img src="${player.userImg}" class="img-fluid mr-1" alt="user-pic" width="15px"> ${player.username}</td>
-                    <td>${player.played}</td>
-                    <td>${player.score}</td>
-                    <td></td>
-                `;
-            
-                leaderboardTable.appendChild(row);
-            });
-
-            const topThree = players.leaderboard.slice(0, 3);
-            topOne = topThree[0].userImg;
-            topTwo = topThree[1].userImg;
-            topThree = topThree[2].userImg;
-        }
-    } catch (error) {    
-    }
-
-    try {
-        const response = await fetch(`${API_BASE_URL}/tournament_page?Id=${id}&tag=${tag}`)
-        const result = await response.json();
-
-        if (!response.ok) {
-            console.log(result.message);
-            console.log(result)
-            if (result.status == 'ended') {
-                try {
-                    const response = await fetch(`${API_BASE_URL}/tournament_winners?id=${id}`);
-                    const result = await response.json();
-
-                    if (!response.ok) {
-                        const alert = document.createElement("div");
-                        alert.classList.add('alert');
-                        alert.classList.add('alertDanger');
-                        alert.classList.add('alert-dismissible');
-                        alert.classList.add('fade');
-                        alert.classList.add('show');
-        
-                        alert.innerHTML = `
-                           <i class="fi fi-rr-exclamation"></i> ${result.message}!
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        `;
-        
-                        mainAlert.appendChild(alert);
-                        console.log(result.message)
-                        window.location.href = "index.html";
-                    }else{
-                        const tournamentEnd = document.getElementById("tournament_end_content");
-                        const sound = new Audio('./Assets/_sound/mixkit-game-level-completed-2059.wav');
-                        result.forEach(winner => {
-                            const aWinner = document.createElement("div");
-                            aWinner.classList.add('top_three_player');
-
-                            aWinner.innerHTML = `
-                                <div class="top_three_player">
-                                    <div class="t_t_l_user_img_box">
-                                        <div class="_t_t_l_user_img text-center">
-                                            <div class="glow"></div>
-                                            <img src="${winner.userImg}" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="_t_t_l_user_name">
-                                       ${winner.username}
-                                    </div>
-                                    <div class="_t_t_l_score">
-                                        <b>Score:</b> ${winner.score}
-                                        <b>N3000</b>
-                                    </div>
-                                </div>
-                            `;
-
-                            tournamentEnd.appendChild(aWinner);
-                        });
-                        
-                        if (rank == undefined) {
-                            rank = 0;
-                        }
-                        const topPercent = rank / playersNumber * 100;
-                        document.getElementById("rankPercent").innerHTML = `You are among the top ${topPercent}% at rank ${rank}`;
-                        document.getElementById("tournament_end").style.display = "flex";
-                        sound.play();
-                    }
-                } catch (error) {
-                    
-                }
-            }
-        }else{
-            const _players_joined = document.getElementById("_players_joined");
-            if (result.type == 'exclusive') {
-                const tagOne = result.tagOne;
-                const tagTwo = result.tagTwo;
-                const tagThree = result.tagThree;
-                var tagBox = `
-                    <div class="mb-2">
-                        <span class="badge">${tagOne}</span>
-                        <span class="badge">${tagTwo}</span>
-                        <span class="badge">${tagThree}</span>
-                    </div>
-                `;
-                var avaliableSlot = `
-                    <div>
-                        <p class="mt-2"><i class="fi fi-rr-joystick mr-1"></i> <kbd>${result.playerJoinedCount}</kbd> players / 100 joined</p>
-                    </div>
-                `;
-            }
-            _players_joined.innerHTML = `
-                <div class="_players_joined">
-                    <h5>${result.tournamentName}</h5>
-                    ${tagBox}
-                    <div class="desc">
-                     <h6>Description</h6>
-                     <p>${result.tournamentDesc}</p>
-                    </div>
-                    <div class="_players_joined_user_img" data-start-time="${result.tournamentStartTime}" data-end-time="${result.tournamentEndTime}">
-                        <i class="topThree" id="topthree">
-                            <img src="${topOne}" alt="">
-                            <img src="${topTwo}" alt="">
-                            <img src="${topThree}" alt="">
-                        </i>
-                        <span class="_players_numbers" id="_players_numbers">
-                        </span>
-                        <span class="float-right mr-2">
-                            <i id="status-${result._id}"></i>
-                            <b id="timer-${result._id}"></b>
-                        </span>
-                        ${avaliableSlot}
-                        <div class="reward mt-3">
-                            <div class="reward_box_">
-                                <div class="d-flex justify-content-center mb-3">
-                                    <img src="./Assets/_icons/2nd-place.png" width="30px" alt="">
-                                </div>
-                                <h5 id="secondPrize"></h5>
-                                <h6>2nd Place Prize</h6>
-                            </div>
-                            <div class="reward_box_">
-                                <div class="d-flex justify-content-center mb-3">
-                                    <img src="./Assets/_icons/1st-prize.png" width="30px" alt="">
-                                </div>
-                                <h5 id="firstPrize"></h5>
-                                <h6>1st Place Prize</h6>
-                            </div>
-                            <div class="reward_box_">
-                                <div class="d-flex justify-content-center mb-3">
-                                    <img src="./Assets/_icons/3rd-place.png" width="30px" alt="">
-                                </div>
-                                <h5 id="thirdPrize"></h5>
-                                <h6>3rd Place Prize</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center mt-2" id="joinBtn">
-                </div>
-            `;
-            joinedUsers();
-            checkIfUserIsJoined(result.status, result._id, result.entryAmount);
-            setupTournamentTimer(result._id, result.tournamentStartTime, result.tournamentEndTime);
-
-            const prize = result.tournamentReward;
-            const firstPrize = document.getElementById("firstPrize");
-            const secondPrize = document.getElementById("secondPrize");
-            const thirdPrize = document.getElementById("thirdPrize");
-            const pageHeader = document.getElementById("_tournament_page_header");
-
-            pageHeader.style.backgroundImage = `linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%,#0B0C10 100%),url('${result.tournamentImgUrl}')`;
-            firstPrize.innerHTML = "N" + 0.4 * prize;
-            secondPrize.innerHTML = "N" + 0.2 * prize;
-            thirdPrize.innerHTML = "N" + 0.1 * prize;
-
-            firstPrize.style.color = "#fff";
-            secondPrize.style.color = "#fff";
-            thirdPrize.style.color = "#fff";
-        }
-        
-    } catch (error) {
-        
-    }
-})
 
 async function joinedUsers() {
     try {
@@ -329,65 +910,73 @@ async function joinedUsers() {
     }
 } 
 
-async function checkIfUserIsJoined(status, id, entryfee) {
+async function checkIfUserIsJoined(status, id, entryfee, playUrl) {
     try {
         const response = await fetch(`${API_BASE_URL}/check_user_is_joined?userId=${userId}&id=${id}`)
         const result = await response.json();
 
         if (!response.ok) {
             const alert = document.createElement("div");
-            alert.classList.add('alert');
-            alert.classList.add('alertDanger');
-            alert.classList.add('alert-dismissible');
-            alert.classList.add('fade');
-            alert.classList.add('show');
-
+            alert.classList.add('alert', 'alertDanger', 'alert-dismissible', 'fade', 'show');
             alert.innerHTML = `
-               <i class="fi fi-rr-exclamation"></i> ${result.message}!
+                <i class="fi fi-rr-exclamation"></i> ${result.message}!
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
             `;
-
             mainAlert.appendChild(alert);
             console.log(result.message);
         }
 
         const checker = result.message;
-        console.log(result.message);
-        
-        if (checker == 'joined') {
-            document.getElementById("joinBtn").innerHTML = `
+        const joinBtn = document.getElementById("joinBtn");
+        const playBtn = document.getElementById("play_btn");
+
+        if (checker === 'joined') {
+            const joinedHTML = `
                 <div class="active d-flex justify-content-center">
                     <a class="btn mb-1 joined_btn">
                         <div class="d-flex">
                             <div class="pointDiv">${entryfee} pts</div>
-                            <div class="joinDiv">Joined</div>
+                            <div class="joinDiv text-dark">Joined</div>
                         </div>
                     </a>
                 </div>
             `;
-            if (status == 'active') {
-                document.getElementById('play_btn').innerHTML = `
-                    <a class="btn play_btn" href="./Assets/_games/_games/subwaysurfersny/?id=${id}">Play Game</a>
-                `;   
-            }else{
-                document.getElementById('play_btn').innerHTML = `
-                    <a class="btn play_btn disabled">Play Game</a>
-                `;  
+
+            if (joinBtn && joinBtn.innerHTML.trim() !== joinedHTML.trim()) {
+                joinBtn.innerHTML = joinedHTML;
             }
-        }if (checker == 'notJoined') {
-            document.getElementById("joinBtn").innerHTML = `
+
+            const playGameHref = playUrl+`main.html?id=${id}`;
+            const activePlayHTML = `<a class="btn play_btn" href="${playGameHref}">Play Game</a>`;
+            const disabledPlayHTML = `<a class="btn play_btn disabled">Play Game</a>`;
+
+            if (playBtn) {
+                const expectedPlayHTML = (status === 'active') ? activePlayHTML : disabledPlayHTML;
+                if (playBtn.innerHTML.trim() !== expectedPlayHTML.trim()) {
+                    playBtn.innerHTML = expectedPlayHTML;
+                }
+            }
+
+        } else if (checker === 'notJoined') {
+            const notJoinedHTML = `
                 <a class="btn mb-1" onclick="addUserToTournament()">
                     <div class="d-flex">
                         <div class="pointDiv">${entryfee} pts</div>
-                            <div class="joinDiv">Join</div>
+                        <div class="joinDiv">Join</div>
                     </div>
                 </a>
             `;
-            document.getElementById('play_btn').innerHTML = `
-                <a class="btn play_btn disabled">Play Game</a>
-            `;
+
+            if (joinBtn && joinBtn.innerHTML.trim() !== notJoinedHTML.trim()) {
+                joinBtn.innerHTML = notJoinedHTML;
+            }
+
+            if (playBtn && playBtn.innerHTML.trim() !== `<a class="btn play_btn disabled">Play Game</a>`) {
+                playBtn.innerHTML = `<a class="btn play_btn disabled">Play Game</a>`;
+            }
         }
     } catch (error) {
-        
+        console.error("Error checking if user is joined:", error);
     }
 }
+

@@ -53,7 +53,7 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
     app.post('/signup', async (req, res) => {
         try {
             const {userImg, firstName, lastName, username, email, phoneNumber, password} = req.body;
-            // Checking for existing email
+
             const existingUsername = await User.findOne({ username });
             if (existingUsername) return res.status(400).json({ message: 'Username is already taken' });
 
@@ -89,34 +89,57 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
             });
             await newGameInfo.save();
 
+            const newReward = new rewardInfo({
+                _id: newUser._id,
+                rewardAmount: 0,
+                hasWon: false,
+                lastReward: 0
+            })
+            await newReward.save();
+
             const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-            const verificationLink = `http://localhost:3000/verify-email?token=${token}`;
+            const verificationLink = `https://octagames-new-production.up.railway.app/verify-email?token=${token}`;
 
             await transporter.sendMail({
             from: `"Octagames" <${process.env.EMAIL_USER}>`,
             to: email,
             subject: "Verify Your Email",
             html: `
-                <style>@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');</style>
-                <div style="font-family: 'Press Start 2P', cursive; background-color: #1a1a1a; color: #ffffff; padding: 30px; border-radius: 10px; max-width: 600px; margin: auto; box-shadow: 0 0 20px #FFC107;">
-                <h2 style="text-align: center; color: #FFC107;">🎮 Welcome to G-Run Arena!</h2>
-                <p style="font-size: 16px; line-height: 1.6;">
-                    Hey Gamer,<br><br>
-                    You're just one click away from entering the arena! To verify your email and activate your G-Run account, tap the button below:
-                </p>
-                <div style="text-align: center; margin: 30px 0;">
-                    <a href="${verificationLink}" style="background-color: #FFC107; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
-                    ✅ Verify Email
-                    </a>
-                </div>
-                <p style="font-size: 14px; color: #cccccc;">
-                    If you didn’t sign up for G-Run, you can safely ignore this message. Otherwise, get ready to dominate the leaderboard!
-                </p>
-                <p style="font-size: 14px; text-align: center; color: #666666; margin-top: 40px;">
-                    ⚡ Powered by Octagames
-                </p>
-                </div>
+                <div style="width: 100%; max-width: 600px; margin: auto; font-family: 'Montserrat', sans-serif; background-color: #1a1a1a; color: #ffffff; border-radius: 10px; overflow: hidden;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0;">
+                    <tr>
+                        <td style="padding: 30px;">
+                        <h2 style="color: #FFC107; margin: 0 0 20px;">Verify Your Email</h2>
+                        <p style="font-size: 12px; line-height: 1.6; margin: 0 0 20px;">
+                            Hey there, Chief<br><br>
+                            You're just one click away from entering the arena! To verify your email and activate your Octagames account, tap the button below:
+                        </p>
+                        <div style="text-align: center; margin: 30px 0;">
+                            <a href="${verificationLink}" style="width: 70%; background-color: #FFC107; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
+                            Verify Email
+                            </a>
+                            <p style="font-size: 13px; color: #cccccc; margin-top: 10px;">Expires in 1hr</p>
+                        </div>
+                        <p style="font-size: 12px; color: #cccccc; line-height: 1.6;">
+                            If you didn’t sign up for Octagames, you can safely ignore this message. Otherwise, gear up and get ready to dominate the leaderboard!
+                        </p>
+                        <p style="text-align: center; margin-top: 25px !important; margin-bottom: 10px !important;">
+                            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-facebook"></i></a>
+                            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-instagram"></i></a>
+                            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-twitter-alt-circle"></i></a>
+                            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-whatsapp"></i></a>
+                        </p>
+                        <p style="text-align: center; font-size: 12px; margin: 10px 0;">Lagos, Nigeria</p>
+                        <p style="font-size: 12px; text-align: center; color: #666666; margin-top: 20px;">
+                            ⚡ Powered by Octagames<br>
+                            Level up your gaming experience with our competitive tournaments, rewards, and non-stop action.
+                        </p>
+                        </td>
+                        <td style="width: 230px; background-image: url('https://octagames-new-production.up.railway.app/Assets/_games/_img/auth_background3.png'); background-size: cover; background-position: center;"></td>
+                    </tr>
+                    </table>
+                </div>  
             `          
             });
 
@@ -125,6 +148,18 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
         } catch (error) {
             console.error('Error during signup:', error);
             res.status(500).json({ message: 'Internal server error' });
+        }
+    });
+
+    app.get('/check_signup_info', async (req, res) => {
+        try {
+            const { username } = req.query;
+            const existingUsername = await User.findOne({ username });
+            if (existingUsername) return res.status(400).json({ message: 'Username is already taken' });
+
+            res.status(200).json({ message: 'new' });
+        } catch (error) {
+            
         }
     });
 
@@ -146,10 +181,41 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
             to: email,
             subject: "Verify Your Email (Resend)",
             html: `
-                <h2>Welcome to G-Run Arena!</h2>
-                <p>Click the link below to verify your email:</p>
-                <a href="${verificationLink}">Verify Email</a>
-            `
+                <div style="width: 100%; max-width: 600px; margin: auto; font-family: 'Montserrat', sans-serif; background-color: #1a1a1a; color: #ffffff; border-radius: 10px; overflow: hidden;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0;">
+                    <tr>
+                        <td style="padding: 30px;">
+                        <h2 style="color: #FFC107; margin: 0 0 20px;">Verify Your Email</h2>
+                        <p style="font-size: 12px; line-height: 1.6; margin: 0 0 20px;">
+                            Hey there, Chief<br><br>
+                            You're just one click away from entering the arena! To verify your email and activate your Octagames account, tap the button below:
+                        </p>
+                        <div style="text-align: center; margin: 30px 0;">
+                            <a href="${verificationLink}" style="width: 70%; background-color: #FFC107; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
+                            Verify Email
+                            </a>
+                            <p style="font-size: 13px; color: #cccccc; margin-top: 10px;">Expires in 1hr</p>
+                        </div>
+                        <p style="font-size: 12px; color: #cccccc; line-height: 1.6;">
+                            If you didn’t sign up for Octagames, you can safely ignore this message. Otherwise, gear up and get ready to dominate the leaderboard!
+                        </p>
+                        <p style="text-align: center; margin-top: 25px !important; margin-bottom: 10px !important;">
+                            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-facebook"></i></a>
+                            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-instagram"></i></a>
+                            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-twitter-alt-circle"></i></a>
+                            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-whatsapp"></i></a>
+                        </p>
+                        <p style="text-align: center; font-size: 12px; margin: 10px 0;">Lagos, Nigeria</p>
+                        <p style="font-size: 12px; text-align: center; color: #666666; margin-top: 20px;">
+                            ⚡ Powered by Octagames<br>
+                            Level up your gaming experience with our competitive tournaments, rewards, and non-stop action.
+                        </p>
+                        </td>
+                        <td style="width: 230px; background-image: url('https://octagames-new-production.up.railway.app/Assets/_games/_img/auth_background3.png'); background-size: cover; background-position: center;"></td>
+                    </tr>
+                    </table>
+                </div>  
+            `   
             });
 
             res.status(200).json({ message: 'Verication link has been resent' });
@@ -178,37 +244,37 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
             to: email,
             subject: "OTP Code",
             html: `
-                <div style="width: 100%; display: flex; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; border-radius: 10px; background-color: #1a1a1a; color: #ffffff; max-width: 600px; margin: auto;">
-                <div style="padding: 30px;">
-                    <h2 style="text-align: left; color: #FFC107;">Redeem Reward OTP</h2>
-                    <p style="font-size: 16px; text-align: left; line-height: 1.6;">
-                        Hey ${userEmail.firstName + " " + userEmail.lastName},<br><br>
+                <div style="width: 100%; display: flex; font-family: 'Montserrat', sans-serif; border-radius: 10px; background-color: #1a1a1a; color: #ffffff; max-width: 600px; margin: auto;">
+                    <div style="padding: 30px;">
+                        <h2 style="text-align: left; color: #FFC107;">Redeem Reward OTP</h2>
+                        <p style="font-size: 16px; text-align: left; line-height: 1.6;">
+                        Hey ${userEmail.firstnam + " " + userEmail.lastName} Alaoma,<br><br>
                         To complete your redeem request please enter the OTP code provided below in the website. The code will expire in <b>10 minutes</b>
-                    </p>
-                    <div style="text-align: center; margin: 30px 0;">
-                        <span style="font-size: 20px; margin-right: 10px;"><b>${otp}</b></span> <i class="fi fi-rr-copy-alt"></i>
-                    </div>
-                    <div style="width: 90%; font-weight: 600; text-align: left; padding: 15px; background-color: #fff3cd; color: #856404; border-radius: 10px;">
-                        <i class="fi fi-rr-triangle-warning"></i> OTP code will expire in:  <span style="font-weight: 700;">05:06</span>
-                    </div>
-                    <p style="font-size: 14px; color: #cccccc; line-height: 1.6;">
+                        </p>
+                        <div style="text-align: center; margin: 30px 0;">
+                        <span style="font-size: 20px; margin-right: 10px;"><b>${otp}</b></span>
+                        </div>
+                        <div style="width: 90%; font-weight: 600; text-align: left; padding: 15px; background-color: #fff3cd; color: #856404; border-radius: 10px;">
+                        <i class="fi fi-rr-triangle-warning"></i> OTP code will expire in <span style="font-weight: 700;">15 minutes</span>
+                        </div>
+                        <p style="font-size: 14px; color: #cccccc; line-height: 1.6;">
                         You can only use the code once. If you didn't request for the security code. Kindly contact our <a href="">support team</a>
-                    </p>
-                    <p style="text-align: center; margin-top: 25px !important; margin-bottom: 10px !important;">
+                        </p>
+                        <p style="text-align: center; margin-top: 25px !important; margin-bottom: 10px !important;">
                         <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-facebook"></i></a>
                         <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-instagram"></i></a>
                         <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-twitter-alt-circle"></i></a>
                         <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-whatsapp"></i></a>
                     </p>
-                    <p style="text-align: center; font-size: 14px;">
-                        Lagos, Nigeria
-                    </p>
-                    <p style="font-size: 14px; text-align: center; color: #666666; margin-top: 20px;">
-                    ⚡ Powered by Octagames <br>
-                    Level up your gaming experience with our competitive tournaments, rewards, and non-stop action.
-                    </p>
+                        <p style="text-align: center; font-size: 14px;">
+                            Lagos, Nigeria
+                        </p>
+                        <p style="font-size: 14px; text-align: center; color: #666666; margin-top: 20px;">
+                        ⚡ Powered by Octagames <br>
+                        Level up your gaming experience with our competitive tournaments, rewards, and non-stop action.
+                        </p>
+                    </div>
                 </div>
-            </div>
             `
         });
 
@@ -221,7 +287,7 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
         return res.status(200).json({ message: 'success' });
 
        } catch (error) {
-        
+        console.error(error)
        } 
     });
 
@@ -246,6 +312,7 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
             res.status(400).send('Invalid or expired OTP.');
         }
     });
+
     //Verify Email Route
     app.get('/verify-email', async (req, res) => {
         const { token } = req.query;
@@ -256,10 +323,106 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
     
         await User.findByIdAndUpdate(userId, { emailConfirmed: true });
     
-        res.send(`Email verified successfully! You can now log in. <a href="./public/login.html" class="btn btn-success">Login</a>`);
+        res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <title>Email Verified</title>
+              <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+              <style>
+                body {
+                  margin: 0;
+                  padding: 0;
+                  background-color: #000;
+                  font-family: 'Montserrat', sans-serif;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  height: 100vh;
+                  color: white;
+                }
+                .container {
+                  text-align: center;
+                  padding: 40px;
+                }
+                a {
+                  font-weight: 700;
+                  color: #000;
+                  text-decoration: none;
+                  background-color: #66fcf1;
+                  padding: 35px;
+                  border-radius: 10px;
+                  display: inline-block;
+                  margin-top: 20px;
+                  width: 70%;
+                  font-size: 35px;
+                }
+                h4{
+                  font-size: 40px;
+                }
+                p{
+                  font-size: 30px
+                }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <h4>Email Verified ✨</h4>
+                <p>Yay! Email has been verified. You can now join the play, win, and repeat vibe 😎</p>
+                <a href="https://octagames-new-production.up.railway.app/login.html">Login</a>
+              </div>
+            </body>
+            </html>
+        `);
+
         } catch (err) {
         console.error(err);
-        res.status(400).send('Invalid or expired token.');
+        res.status(400).send(`
+                        <!DOCTYPE html>
+            <html>
+            <head>
+              <title>Email Verified</title>
+              <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+              <style>
+                body {
+                  margin: 0;
+                  padding: 0;
+                  background-color: #000;
+                  font-family: 'Montserrat', sans-serif;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  height: 100vh;
+                  color: white;
+                }
+                .container {
+                  text-align: center;
+                }
+                a {
+                  font-weight: 700;
+                  color: #000;
+                  text-decoration: none;
+                  background-color: #66fcf1;
+                  padding: 15px 25px;
+                  border-radius: 10px;
+                  display: inline-block;
+                  margin-top: 20px;
+                }
+                h4{
+                  font-size: 40px;
+                }
+                p, a{
+                  font-size: 30px
+                }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <h4>Invalid or Expired token</h4>
+              </div>
+            </body>
+            </html>
+        `);
         }
     });
 
@@ -786,7 +949,16 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
             }
 
             if (gameScore < getLeaderboard.score) {
-                return res.status(400).json({ message: 'Not your best score' });
+                 // Get all leaderboard entries sorted by score (highest first)
+                 const sortedLeaderboard = await Leaderboard.find().sort({ score: -1 });
+                
+                 // Find the index/position of the updated user
+                 const position = sortedLeaderboard.findIndex(entry => entry._id.toString() === getLeaderboard._id.toString()) + 1;
+                 
+                 return res.json({
+                     ...getLeaderboard._doc, 
+                     position              
+                 });
             }else{
                 const updateScore = await Leaderboard.findByIdAndUpdate(
                     getLeaderboard._id,
@@ -1336,18 +1508,22 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
     
         // Step 1: Normalize API name parts
         const normalize = (name) => {
-        return name
-            .replace(/,/g, '')
-            .toLowerCase()
-            .trim()
-            .split(/\s+/);  // Split by space
+            return (name || '') // if name is undefined, fallback to an empty string
+                .replace(/,/g, '')
+                .toLowerCase()
+                .trim()
+                .split(/\s+/);
         };
-    
+
         const apiParts = normalize(apiName); // ['alaoma', 'chibudom', 'michael']
     
         // Step 2: Normalize DB name and extract first and last name
         const dbParts = normalize(dbName);
         const [firstName, lastName] = dbParts;
+        console.log(firstName);
+        console.log(lastName);
+        console.log(dbParts);
+        console.log(apiName);
     
         // Step 3: Check if both exist in the API name
         const isMatch = apiParts.includes(firstName) && apiParts.includes(lastName);
@@ -1378,7 +1554,7 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
                 userid: objectUserId,
                 bankName,
                 bankCode,
-                bankImg: bankImg.logo,
+                bankImg: bankImg.logo || null,
                 accountNo,
                 accountName
             });

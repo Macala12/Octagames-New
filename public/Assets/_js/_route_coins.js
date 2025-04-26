@@ -1,48 +1,59 @@
+document.querySelector("main").style.display = "none";
 document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/fetch_coins`);
-        const coins = await response.json();
+    const promises = [];
 
-        if (!response.ok) {
-            const alert = document.createElement("div");
-            alert.classList.add('alert');
-            alert.classList.add('alertDanger');
-            alert.classList.add('alert-dismissible');
-            alert.classList.add('fade');
-            alert.classList.add('show');
+    const fetchCoins = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/fetch_coins`);
+            const coins = await response.json();
 
-            alert.innerHTML = `
-               <i class="fi fi-rr-exclamation"></i> ${coins.message}!
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-            `;
+            if (!response.ok) {
+                const alert = document.createElement("div");
+                alert.classList.add('alert');
+                alert.classList.add('alertDanger');
+                alert.classList.add('alert-dismissible');
+                alert.classList.add('fade');
+                alert.classList.add('show');
 
-            mainAlert.appendChild(alert);
-            console.log(coins.message);
-        }else{
-            coinContainer = document.getElementById("_coins");
-            coins.forEach(coin => {
-                const coinDiv = document.createElement('div');
-                const bonus = coin.bonusAmount * coin.nairaAmount;
-                const totalCoinAmount = coin.coinAmount + bonus;
-                coinDiv.innerHTML = `
-                    <div class="_coin_box">
-                        <div class="d-flex">
-                            <div class="_coin_img">
-                                <img src="./Assets/_icons/coin.png" alt="">
-                            </div>
-                        </div>
-                        <div class="_coin_name">
-                            <h6>${coin.coinAmount} coins + ${bonus} free (N${coin.nairaAmount})</h6>
-                        </div>
-                        <button type="button" class="btn" data-toggle="modal" data-target="#payModal" onclick="payModal('${totalCoinAmount}', '${coin.nairaAmount}', '${coin._id}')">Buy Coin <br> <b>N${coin.nairaAmount}</b></button>
-                    </div>
+                alert.innerHTML = `
+                <i class="fi fi-rr-exclamation"></i> ${coins.message}!
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
                 `;
-                coinContainer.appendChild(coinDiv);            
-            }) 
+
+                mainAlert.appendChild(alert);
+                console.log(coins.message);
+            }else{
+                coinContainer = document.getElementById("_coins");
+                coins.forEach(coin => {
+                    const coinDiv = document.createElement('div');
+                    const bonus = coin.bonusAmount * coin.nairaAmount;
+                    const totalCoinAmount = coin.coinAmount + bonus;
+                    coinDiv.innerHTML = `
+                        <div class="_coin_box">
+                            <div class="d-flex">
+                                <div class="_coin_img">
+                                    <img src="./Assets/_icons/coin.png" alt="">
+                                </div>
+                            </div>
+                            <div class="_coin_name">
+                                <h6>${coin.coinAmount} coins + ${bonus} free (N${coin.nairaAmount})</h6>
+                            </div>
+                            <button type="button" class="btn" data-toggle="modal" data-target="#payModal" onclick="payModal('${totalCoinAmount}', '${coin.nairaAmount}', '${coin._id}')">Buy Coin <br> <b>N${coin.nairaAmount}</b></button>
+                        </div>
+                    `;
+                    coinContainer.appendChild(coinDiv);            
+                }) 
+            }
+        } catch (error) {    
         }
-    } catch (error) {
-        
     }
+
+    promises.push(fetchCoins());
+    await Promise.all(promises);
+    setTimeout(() => {
+        document.querySelector("main").style.display = "block";
+        document.getElementById("loader").style.display = "none";
+    }, 2000);
 });
 
 async function payModal(coinAmount, nairaAmount, coinId) {
@@ -121,7 +132,7 @@ async function buyCoin(coinId) {
                    <i class="fi fi-rr-exclamation"></i> ${result.message}!
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                 `;
-
+ 
                 mainAlert.appendChild(alert);
                 console.log(result.message);
             }else{
@@ -141,8 +152,7 @@ async function buyCoin(coinId) {
                         },
                         buttonsStyling: false
                     });
-                    document.getElementById("btn").innerHTML = `Done`
-                ;
+                    document.getElementById("btn").innerHTML = `Done`;
                 }
             }
     

@@ -99,13 +99,36 @@
         </div>
     </section>
 
+    <div class="rewardHover" id="rewardHover">
+        <div class="confetti-wrapper">
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+        </div>
+        <div class="text-center">
+
+        </div>
+    </div>
+
     <div class="container-fluid pt-2">
         <section class="_profile">
-            <a class="_profile_button">
+            <!-- <a class="_profile_button">
                 <h6>Account Status</h6>
                 <i class="fi fi-rr-info float-right"></i>
-                <p class="text-success">Verified</p>
-            </a>
+                <p class="account_status"></p>
+            </a> -->
             <a class="_profile_button">
                 <h6>Firstname</h6>
                 <i class="fi fi-rr-info float-right"></i>
@@ -140,7 +163,7 @@
             <a onclick="sendEmail()" class="_password _profile_button">
                 <h6>Reset Password <i class="fi fi-rr-angle-small-right float-right"></i></h6>
             </a>
-            <a href="" class="_profile_button bg-danger">
+            <a onclick="logOut()" class="_profile_button bg-danger">
                 <h6>Logout <i class="fi fi-rr-angle-small-right float-right"></i></h6>
             </a>
         </section>
@@ -148,7 +171,7 @@
         <!-- Bottom Navigation Bar-->
         <div class="_navigation_bar_container">
             <nav>
-                <a href="./index.html" class="btn">
+                <a href="./home.html" class="btn">
                     <i class="fi fi-rr-house-chimney"></i>
                     <p>Home</p>
                 </a>
@@ -173,6 +196,7 @@
     </div>
 </body>
 <script src="./Assets/_js/config.js"></script>
+<script src="./Assets/_js/reward_hover.js"></script>
 <script src="./Assets/_js/_route_fetch_user_info.js"></script>
 <script src="./Assets/_js/_route_profile.js"></script>
 <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>

@@ -27,3 +27,6 @@ async function sendEmail() {
     }
 }
 
+async function logOut() {
+    sessionStorage.clear();
+}

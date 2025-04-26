@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html manifest="offline.appcache">
+
+
+<!-- Added --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added -->
+<head>
+	<meta charset="utf-8" />
+	<title>Monster & Candy</title>
+	<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+	<meta name="description" content="Monster & Candy" />
+	<meta property="og:image" content="img/game-candy-square.png" />
+	<style>
+		body { margin: 0; background: #B4D9E7; }
+		@font-face {
+			font-family: 'ComicBook';
+			src: url('fonts/comicbook.eot');
+			src: url('fonts/comicbookd41d.eot?#iefix') format('embedded-opentype'),
+				url('fonts/comicbook.woff') format('woff'),
+				url('fonts/comicbook.ttf') format('truetype'),
+				url('fonts/comicbook.svg#comic_booknormal') format('svg');
+			font-weight: normal;
+			font-style: normal;
+		}
+	</style>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+		
+	<!-- Allow fullscreen mode on iOS devices. (These are Apple specific meta tags.) -->
+	<meta name="viewport" content="user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<link rel="apple-touch-icon" sizes="256x256" href="img/monster-cover.png" />
+	<meta name="HandheldFriendly" content="true" />
+	
+	<!-- Chrome for Android web app tags -->
+	<meta name="mobile-web-app-capable" content="yes" />
+	<link rel="shortcut icon" sizes="256x256" href="img/monster-cover.png" />
+
+	
+	<script src="candy.min.js"></script>
+	<style type="text/css">
+		#buttonBlackmoon, blackmoon{
+		display: none;
+		}
+		.game-over-contanier{
+			display: none;
+			width: 100vw;
+			height: 100vh;
+			align-items: center;
+			background-color: #000;
+			font-family: "Montserrat", sans-serif !important;
+		}
+		.game-over-contanier h6{
+			font-size: 50px;
+			font-weight: 800;
+			font-style: oblique;
+			margin-bottom: 20px;
+		}
+		.game-over-contanier p {
+			font-weight: 700;
+			font-size: 50px;
+		}
+	</style>
+</head>
+<body>
+<img style="display: none;" src="img/game-candy-square.png" />
+<div class="game-over-contanier" style="text-align: center;">
+</div>
+<script>
+localStorage.setItem("totalscore", 0);
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get("id");
+const userid = sessionStorage.getItem('userid');
+const checkingScoreTrack = setInterval(() => {
+	const score = localStorage.getItem("totalscore");
+	if (score > 0) {
+		//Send Score to Backend
+		async function updateScore() {
+			document.querySelector("canvas").style.display = "none";
+			const gameOverBox = document.querySelector(".game-over-contanier");
+			const soundOver = new Audio("../../../_sound/mixkit-player-losing-or-failing-2042.wav");
+			try {
+				gameOverBox.style.display = "flex";
+				gameOverBox.innerHTML = `
+				<h6 style="color: #66FCF1; width: 100vw;">Loading...</h6>
+				`;
+				const response = await fetch(`${API_BASE_URL}/update_user_score?gameScore=${score}&userid=${userid}&leaderboardId=${id}`);
+				const result = await response.json();
+
+				if (!response.ok) {
+				console.log(result.message);
+				}else{
+				gameOverBox.innerHTML = `
+					<div>
+						<box style="display: flex; justify-content: center;">
+						<img src="../../../_icons/game-over.png" width="300px" alt="">
+						</box>
+						<gameDetails style="display: flex; justify-content: space-evenly; color: #fff; padding: 15px;">
+						<gameDetailsBox>
+							<h6>Current Score</h6>
+							<p>${score}</p>
+						</gameDetailsBox>
+						<gameDetailsBox>
+							<h6>leaderboard position</h6>
+							<p>${result.position}</p>
+						</gameDetailsBox>
+						<gameDetailsBox>
+							<h6>Best Score</h6>
+							<p>${result.score}</p>
+						</gameDetailsBox>
+						</gameDetails>
+						<a href="/" style="display: block; text-align: center; color: #35c6bc; text-decoration: none; margin-top: 10px; font-size: 40px; font-weight: 600;">Play again</a>
+						<a href="../../../../index.html" style="margin-top: 40px; background-color: #66FCF1; width: 60%; font-size: 40px !important; color: #1a1a1a; padding: 33px 44px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
+						Back to game page
+						</a>
+					</div>
+				`;
+				soundOver.play();
+				}
+			} catch (error) {
+				console.error("Error Updating Score",error)
+			}
+		}
+		updateScore();
+		clearInterval(checkingScoreTrack);
+	}
+}, 500);
+(function(){
+	var game = new Phaser.Game(640, 960, Phaser.CANVAS, 'game');
+	game.state.add('Boot', Candy.Boot);
+	game.state.add('Preloader', Candy.Preloader);
+	game.state.add('StoryHowto', Candy.StoryHowto);
+	game.state.add('Achievements', Candy.Achievements);
+	game.state.add('MainMenu', Candy.MainMenu);
+	game.state.add('Game', Candy.Game);
+	game.state.start('Boot');
+})();
+</script>
+
+</body>
+<script src="../../../_js/config.js"></script>
+
+</html>

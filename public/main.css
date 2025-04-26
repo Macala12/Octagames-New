@@ -35,6 +35,8 @@ body{
     font-size: 10px;
     margin-top: 10px;
     padding: 7px;
+    background-color: transparent;
+    color: #66FCF1 !important;
 }
 ._auth_box{
     margin-top: 200px !important;
@@ -72,7 +74,7 @@ body{
 ._auth_box .text-center{
     display: block;
     font-size: 13px;
-    color: #FFC107;
+    color: #66FCF1;
     text-decoration: none;
     margin-top: 10px;
 }
@@ -81,7 +83,7 @@ body{
     border-radius: 15px;
     font-weight: 600;
     font-size: 13px;
-    color: #FFC107;
+    color: #66FCF1;
     /* border: 2px solid #FFC107; */
     text-decoration: none;
     margin-top: 10px;
