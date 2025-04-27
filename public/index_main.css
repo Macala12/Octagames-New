@@ -6,6 +6,9 @@ body{
     height: 100vh;
     position: relative;
 }
+a:focus{
+    color: inherit !important;
+}
 .containr-fluid{
     padding-top: 40px; 
     margin-top: -10px; 
@@ -30,16 +33,20 @@ h5{
     opacity: 1 !important;
     max-width: 600px !important;
     margin-right: 20px;
+    background-color: transparent !important;
 }
 .toast:not(:last-child) {
     margin-bottom: 0rem !important;
 }
 .toast-header{
-    background-color: #66FCF1 !important;
-    color: #000 !important;
+    background-color: #1F2833 !important;
+    color: #66FCF1 !important;
+    padding: 10px 15px !important;
+    border-bottom: none !important;
 }
 .toast-body{
     background-color: #1F2833;
+    border-bottom-left-radius: 10px;
 }
 .toast-body span{
     width: 300px !important;
@@ -55,7 +62,7 @@ h5{
     border-left: 4px solid #66FCF1;
     font-size: 13px;
     font-weight: 600 !important;
-    padding: 10px;
+    padding: 15px 10px;
 }
 .sub-text{
     font-size: 12px;
@@ -63,21 +70,19 @@ h5{
     margin-bottom: 20px;
 }
 .tornament_container{
-    width: 100%;
-    overflow: auto;
-    display: flex;
-    white-space: nowrap;
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 20px;
+    row-gap: 20px;
     margin-top: 15px;
 }
-.tornament_container::-webkit-scrollbar, .players_response_box::-webkit-scrollbar{
-    display: none;
-}
 .tournament_box{
-    margin-right: 20px;
+    min-width: 155px;
+    max-width: 180px;
 }
 .tournament_img{
-    width: 200px;
-    height: 200px;
+    width: 100%;
+    height: 150px;
 }
 .tournament_img img{
     width: 100%;
@@ -86,12 +91,14 @@ h5{
     border-radius: 10px;
 }
 .tournament_name{
-    font-weight: 700;
-    font-size: 14px;
-    width: 100%;
+    font-weight: 600;
+    font-size: 13px;
+    width: 90%;
+    overflow: hidden;
     text-overflow: ellipsis;
-    white-space: wrap;
+    white-space: nowrap;
     margin-top: 15px;
+    text-align: center;
 }
 
 .join_mid_section h5{
@@ -162,14 +169,35 @@ h5{
     padding-left: 20px;
     padding-right: 20px;
 }
+iframe{
+    height: 700px;
+    width: 100%;
+    border: none !important;
+}
+#gameContainer .img_box{
+    width: 150px;
+    height: 150px;
+}
+#gameContainer .img_box img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
 marquee{
     margin-top: 15px;
 }
-marquee img{
+marquee .img_box{
     width: 150px;
-    height: 150px !important;
-    border-radius: 20px;
+    height: 150px;
     margin-left: 20px;
+}
+marquee .img_box img{
+    width: 100%;
+    min-width: 150px;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
 }
 .h_t_w{
     display: grid;
@@ -180,10 +208,16 @@ marquee img{
     padding: 20px;
     position: relative;
     background-color: #1F2833;
-    border: 1px solid #66FCF1;
     border-radius: 20px;
     margin-bottom: 15px;
+    transform: rotateY(90deg);
+    opacity: 0;
+    transition: all 0.8s ease;
 }
+.h_t_w_box.show {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
 .h_t_w_box span{
     position: absolute;
     top: 15px;
@@ -192,7 +226,8 @@ marquee img{
 }
 .h_t_w_box img{
     margin-bottom: 18px;
-    width: 40px;
+    width: 20px;
+    float: right;
 }
 .h_t_w_box h5{
     font-size: 14px;
@@ -209,8 +244,49 @@ marquee img{
     white-space: nowrap;
     display: flex;
 }
+.players_response_box::-webkit-scrollbar{
+    display: none;
+}
+.faq_{
+    margin-top: 60px;
+}
+.faq_ h4{
+    text-align: left !important;
+    font-size: 18px !important;
+}
+.faq_ p{
+    text-align: left !important;
+    margin-bottom: 10px;
+    font-weight: 600 !important;
+}
+.card{
+    border: none !important;
+    background-color: transparent !important;
+}
+.card-header {
+    padding: .75rem 0px 5px!important;
+    margin-bottom: 0;
+    background-color: #0B0C10 !important;
+    color: #fff !important;
+    border-bottom: none !important;
+}
+.card-header a{
+    color: #fff;
+    font-weight: 500;
+    font-size: 13px;
+}
+.card .collapse{
+    border: none !important;
+}
+.card-body{
+    background-color: #0B0C10;
+    color: #fff;
+    padding: 0px 0px 10px!important;
+    font-size: 13px;
+    font-weight: 600;
+}
 footer{
-    margin-top: 80px;
+    margin-top: 20px;
     padding: 15px;
 }
 footer h4{
@@ -242,4 +318,28 @@ footer a{
     font-size: 13px;
     color: #fff !important;
     margin-right: 10px;
+}
+
+/* Animation effect */
+.normal_text {
+  opacity: 0;
+  transform: translateX(0);
+  transition: all 0.8s ease;
+}
+
+.normal_text.slide-left {
+  transform: translateX(-50px);
+}
+
+.normal_text.slide-right {
+  transform: translateX(50px);
+}
+
+.normal_text.slide-bottom {
+  transform: translateY(50px);
+}
+
+.normal_text.show {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
 }

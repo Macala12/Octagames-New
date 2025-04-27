@@ -16,11 +16,13 @@ hr{
 button{
     color: #fff !important;
 }
+.spinner-border{
+    border-left-color: transparent !important;
+}
 .swal2-title {
     font-size: 17px !important;
     font-weight: bold;
 }
-
 .swal2-html-container {
     font-size: 14px !important;
 }
@@ -106,6 +108,9 @@ button{
 ._top_navigation{
     display: flex;
     justify-content: space-between;
+}
+._tournament::-webkit-scrollbar, ._exclusive_box::-webkit-scrollbar{
+    display: none;
 }
 .rewardHover{
     height: 100%;
@@ -740,6 +745,7 @@ button{
 ._tournament_page_inner p{
     font-size: 10px;
     margin-bottom: 5px !important;
+    padding-right: 10px;
 }
 .social_sharing{
     margin-left: 15px;

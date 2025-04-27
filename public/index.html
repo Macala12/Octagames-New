@@ -34,8 +34,11 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top">
-        <div class="w-100 p-2 text-center bg-warning">
-            <i class="fi fi-rr-triangle-warning"></i> Under construction
+        <div class="w-100 p-2 text-center bg-warning d-flex justify-content-center">
+            <span class="d-block" style="padding-top: 2px; padding-right: 5px;">
+                <i class="fi fi-rr-muscle"></i>
+            </span>
+            Men at work: Under construction
         </div>
         <!-- Brand -->
         <a class="navbar-brand" href="#">Octagames</a>
@@ -76,57 +79,61 @@
     <div class="containr-fluid">
         <section>
             <h4>
-                Join over +1,000 gamers winning real cash prizes 💰 by playing hit games like <span class='text_primary'>Subway Surfers</span> !         
+                Join over +1,000 gamers winning real cash prizes 💰 by playing hit games like <br> <span class='text_primary' id="gameName"></span>         
             </h4>
             <marquee behavior="alternate" direction="">
-                <img src="./Assets/_games/_img/subway.jpeg" class="img-fluid" alt="">
-                <img src="./Assets/_games/_img/codm.jpg" class="img-fluid" alt="">
-                <img src="./Assets/_games/_img/monstercandy.png" class="img-fluid" alt="">
-                <img src="./Assets/_games/_img/pie attack.png" class="img-fluid" alt="">
+                <div class="d-flex">
+                    <div class="img_box">
+                        <img src="./Assets/_games/_img/subway.jpeg" alt="">
+                    </div>
+                    <div class="img_box">
+                        <img src="./Assets/_games/_img/codm.jpg" alt="">
+                    </div>
+                    <div class="img_box">
+                        <img src="./Assets/_games/_img/monstercandy.png" alt="">
+                    </div>
+                    <div class="img_box">
+                        <img src="./Assets/_games/_img/pie attack.png" alt="">
+                    </div>
+                </div>
             </marquee>
         </section>
 
-        <section style="margin-top: 70px;">
+        <section style="margin-top: 60px;">
             <h4>How it works</h4>
             <p class="text-center sub-text">Here's how it works — in just five easy steps!</p>
             <div class="h_t_w">
                 <div class="h_t_w_box">
-                    <span>1</span>
                     <img src="./Assets/_icons/sign-up.png" alt="">
                     <h5>Sign Up & Jump In</h5>
                     <p>Create your free account and get ready to join the action with thousands of players like you.</p>
                 </div>
                 
                 <div class="h_t_w_box">
-                    <span>2</span>
                     <img src="./Assets/_icons/coins.png" alt="">
                     <h5>Grab Your Coinss </h5>
                     <p>Buy points starting from just ₦100 and unlock tournaments packed with awesome rewards!</p>
                 </div>
                 
                 <div class="h_t_w_box">
-                    <span>3</span>
                     <img src="./Assets/_icons/play.png" alt="">
                     <h5>Play, Score, Dominate</h5>
                     <p>Play your favorite games, beat your high scores, and race to the top of the leaderboard!</p>
                 </div>
                 
                 <div class="h_t_w_box">
-                    <span>4</span>
                     <img src="./Assets/_icons/money.png" alt="">
                     <h5>Reedem Your Wins</h5>
                     <p>Secure your spot in the top ranks and grab real cash prizes. It's all yours for the taking!</p>
                 </div>
                 
                 <div class="h_t_w_box">
-                    <span>5</span>
                     <img src="./Assets/_icons/refresh.png" alt="">
-                    <h5>Repeat & Stay Winning</h5>
+                    <h5>Repeat</h5>
                     <p>Keep playing, keep winning, and keep having fun. The leaderboard is waiting for your name!</p>
                 </div>
 
                 <div class="h_t_w_box">
-                    <span>6</span>
                     <img src="./Assets/_icons/happy.png" alt="">
                     <h5>Have Fun </h5>
                     <p>Oops... almost forgot, have fun competing and showing who's boss!</p>
@@ -134,25 +141,39 @@
             </div>
         </section>
 
-        <section style="margin-top: 90px;">
-            <h4>Think of it like this 🤔</h4>
+        <section style="margin-top: 60px;">
+            <h4><span class="text_primary">Think</span> of it like this 🤔</h4>
             <p class="text-center sub-text">Picture it this way in our text block below</p>
-            <p class="normal_text">
+            <p class="normal_text slide-left">
                 Let’s say you win a tournament — depending on the tournament, you could walk away with a minimum of ₦7,000 or even more! 💰
             </p>
-            <p class="normal_text">
+            <p class="normal_text slide-right">
+                And that's just one tournament! Stack up those wins and you could be cashing out consistently like a real gaming champ 🏆💸.
+            </p>
+            <p class="normal_text slide-bottom">
                 Pretty easy, right? Now imagine winning 10 tournaments 😲 ... we'll let you do the math 😏
-            </p>
-            <p class="normal_text">
-                Let’s say you win a tournament — depending on the tournament, you could walk away with a minimum of ₦7,000 or even more!
-            </p>
-            <p class="text-center sub-text">
-                What are you waiting for? <span class='text_primary'>Create an account</span> and jump into the fun!
             </p>
         </section>
 
-        <section class="featured_tournament" style="margin-top: 90px;">
-            <h4>Featured Tournaments</h4>
+        <section style="margin-top: 60px;">
+            <h4>Play <span class="text_primary">Subway Surfers </span></h4>
+            <p class="text-center sub-text">Join the fun — let's see what you’ve got!</p>
+            <main id="gameContainer">
+                <iframe src="./Assets/landingpageSubwaySurf/index.html" frameborder="0" id="gameFrame"></iframe>
+            </main>
+        </section>
+
+        <section class="join_mid_section" style="margin-top: 40px;">
+            <img src="./Assets/_icons/ready.png" class="d-none img-fluid mx-auto mb-2" alt="">
+            <h4>Ready to start winning and having fun?</h4>
+            <p class="sub-text text-center">Sign up and let the games begin!</p>
+            <div class="d-flex justify-content-center">
+                <a href="./signup.html">Create an account</a>
+            </div>
+        </section>
+
+        <section class="featured_tournament" style="margin-top: 60px;">
+            <h4>Featured <span class="text_primary">Tournaments</span></h4>
             <div class="tornament_container">
                 <div class="tournament_box">
                     <div class="tournament_img">
@@ -160,6 +181,22 @@
                     </div>
                     <div class="tournament_name">
                         Call of Duty Mobile Battle Royale
+                    </div>
+                </div>
+                <div class="tournament_box">
+                    <div class="tournament_img">
+                        <img src="./Assets/_games/_img/pubg2.jpg" alt="">
+                    </div>
+                    <div class="tournament_name">
+                        PUBG Battle Royale
+                    </div>
+                </div>
+                <div class="tournament_box">
+                    <div class="tournament_img">
+                        <img src="./Assets/_games/_img/basketballhoop.jpg" alt="">
+                    </div>
+                    <div class="tournament_name">
+                        Basketball Hoop
                     </div>
                 </div>
                 <div class="tournament_box">
@@ -178,24 +215,24 @@
                         Pie Attack
                     </div>
                 </div>
+                <div class="tournament_box">
+                    <div class="tournament_img">
+                        <img src="./Assets/_games/_img/monstercandy.png" alt="">
+                    </div>
+                    <div class="tournament_name">
+                        Monster Candy
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section class="join_mid_section" style="margin-top: 50px;">
-            <img src="./Assets/_icons/ready.png" class="img-fluid mx-auto d-block mb-2" alt="">
-            <h4>Ready to start winning and having fun?</h4>
-            <p class="sub-text text-center">Sign up and let the games begin!</p>
-            <div class="d-flex justify-content-center">
-                <a href="./signup.html">Create an account</a>
-            </div>
-        </section>
-
-        <section style="margin-top: 100px;">
-            <h4>Happy Players</h4>
+        <section style="margin-top: 60px;">
+            <h4><span class="text_primary">Happy</span> Players</h4>
             <p class="sub-text text-center">Hear what other players have to say</p>
             <div class="players_response_box">
                 <div class="toast" data-autohide="true">
                     <div class="toast-header">
+                        <img class="img-fluid mr-2" width="30px" src="https://api.dicebear.com/9.x/big-smile/svg?seed=George&radius=50&backgroundType=gradientLinear&randomizeIds=true&skinColor=643d19,8c5a2b,a47539,c99c62&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf" alt="">
                       <strong class="mr-auto">Michael Alaoma</strong>
                       <small class="text-muted">5 mins ago</small>
                     </div>
@@ -208,6 +245,7 @@
 
                 <div class="toast" data-autohide="true">
                     <div class="toast-header">
+                        <img class="img-fluid mr-2" width="30px" src="https://api.dicebear.com/9.x/big-smile/svg?seed=Michael&radius=50&backgroundType=gradientLinear&randomizeIds=true&skinColor=643d19,8c5a2b,a47539,c99c62&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf" alt="">
                       <strong class="mr-auto">Princess Vera</strong>
                       <small class="text-muted">5 mins ago</small>
                     </div>
@@ -217,6 +255,68 @@
                         </span>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <section class="faq_">
+            <h4>Frequently asked <span class="text_primary">question(s)</span></h4>
+            <p class="sub-text text-center">Need help? Find all the answers you’re looking for right here!</p>
+            <div id="accordion">
+                <div class="card">
+                  <div class="card-header">
+                    <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                        How do I join a tournament?
+                        <i class="fi fi-rr-angle-small-down float-right"></i>
+                    </a>
+                  </div>
+                  <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                        Super easy! Just create an account, find a tournament you like, and click the "Join" button to get started.
+                    </div>
+                  </div>
+                </div>
+              
+                <div class="card">
+                  <div class="card-header">
+                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+                        How do I win cash prizes?
+                        <i class="fi fi-rr-angle-small-down float-right"></i>
+                    </a>
+                  </div>
+                  <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        Play your best, climb the leaderboard, and finish the tournament in a top spot to win real cash or other rewards.
+                    </div>
+                  </div>
+                </div>
+              
+                <div class="card">
+                  <div class="card-header">
+                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+                        How do I receive my rewards?
+                        <i class="fi fi-rr-angle-small-down float-right"></i>
+                    </a>
+                  </div>
+                  <div id="collapseThree" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        Rewards are sent directly to your linked bank account after you win. Easy, fast, and secure!
+                    </div>
+                  </div>
+                </div>    
+                
+                <div class="card">
+                    <div class="card-header">
+                      <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+                        Can I play multiple times in a tournament?
+                        <i class="fi fi-rr-angle-small-down float-right"></i>
+                      </a>
+                    </div>
+                    <div id="collapseThree" class="collapse" data-parent="#accordion">
+                      <div class="card-body">
+                        Absolutely! You can play as many times as you want to beat your high score before the tournament ends.
+                      </div>
+                    </div>
+                </div>    
             </div>
         </section>
     </div>
@@ -270,8 +370,7 @@
         <p class="mt-2">@Octagames 2025 All right reserved</p>
     </footer>
 </body>
-<script>
-</script>
+<script src="./Assets/_js/index.js"></script>
 <!-- jQuery library -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
 

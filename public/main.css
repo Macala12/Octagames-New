@@ -6,6 +6,9 @@ body{
     background-size: cover;
     height: 300px;
 }
+.spinner-border{
+    border-left-color: transparent !important;
+}
 .alertDanger{
     background-color: #dc35469c;
     border-left: 4px solid #d9293b !important;

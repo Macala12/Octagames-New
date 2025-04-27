@@ -819,9 +819,9 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
         try {
             const { Id, tag } = req.query;
             const fetchedLeaderboard = await Leaderboard.find({leaderboardId: Id}).sort({ score: -1 }).exec();
-            if (!fetchedLeaderboard) {
-                return res.status(400).json({ message: "No user in tournament yet" });
-            }
+            // if (!fetchedLeaderboard) {
+            //     return res.status(400).json({ message: "No user in tournament yet" });
+            // }
             res.status(200).json({leaderboard: fetchedLeaderboard, number: fetchedLeaderboard.length});
         } catch (error) {
             console.error('Fetching error:', error);
@@ -985,7 +985,7 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
         } catch (error) {
             console.error("Error Updating Score", error)
         }
-    });
+    }); 
 
 // Korapay Logics -------------------------------------------------------------------------//
     app.get('/fetch_bank', async (req, res) => {

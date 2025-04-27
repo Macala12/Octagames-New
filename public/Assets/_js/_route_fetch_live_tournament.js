@@ -559,7 +559,7 @@ async function fetchAndDisplayTournaments() {
             liveTournamentContainer.innerHTML = ""
             liveTournamentContainer.innerHTML = tempContainer.innerHTML;
             tournaments.forEach(tournament => {
-                setupTournamentTimer(tournament._id, tournament.tournamentStartTime, tournament.tournamentEndTime);
+                setupTournamentTimer(tournament.tournament._id, tournament.tournament.tournamentStartTime, tournament.tournament.tournamentEndTime);
             });        
         } catch (error) {
             

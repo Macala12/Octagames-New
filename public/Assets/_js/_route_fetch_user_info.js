@@ -11,66 +11,6 @@ var winStreak;
 var winRate;
 var percentCalculator;
 
-function fetchUserInfo() {
-    if (userid) {
-        fetch(`${API_BASE_URL}/fetch_info?userid=${userid}`)
-        .then(response => {
-            if (!response.ok) {
-                const alert = document.createElement("div");
-                alert.classList.add('alert');
-                alert.classList.add('alertDanger');
-                alert.classList.add('alert-dismissible');
-                alert.classList.add('fade');
-                alert.classList.add('show');
-
-                alert.innerHTML = `
-                   <i class="fi fi-rr-exclamation"></i> ${response.message}!
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                `;
-
-                mainAlert.appendChild(alert);
-                throw new Error('User not found');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('User data:', data); 
-            fullName = data.firstName + " " + data.lastName;
-            accountVerified = data.emailConfirmed
-            email = data.email;
-            if (document.querySelector(".circular-image")) {
-                document.querySelector(".circular-image").style.background = `url('${data.userImg}')`;
-            }
-            if (document.getElementById("firstname")) {
-                document.getElementById("firstname").innerHTML = data.firstName;
-            }
-            if (document.getElementById("lastname")) {
-                document.getElementById("lastname").innerHTML = data.lastName;
-            }
-            if (document.querySelectorAll(".username")) {
-                document.querySelectorAll(".username").forEach(username => {
-                    username.innerHTML = data.username;
-                });
-                // document.querySelector(".username").innerHTML = data.username;
-            }
-            if (document.getElementById("email")) {
-                document.getElementById("email").innerHTML = data.email;
-            }
-            if (document.getElementById("phoneNumber")) {
-                document.getElementById("phoneNumber").innerHTML = data.phoneNumber;
-            }
-            if (document.getElementById("_us_img")) {
-                document.getElementById("_us_img").innerHTML = `<img src="${data.userImg}" alt="">`;
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching user data:', error);
-        });
-    }else{
-        window.location.href = "login.html";
-    }
-}
-
 function fetchUserGameInfo() {
     if (userid) {
         fetch(`${API_BASE_URL}/fetch_game_info?userid=${userid}`)
@@ -157,5 +97,70 @@ function fetchUserGameInfo() {
     }
 }
 
-fetchUserInfo();
+function fetchUserInfo() {
+    if (userid) {
+        fetch(`${API_BASE_URL}/fetch_info?userid=${userid}`)
+        .then(response => {
+            if (!response.ok) {
+                const alert = document.createElement("div");
+                alert.classList.add('alert');
+                alert.classList.add('alertDanger');
+                alert.classList.add('alert-dismissible');
+                alert.classList.add('fade');
+                alert.classList.add('show');
+
+                alert.innerHTML = `
+                   <i class="fi fi-rr-exclamation"></i> ${response.message}!
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                `;
+
+                mainAlert.appendChild(alert);
+                throw new Error('User not found');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('User data:', data); 
+            fullName = data.firstName + " " + data.lastName;
+            accountVerified = data.emailConfirmed
+            email = data.email;
+            if (document.querySelector(".circular-image")) {
+                document.querySelector(".circular-image").style.background = `url('${data.userImg}')`;
+            }
+            if (document.getElementById("firstname")) {
+                document.getElementById("firstname").innerHTML = data.firstName;
+            }
+            if (document.getElementById("lastname")) {
+                document.getElementById("lastname").innerHTML = data.lastName;
+            }
+            if (document.querySelectorAll(".username")) {
+                document.querySelectorAll(".username").forEach(username => {
+                    username.innerHTML = data.username;
+                });
+            }
+            if (document.getElementById("email")) {
+                document.getElementById("email").innerHTML = data.email;
+            }
+            if (document.getElementById("phoneNumber")) {
+                document.getElementById("phoneNumber").innerHTML = data.phoneNumber;
+            }
+            if (document.getElementById("_us_img")) {
+                document.getElementById("_us_img").innerHTML = `<img src="${data.userImg}" alt="">`;
+            }
+            if (document.getElementById("joined_date")) {
+                const isoDate = data.createdAt;
+                const date = new Date(isoDate);
+                const readableDate = date.toLocaleString();
+                document.getElementById("joined_date").innerHTML = readableDate;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching user data:', error);
+        });
+    }else{
+        window.location.href = "login.html";
+    }
+}
+
 fetchUserGameInfo();
+fetchUserInfo();

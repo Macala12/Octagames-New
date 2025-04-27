@@ -23,6 +23,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="../main.css">
 
     <!-- All margins and padding must be zero for the canvas to fill the screen. -->
 	<style type="text/css">
@@ -42,23 +43,6 @@
 			touch-action: none;
 			-ms-touch-action: none;
 		}
-		.game-over-contanier{
-        display: none;
-        width: 100vw;
-        height: 100vh;
-        align-items: center;
-        background-color: #000;
-        font-family: "Montserrat", sans-serif !important;
-      }
-      .game-over-contanier h6{
-        font-size: 16px;
-        font-weight: 800;
-        font-style: oblique;
-        margin-bottom: 20px;
-      }
-      .game-over-contanier p {
-        font-weight: 700;
-      }
     </style>
 	
 
@@ -134,8 +118,8 @@
 
 						if (!response.ok) {
 						console.log(result.message);
-						window.location.href = "home.html";
-						}else{
+						window.parent.location.href = "../../../../home.html";
+					}else{
 						gameOverBox.innerHTML = `
 							<div>
 								<box style="display: flex; justify-content: center;">
@@ -155,13 +139,24 @@
 									<p>${result.score}</p>
 								</gameDetailsBox>
 								</gameDetails>
-								<a href="/" style="display: block; text-align: center; color: #35c6bc; text-decoration: none; margin-top: 10px; font-size: 14px; font-weight: 600;">Play again</a>
-								<a href="../../../../index.html" style="margin-top: 20px; background-color: #66FCF1; width: 60%; font-size: 14px !important; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
+								<a id="playAgain">Play again</a>
+								<a id="backToGame" class="btn">
 								Back to game page
 								</a>
 							</div>
 						`;
 						soundOver.play();
+
+						const playagain = document.getElementById("playAgain");
+						const backtohome = document.getElementById("backToGame");
+						
+						playagain.addEventListener('click', async () => {
+						window.parent.location.reload();
+						});
+						backtohome.addEventListener('click', async () => {
+						// window.location.href = "../../../../home.html";
+							window.parent.history.back();
+						});
 						}
 					} catch (error) {
 						console.error("Error Updating Score",error)

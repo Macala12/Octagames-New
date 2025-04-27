@@ -22,7 +22,7 @@
   
         if (!response.ok) {
           console.log(result.message);
-          window.location.href = "404.html";
+          window.location.href = "../../../../404.html";
         }
         else{
           setInterval(async() => {
@@ -68,7 +68,7 @@
               }, 500);
             }
           }, 50);
-          
+           
           const timer = document.querySelector(".timer");
 
           const timerElement = document.createElement("span");

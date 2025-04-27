@@ -225,7 +225,7 @@ function handleTournamentLifecycle(tournamentId) {
                 console.log(`Deleted ${deleteLeaderboard.deletedCount} records with ${tournamentId}`);
 
                 const deletedTournament = await liveTournament.deleteOne(tournamentId)
-                console.log(`Deleted ${tournamentId} record from database`)
+                console.log(`Deleted ${tournamentId} record from database - successful`)
             }, 5 * 1000);
         }
     }, 10 * 1000); // Every 10 seconds

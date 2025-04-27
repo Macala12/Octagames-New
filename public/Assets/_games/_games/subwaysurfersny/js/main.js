@@ -10792,7 +10792,7 @@ const userid = sessionStorage.getItem('userid');
 
                 if (!response.ok) {
                   console.log(result.message);
-                  window.location.href = "home.html";
+                  window.parent.location.href = "../../../../home.html";
                 }else{
                   gameOverBox.innerHTML = `
                       <div>
@@ -10813,9 +10813,9 @@ const userid = sessionStorage.getItem('userid');
                             <p>${result.score}</p>
                           </gameDetailsBox>
                         </gameDetails>
-                        <a href="/" style="display: block; text-align: center; color: #35c6bc; text-decoration: none; margin-top: 10px; font-size: 14px; font-weight: 600;">Play again</a>
-                        <a href="../../../../index.html" style="margin-top: 20px; background-color: #66FCF1; width: 60%; font-size: 14px !important; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
-                          Back to game page
+                        <a id="playAgain">Play again</a>
+                        <a id="backToGame" class="btn">
+                        Back to game page
                         </a>
                       </div>
                   `;
@@ -10826,6 +10826,15 @@ const userid = sessionStorage.getItem('userid');
               }
             }
             updateScore();
+            const playagain = document.getElementById("playAgain");
+            const backtohome = document.getElementById("backToGame");
+            playagain.addEventListener('click', async () => {
+              window.parent.location.reload;
+            });
+            backtohome.addEventListener('click', async () => {
+              // window.location.href = "../../../../home.html";
+                window.parent.history.back();
+            });
         }),
         (n.revive = function () {
           this.updateView();
