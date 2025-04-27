@@ -501,7 +501,7 @@ async function refetching() {
 
                     if (!winnerRes.ok) {
                         showAlert(winnerResult.message);
-                        window.location.href = "index.html";
+                        window.location.href = "home.html";
                     } else {
                         displayWinners(winnerResult);
                     }
@@ -912,6 +912,7 @@ async function joinedUsers() {
 
 async function checkIfUserIsJoined(status, id, entryfee, playUrl) {
     try {
+        console.log(playUrl)
         const response = await fetch(`${API_BASE_URL}/check_user_is_joined?userId=${userId}&id=${id}`)
         const result = await response.json();
 

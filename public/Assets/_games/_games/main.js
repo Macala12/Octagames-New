@@ -22,6 +22,7 @@
   
         if (!response.ok) {
           console.log(result.message);
+          window.location.href = "404.html";
         }
         else{
           setInterval(async() => {

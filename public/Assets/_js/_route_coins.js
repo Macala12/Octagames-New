@@ -165,7 +165,7 @@ async function buyCoin(coinId) {
             const reference = generateTransactionRef("OCTASUB");
             const buyCoin = {
                 coinid: coinId,
-                redirect_url: `localhost:3000/index.html?id=${coinId}`,
+                redirect_url: `localhost:3000/home.html?id=${coinId}`,
                 reference: reference,
                 name: fullName,
                 email: email

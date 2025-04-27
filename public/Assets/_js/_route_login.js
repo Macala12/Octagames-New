@@ -31,7 +31,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         }
         else{
             sessionStorage.setItem("userid", result.userid);
-            window.location.href = "index.html?"+result.userid;
+            window.location.href = "home.html?"+result.userid;
         }
     } catch (error) {
         

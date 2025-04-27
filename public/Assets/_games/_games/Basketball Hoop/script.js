@@ -177,6 +177,7 @@ const userid = sessionStorage.getItem('userid');
 
                 if (!response.ok) {
                   console.log(result.message);
+                  window.location.href = "home.html";
                 }else{
                   gameOverBox.innerHTML = `
                       <div>

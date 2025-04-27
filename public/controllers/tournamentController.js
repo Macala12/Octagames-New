@@ -4,6 +4,7 @@ const Leaderboard = require('../models/Leaderboard');
 const rewardInfo = require('../models/RewardInfo');
 const redeemRewardHistories = require('../models/RedeemRewardHistories');
 const UserGameInfo = require('../models/UserGameInfo');
+const liveTournament = require('../models/LiveTournament');
 
 
 // Function to create a new tournament
@@ -222,6 +223,9 @@ function handleTournamentLifecycle(tournamentId) {
             setTimeout(async () => {
                 const deleteLeaderboard = await Leaderboard.deleteMany({ leaderboardId: tournamentId});
                 console.log(`Deleted ${deleteLeaderboard.deletedCount} records with ${tournamentId}`);
+
+                const deletedTournament = await liveTournament.deleteOne(tournamentId)
+                console.log(`Deleted ${tournamentId} record from database`)
             }, 5 * 1000);
         }
     }, 10 * 1000); // Every 10 seconds
@@ -239,7 +243,7 @@ async function handleMultipleTournaments() {
         const subwaySurfers = await createNewTournament(
             "Subway Surfers",
             "./Assets/_games/_img/subway.jpeg",
-            "Lorem ispum",
+            "Dodge, dash, and surf your way through busy train tracks in this epic Subway Surfers tournament! 🚄💨 Collect coins, power-ups, and boosters as you race for the highest score. It's not just about speed — it's about style, skill, and non-stop fun!",
             0,
             100,
             "./Assets/_games/_games/subwaysurfersny/"
@@ -247,7 +251,7 @@ async function handleMultipleTournaments() {
         const basketballHoop = await createNewTournament(
             "Basketball Hoop",
             "./Assets/_games/_img/basketballhoop.jpg",
-            "Lorem ispum",
+            "Time to show off those shooting skills! 🎯🏀 Swipe, aim, and sink as many baskets as you can before the clock runs out. The more perfect shots you hit, the higher your score — it’s all about precision and speed!",
             0,
             100,
             "./Assets/_games/_games/Basketball Hoop/"
@@ -255,7 +259,7 @@ async function handleMultipleTournaments() {
         const pieAttack = await createNewTournament(
             "Pie Attack",
             "./Assets/_games/_img/pie attack.png",
-            "Lorem ispum",
+            "Ready, aim, and fire pies like a true champion! 🥧💥 Smash moving targets, rack up crazy combos, and watch the points fly. Fast hands and sharp aim are the name of the game — miss too many, and it's game over!",
             0,
             100,
             "./Assets/_games/_games/pieattack/"
@@ -263,7 +267,7 @@ async function handleMultipleTournaments() {
         const monsterCandy = await createNewTournament(
             "Monster Candy",
             "./Assets/_games/_img/monstercandy.png",
-            "Lorem ispum",
+            "This little monster’s got a serious sweet tooth — and it’s up to you to keep the candy flowing! 🍭👾 Catch as many candies as you can, dodge the nasty bombs, and stack up a high score before time runs out.",
             0,
             100,
             "./Assets/_games/_games/monstercandy/"
@@ -272,7 +276,7 @@ async function handleMultipleTournaments() {
         handleTournamentLifecycle(basketballHoop._id);
         handleTournamentLifecycle(pieAttack._id);
         handleTournamentLifecycle(monsterCandy._id);
-    }, 5 * 60 * 1000); // Every 5 mins for regular tournament
+    }, 10 * 60 * 1000); // Every 10 mins for regular tournament
 
     setInterval(async () => {
         const newExclusiveTournament = await createNewExclusiveTournament(
@@ -288,7 +292,7 @@ async function handleMultipleTournaments() {
             0
         );
         handleTournamentLifecycle(newExclusiveTournament._id);
-    }, 180 * 60 * 1000); // Every 3 hours for exclusive tournament
+    }, 240 * 60 * 1000); // Every 4 hours for exclusive tournament
 }
 
 

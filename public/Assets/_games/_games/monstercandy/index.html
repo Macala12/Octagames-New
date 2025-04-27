@@ -92,6 +92,7 @@ const checkingScoreTrack = setInterval(() => {
 
 				if (!response.ok) {
 				console.log(result.message);
+				window.location.href = "home.html";
 				}else{
 				gameOverBox.innerHTML = `
 					<div>

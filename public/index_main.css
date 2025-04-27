@@ -60,6 +60,7 @@ h5{
 .sub-text{
     font-size: 12px;
     font-weight: 700;
+    margin-bottom: 20px;
 }
 .tornament_container{
     width: 100%;
@@ -190,8 +191,8 @@ marquee img{
     font-weight: 900;
 }
 .h_t_w_box img{
-    margin-bottom: 15px;
-    width: 60px;
+    margin-bottom: 18px;
+    width: 40px;
 }
 .h_t_w_box h5{
     font-size: 14px;
