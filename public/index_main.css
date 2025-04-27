@@ -51,7 +51,7 @@ h5{
 .toast-body span{
     width: 300px !important;
     display: block;
-    white-space: wrap;
+    white-space: normal;
 }
 .text_primary{
     color: #66FCF1;
