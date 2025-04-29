@@ -155,7 +155,7 @@ button{
 }
 ._top_player{
     min-width: fit-content;
-    margin-right: 15px;
+    margin-right: 5px;
 }
 ._top_player .img-fluid{
     width: 100px !important;
