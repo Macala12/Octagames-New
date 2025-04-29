@@ -44,9 +44,14 @@
         </div>
     </div>
     <main>
+        <div class="mainAlert" id="mainAlert">
+        </div>
         <section class="">
             <div class="_tournament_page_header" id="_tournament_page_header">
                 <a href="./home.html"><i class="fi fi-rr-angle-small-left _back_arr"></i></a>
+                <button class="btn _share_arr" onclick="share()" data-bs-toggle="tooltip" data-bs-placement="top" title="Share" id="myTooltip">
+                    <i class="fi fi-rr-share"></i>
+                </button>
                 <div class="_tournament_page_inner" id="_players_joined">
                     
                 </div>
@@ -54,8 +59,6 @@
         </section>
         
         <div class="container-fluid pt-2">
-            <div class="mainAlert" id="mainAlert">
-            </div>
             <section class="leaderboard_main">
                 <div class="_leaderboard">
                     <h5 class="_header text-white ml-2">Leaderboard</h5>
@@ -115,9 +118,6 @@
     </main>
 
 </body> 
-<script src="./Assets/_js/config.js"></script>
-<script src="./Assets/_js/main.js"></script>
-<script src="./Assets/_js/_route_tournament_page.js"></script>
 <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 <!-- jQuery library -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
@@ -127,4 +127,8 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="./Assets/_js/config.js"></script>
+<script src="./Assets/_js/main.js"></script>
+<script src="./Assets/_js/_route_tournament_page.js"></script>
 </html>

@@ -5,6 +5,9 @@ body{
     height: 100vh;
     position: relative;
 }
+main{
+    margin-bottom: 50px;
+}
 h4,h5{
     /* font-family: "Boldonse", system-ui; */
     font-weight: 900 !important;
@@ -18,6 +21,29 @@ button{
 }
 .spinner-border{
     border-left-color: transparent !important;
+}
+.tooltip{
+    position: absolute !important;
+    left: 88% !important;
+    z-index: 1 !important;
+    animation: tooltip 1s infinite !important;
+} 
+@keyframes tooltip {
+    0% {top: 62px;}
+    50% { top: 67px;}
+    100% {top: 62px;}
+}
+.tooltip-inner{
+    font-size: 12px;
+    font-weight: 900;
+    background-color: #66FCF1 !important;
+    color: #000 !important;
+}
+.tooltip .arrow{
+    left: 20px !important;
+}
+.tooltip .arrow::before{
+    border-bottom-color: #66FCF1 !important;
 }
 .swal2-title {
     font-size: 17px !important;
@@ -51,6 +77,16 @@ button{
     left: 20px;
     font-size: 18px;
 }
+._share_arr{
+    color: #000;
+    background-color: #66FCF1;
+    padding: 6px 10px 5px;
+    border-radius: 50%;
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    font-size: 18px;
+}
 ._delete{
     position: absolute;
     bottom: 10px;
@@ -59,9 +95,10 @@ button{
 }
 ._header{
     font-size: 17px;
-    text-shadow:
-    0 0 1px #1b7d77,
-    1px 1px 1px #1b7d77;
+    margin-left: 10px;
+}
+._header_box{
+    justify-content: space-between;
 }
 ._empty{
     display: flex;
@@ -108,6 +145,39 @@ button{
 ._top_navigation{
     display: flex;
     justify-content: space-between;
+}
+._top_three_box{
+    justify-content: space-around;
+    overflow: auto;
+}
+._top_three_box::-webkit-scrollbar{
+    display: none;
+}
+._top_player{
+    min-width: fit-content;
+    margin-right: 15px;
+}
+._top_player .img-fluid{
+    width: 100px !important;
+    margin-left: -20px;
+}
+.player_info{
+    background-color: #1F2833;
+    padding: 10px;
+    border-radius: 10px;
+    margin-left: -40px;
+    min-width: 100px;
+}
+.player_info img{
+    width: 50px;
+    margin-bottom: 10px;
+}
+.player_info h5{
+    font-size: 10px;
+    text-overflow: ellipsis;
+    width: 95%;
+    overflow: hidden;
+    text-align: center;
 }
 ._tournament::-webkit-scrollbar, ._exclusive_box::-webkit-scrollbar{
     display: none;
@@ -183,6 +253,7 @@ button{
     height: 100vh;
     overflow: hidden;
     color: #fff;
+    position: relative;
   }
   .loader_box .spinner-border{
     color: #66FCF1;
@@ -312,7 +383,29 @@ button{
     margin: 0px auto 20px;
     cursor: grab;
 }
-
+.carousel{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.carousel-item{
+    width: 100%;
+    height: 150px;
+}
+.carousel-item img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.carousel-inner{
+    padding: 10px;
+}
+.carousel-indicators .active{
+    background-color: #66fcf1 !important;
+}
+.carousel-indicators{
+    bottom: -20% !important;
+}
 /* User */
 ._us_name h6{
     font-weight: 600 !important;  
@@ -481,6 +574,9 @@ button{
     margin-top: 6px;
     margin-bottom: 0px !important;
 }
+._progress{
+    position: relative;
+}
 .progress{
     border-radius: 20px !important;
     height: 0.2rem !important;
@@ -492,6 +588,22 @@ button{
     background-color: #66FCF1 !important;
     color: #fff !important;
     font-weight: 700;
+}
+.progress-tracker{
+    position: absolute;
+    font-size: 11px;
+    font-weight: 700;
+    top: 7px;
+}
+.progress-tracker::after{
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 46%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #66fcf1 transparent transparent transparent;
 }
 
 /* Navigation */
@@ -526,6 +638,14 @@ button{
     font-weight: 500;
     font-size: 11px;
 }
+._navigation_bar_container span{
+    font-size: 10px;
+    font-weight: 700;
+    color: #66fcf1;
+    background-color: #000;
+    padding: 2px 5px;
+    border-radius: 50%;
+}
 
 /* Tournament / Game */
 ._tournament, ._exclusive_box{
@@ -536,7 +656,7 @@ button{
     overflow-x: scroll;
     scroll-behavior: smooth;
     white-space: nowrap;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 ._tournament_box, ._exclusive{
     /* background: linear-gradient(to bottom, rgba(43, 43, 43, 0.6), rgba(20, 20, 20, 0.3), rgba(58, 58, 58, 0.389)); */
@@ -547,18 +667,19 @@ button{
     margin-right: 10px;
     min-width: 180px;
 }
-.tournament_arrows{
+/* .tournament_arrows{
     display: flex;
     justify-content: space-between;
 }
 .tournament_arrows button{
-    /* background-color: #66FCF1; */
-    color: #66FCF1 !important;
+    background-color: #66FCF1;
+    color: #000 !important;
     font-weight: 700;
     font-size: 14px;
     display: flex;
-    /* border-radius: 50%; */
-    /* padding: 7px 9px 3px; */
+    border-radius: 10px;
+    padding: 5px 10px !important;
+    height: fit-content;
 }
 .tournament_arrows span{
     display: block;
@@ -566,7 +687,7 @@ button{
 }
 .tournament_arrows i::before{
     font-weight: 900 !important;
-}
+} */
 ._exclusive{
     min-width: 290px;
 }
@@ -701,7 +822,7 @@ button{
     width: 90%;
 }
 ._game_player_join a .d-flex, #joinBtn a .d-flex{
-    background-color: #292929;
+    background-color: #0B0C10;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     font-size: 13px;
@@ -830,15 +951,18 @@ button{
 .joined_btn{
     background-color: #66FCF1 !important;
 }
+#play_btn{
+    position: fixed;
+    bottom: 15px;
+    left: 8px;
+    width: 100%;
+}
 .play_btn{
     background-color: #66FCF1 !important;
     color: #000 !important;
     font-weight: 700 !important;
     padding: 15px !important;
     border-radius: 10px !important;
-    position: fixed;
-    bottom: 15px;
-    left: 8px;
     width: 96%;
     display: block;
 }
@@ -853,7 +977,7 @@ button{
     margin-bottom: 0px !important;
 }
 .leaderboard_main{
-    margin-top: 350px;
+    margin-top: 270px;
 }
 ._leaderboard table{
     color: #fff !important;
@@ -873,6 +997,12 @@ button{
     background-color: #1F2833;
     padding: 20px 10px 10px;
     border-radius: 15px;
+}
+._leaderboard p{
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 5px !important;
+    margin-left: 8px;
 }
 ._leaderboard h5{
     font-size: 13px;
@@ -1280,9 +1410,7 @@ button{
 }
 ._profile_header_box{
     height: 300px;
-    position: relative;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, #0B0C10 100%),
-    url('./Assets/_games/_img/gamebg.webp');    
+    position: relative; 
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -1291,7 +1419,7 @@ button{
 }
 .relative_box{
     position: absolute;
-    bottom: -80px;
+    top: 80px;
     width: 100%;
 }
 .relative_box .player_stats{

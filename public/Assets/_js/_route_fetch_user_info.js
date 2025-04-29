@@ -37,6 +37,9 @@ function fetchUserGameInfo() {
             octaCoin = data.userOctacoin;
             winStreak = data.userStreak;
             winRate = Math.round(data.userTopWins / data.userGamesPlayed * 100);
+            if (winRate == NaN) {
+                winRate = 0;
+            }
 
             console.log('User data:', data); 
             if (document.getElementById("octacoin")) {
@@ -70,16 +73,22 @@ function fetchUserGameInfo() {
                 document.getElementById("_xp").innerHTML = data.userXP;
             }
 
+            if (data.userXP > 500) {
+                updateLevel();
+            }
+
             const progressBar1 = document.getElementById("progress-bar1");
             const progressBar2 = document.getElementById("progress-bar2");
+            const progressTracker = document.querySelector(".progress-tracker");
 
-            if (data.userXP <= 500) {
+            if (data.userLevel === 1) {
                 if (progressBar1) {
                     percentCalculator = data.userXP * 100 / 500;
                     if (document.querySelector(".circular-progress")) {
                         document.querySelector(".circular-progress").style.background = `conic-gradient(#66FCF1 ${percentCalculator}%, #66fcf200 ${percentCalculator}% 100%)`;
                     }                
-                    progressBar1.style.width = percentCalculator+"%"   
+                    progressBar1.style.width = percentCalculator+"%";
+                    progressTracker.style.left = percentCalculator - 3 + "px";
                 }
             }else{
                 if (progressBar1 & progressBar2) {
@@ -87,6 +96,7 @@ function fetchUserGameInfo() {
                     progressBar1.style.width = "100%";
                     progressBar2.style.width = percentCalculator+"%"   
                 }
+                
             }
         })
         .catch(error => {
@@ -159,6 +169,30 @@ function fetchUserInfo() {
         });
     }else{
         window.location.href = "login.html";
+    }
+}
+
+async function updateLevel() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/update_level?userid=${userid}`);
+        const result = await response.json();
+
+        if (!response.ok) {
+            const alert = document.createElement('div')
+            alert.classList.add('mb-2');
+            alert.innerHTML = `
+                <div class="alert alertInfo alert-dismissible fade show">
+                    <i class="fi fi-rr-gift mr-1"></i>You have active game(s) to play
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+            `;
+
+            alertBox.appendChild(alert);
+        }else{
+            console.log("success");
+        }
+    } catch (error) {
+        
     }
 }
 

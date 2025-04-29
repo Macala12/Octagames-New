@@ -64,29 +64,15 @@ var _players_joinedinnerHTML = `
     </div>
     <div class="d-flex justify-content-center mt-2" id="joinBtn">
     </div>
-    <div class="social_sharing d-inline-flex mt-2">
-        <div class="d-flex justify-content-center mr-2 pt-1">
-            <img src="./Assets/_icons/send-mail.png" class="img-fluid" width="100px" alt="">
-        </div>
-        <div>
-        <h5>Share the fun 😁</h5>
-        <p>Only you, why not share the fun with friends, beat them and win even more! ✨</p>
-        <div class="social_links">
-            <a href="https://wa.me/?text=I'm playing G-Run on Octagames! Check it out: https://yourwebsite.com" target="_blank">
-            <i class="fi fi-brands-whatsapp"></i>
-            </a>
-
-            <a href="https://twitter.com/intent/tweet?text=I'm playing G-Run on Octagames! 🔥 Try it out! https://yourwebsite.com" target="_blank">
-            <i class="fi fi-brands-twitter-alt-circle"></i>
-            </a>
-
-            <a href="https://www.facebook.com/sharer/sharer.php?u=https://yourwebsite.com" target="_blank">
-            <i class="fi fi-brands-facebook"></i>
-            </a>
-        </div>
-        </div>
-    </div>
 `;
+
+let addUserRequest = false;
+
+const tooltipTriggerEl = document.getElementById('myTooltip');
+const tooltip = new bootstrap.Tooltip(tooltipTriggerEl);
+
+// Show the tooltip programmatically
+tooltip.show();
 
 document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById("_players_joined").innerHTML = _players_joinedinnerHTML;
@@ -501,13 +487,15 @@ async function refetching() {
 
                     if (!winnerRes.ok) {
                         showAlert(winnerResult.message);
-                        window.location.href = "home.html";
+                        window.location.href = "404.html";
                     } else {
                         displayWinners(winnerResult);
                     }
                 } catch (err) {
                     console.log("Error fetching winners:", err);
                 }
+            }else{
+                window.location.href = "404.html";
             }
             return;
         }
@@ -524,7 +512,6 @@ async function getLeaderboard(id) {
 
         if (!response.ok) {
             const error = await response.json();
-            showAlert(error.message || "Unknown error");
             return;
         }
 
@@ -553,7 +540,7 @@ async function getLeaderboard(id) {
             const row = document.createElement("tr");
             row.id = `${player.userId}`;
 
-            let statusIcon = `<i class="fi fi-rr-angles-up-down text-warning"></i>`;
+            let statusIcon = player.status;
             if (player.userId == userId) {
                 row.style.color = "#66FCF1";
                 row.style.fontWeight = "600";
@@ -602,6 +589,7 @@ async function getLeaderboard(id) {
         console.error("Leaderboard Fetch Error:", error);
     }
 }
+
 setInterval(() => {
     getLeaderboard(id);
 }, 10000);
@@ -824,19 +812,24 @@ function showAlert(message) {
 async function startTournamentRefetching() {
     while (true) {
         await refetching();
-        await new Promise(resolve => setTimeout(resolve, 10000));
-        setTimeout(() => {
-            document.querySelector("main").style.display = "block";
-            document.getElementById("loader").style.display = "none";
-        }, 2000);
+        if (!addUserRequest) {
+            await new Promise(resolve => setTimeout(resolve, 10000));
+            setTimeout(() => {
+                document.querySelector("main").style.display = "block";
+                document.getElementById("loader").style.display = "none";
+            }, 2000);   
+        }
     }
 }
 
 startTournamentRefetching();
 
-
 async function addUserToTournament() {
+    if (addUserRequest) return;
+
+    addUserRequest = true;
     try {
+
         document.querySelector(".joinDiv").innerHTML = `
             <span class="spinner-border spinner-border-sm mr-1">
         `;
@@ -857,12 +850,10 @@ async function addUserToTournament() {
             `;
 
             mainAlert.appendChild(alert);
-            document.querySelector(".joinDiv").innerHTML = `
-                Join
-            `;
             console.log(result.message)
         }else{
-            checkIfUserIsJoined(tournamentStatus, id, entryAmount)
+            addUserRequest = false;
+            startTournamentRefetching();
         }
         
     } catch (error) {
@@ -876,19 +867,6 @@ async function joinedUsers() {
         const result = await response.json();
 
         if (!response.ok) {
-            const alert = document.createElement("div");
-            alert.classList.add('alert');
-            alert.classList.add('alertDanger');
-            alert.classList.add('alert-dismissible');
-            alert.classList.add('fade');
-            alert.classList.add('show');
-
-            alert.innerHTML = `
-               <i class="fi fi-rr-exclamation"></i> ${result.message}!
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-            `;
-
-            mainAlert.appendChild(alert);
             console.log(result.message);
         }
 
@@ -912,7 +890,6 @@ async function joinedUsers() {
 
 async function checkIfUserIsJoined(status, id, entryfee, playUrl) {
     try {
-        console.log(playUrl)
         const response = await fetch(`${API_BASE_URL}/check_user_is_joined?userId=${userId}&id=${id}`)
         const result = await response.json();
 
@@ -960,7 +937,7 @@ async function checkIfUserIsJoined(status, id, entryfee, playUrl) {
 
         } else if (checker === 'notJoined') {
             const notJoinedHTML = `
-                <a class="btn mb-1" onclick="addUserToTournament()">
+                <a class="btn mb-1" id="join_btn" onclick="addUserToTournament()">
                     <div class="d-flex">
                         <div class="pointDiv">${entryfee} pts</div>
                         <div class="joinDiv">Join</div>
@@ -981,3 +958,20 @@ async function checkIfUserIsJoined(status, id, entryfee, playUrl) {
     }
 }
 
+async function share() {
+    const title = document.querySelector('h5').innerHTML;
+    if (navigator.share) {
+        try {
+          await navigator.share({
+            title: `${title}`,
+            text: 'Join me on Octagames! Let\'s play, have fun, and win real cash prizes together!',
+            url: window.location.href,
+          });
+          console.log('Thanks for sharing!');
+        } catch (error) {
+          console.log('Sharing failed', error);
+        }
+      } else {
+        alert('Share not supported in this browser.');  // For desktop fallback
+    }
+}

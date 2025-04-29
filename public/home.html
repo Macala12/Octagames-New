@@ -94,6 +94,33 @@
                     </div>
                 </div>
             </section> 
+
+            <section class="mt-3">
+                <h5 class="pt-2 mb-3 _header">Top Players in Nigeria 🇳🇬</h5>
+                <div class="_top_three_box d-flex">
+                    <div class="_top_player _tp_one d-flex">
+                        <img src="./Assets/_icons/number-1.png" class="img-fluid" alt="">
+                        <div class="player_info">
+                            <img class="mx-auto d-block" src="https://api.dicebear.com/9.x/big-smile/svg?seed=George&amp;radius=50&amp;backgroundType=gradientLinear&amp;randomizeIds=true&amp;skinColor=643d19,8c5a2b,a47539,c99c62&amp;backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf" alt="">
+                            <h5>datboifrom_imo</h5>
+                        </div>
+                    </div>
+                    <div class="_top_player d-flex">
+                        <img src="./Assets/_icons/number-2.png" class="img-fluid" alt="">
+                        <div class="player_info">
+                            <img class="mx-auto d-block" src="https://api.dicebear.com/9.x/big-smile/svg?seed=vera&amp;radius=50&amp;backgroundType=gradientLinear&amp;randomizeIds=true&amp;skinColor=643d19,8c5a2b,a47539,c99c62&amp;backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf" alt="">
+                            <h5>aleoski</h5>
+                        </div>
+                    </div>
+                    <div class="_top_player d-flex">
+                        <img src="./Assets/_icons/number-3.png" class="img-fluid" alt="">
+                        <div class="player_info">
+                            <img class="mx-auto d-block" src="https://api.dicebear.com/9.x/big-smile/svg?seed=chisom&amp;radius=50&amp;backgroundType=gradientLinear&amp;randomizeIds=true&amp;skinColor=643d19,8c5a2b,a47539,c99c62&amp;backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf" alt="">
+                            <h5>bigBro💰</h5>
+                        </div>
+                    </div>
+                </div>
+            </section>
             
             <section class="mt-3">
                 <div class="_us_gme_profile_box">
@@ -113,7 +140,11 @@
         
                             <div class="_progress">
                                 <div class="progress">
-                                    <div class="progress-bar" id="progress-bar1"></div>
+                                    <div class="progress-bar" id="progress-bar1">
+                                    </div>
+                                </div>
+                                <div class="progress-tracker">
+                                    
                                 </div>
                             </div>
         
@@ -178,46 +209,51 @@
                 </div>
             </section>
 
+            <div id="demo" class="carousel slide" data-ride="carousel">
+
+                <!-- Indicators -->
+                <ul class="carousel-indicators">
+                  <li data-target="#demo" data-slide-to="0" class="active"></li>
+                  <li data-target="#demo" data-slide-to="1"></li>
+                  <li data-target="#demo" data-slide-to="2"></li>
+                </ul>
+              
+                <!-- The slideshow -->
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="./Assets/_games/_img/auth_background1.jpg" alt="Los Angeles">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="./Assets/_games/_img/auth_background2.jpg" alt="Chicago">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="./Assets/_games/_img/auth_background3.png" alt="New York">
+                  </div>
+                </div>              
+            </div>
+
             <section class="mt-4">
-                <h5 class="mb-3 _header">Big Winner</h5>
-                <div class="_exclusive_box" id="_exclusive_box">
+                <div class="d-flex _header_box">
+                    <h5 class="pt-2 mb-3 _header">Exclusive 🌟</h5>
                 </div>
-                <div class="tournament_arrows">
-                    <button class="btn tournament_arrow" onclick="scrollLeftBtn('_exclusive_box')">
-                        <span class="mr-1"><i class="fi fi-br-arrow-left"></i></span> Back
-                    </button>
-                    <button class="btn tournament_arrow" onclick="scrollRightBtn('_exclusive_box')">
-                        Next <span class="ml-1"><i class="fi fi-br-arrow-right"></i></span>
-                    </button>
+                <div class="_exclusive_box" id="_exclusive_box">
                 </div>
             </section>
 
             <section class="mt-4">
-                <h5 class="mb-3 _header">Live Tournaments</h5>
-                <div class="_tournament" id="_tournamentLive">
+                <div class="d-flex _header_box">
+                    <h5 class="pt-2 mb-3 _header">Live ⚡️</h5>
                 </div>
-                <div class="tournament_arrows">
-                    <button class="btn tournament_arrow" onclick="scrollLeftBtn('_tournamentLive')">
-                        <span class="mr-1"><i class="fi fi-br-arrow-left"></i></span> Back
-                    </button>
-                    <button class="btn tournament_arrow" onclick="scrollRightBtn('_tournamentLive')">
-                        Next <span class="ml-1"><i class="fi fi-br-arrow-right"></i></span>
-                    </button>
+                <div class="_tournament" id="_tournamentLive">
                 </div>
             </section>
 
             <section class="mt-3">
-                <h5 class="mb-3 _header">Upcoming Tournaments</h5>
+                <div class="d-flex _header_box">
+                    <h5 class="pt-2 mb-3 _header">Upcoming ⏲️</h5>
+                </div>
                 <div class="_tournament" id="_tournamentUpcoming">
 
-                </div>
-                <div class="tournament_arrows">
-                    <button class="btn tournament_arrow" onclick="scrollLeftBtn('_tournamentUpcoming')">
-                        <span class="mr-1"><i class="fi fi-br-arrow-left"></i></span> Back
-                    </button>
-                    <button class="btn tournament_arrow" onclick="scrollRightBtn('_tournamentUpcoming')">
-                        Next <span class="ml-1"><i class="fi fi-br-arrow-right"></i></span>
-                    </button>
                 </div>
             </section>
 
@@ -235,12 +271,13 @@
                     <p>Home</p>
                 </a>
                 <a href="./points.html" class="btn">
-                    <i class="fi fi-rr-usd-circle"></i>
-                    <p>Points</p>
+                    <i class="fi fi-rr-token"></i>
+                    <p>Coins</p>
                 </a>
                 <a href="./tournament.html" class="btn">
-                    <i class="fi fi-rr-chess-clock-alt"></i>
-                    <p>My tournament</p>
+                    <i class="fi fi-rr-trophy-star ml-3"></i>
+                    <span class="ml-1 active_count"></span>
+                    <p>Open Games</p>
                 </a>
                 <a href="./reward.html" class="btn">
                     <i class="fi fi-rr-gift"></i>

@@ -6,7 +6,8 @@ const leaderboardSchema = new mongoose.Schema({
     username: String,
     userImg: String,
     played: Number,
-    score: Number
+    score: Number,
+    status: String
 }, {versionKey: false});
 
 const Leaderboard = mongoose.model('leaderboard', leaderboardSchema, 'leaderboard');

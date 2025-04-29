@@ -642,6 +642,20 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
         }
     });
 
+    app.get('/update_level', async (req, res) => {
+       try {
+         const { userid } = req.query;
+
+         const objectuserId = new mongoose.Types.ObjectId(userid);
+         const newLevel = await UserGameInfo.findByIdAndUpdate(objectuserId, { $inc: { userLevel: 1 } })
+         if (!newLevel) {
+            return res.status(400).json({message: "Failed with error 400"});
+         }
+       } catch (error) {
+        
+       } 
+    });
+
 // Coins Logics ---------------------------------------------------------------//
     app.get('/fetch_coins', async (req, res) => {
         try {
@@ -678,7 +692,7 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
         }
     });
 
-    //Fetch all (live) tournamet route / endpoint
+    //Fetch all (Exclusive) tournamet route / endpoint
     app.get('/fetch_exclusive_tournaments', async (req, res) => {
         try {
             const exclusivetournament = await liveTournament.find({ type: 'exclusive' });
@@ -697,13 +711,30 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
     //Fetch all (live) tournamet route / endpoint
     app.get('/fetch_live_tournaments', async (req, res) => {
         try {
+            const  { userid } = req.query;
             const livetournament = await liveTournament.find({ status: 'active' });
 
-            if (!livetournament) {
-                return res.status(404).json({ message: "No live tournament avaliable" });
-            }else{
-                res.json(livetournament);
+            if (livetournament.length === 0) {
+                return res.status(404).json({ message: "No live tournament available" });
+            } else {
+                // Create a new array of plain objects
+                const updatedTournaments = [];
+
+                for (const tournament of livetournament) {
+                    const isJoined = await Leaderboard.findOne({ userId: userid, leaderboardId: tournament._id });
+
+                    // Convert tournament to a plain object
+                    const tournamentObj = tournament.toObject();
+
+                    // Add the message property
+                    tournamentObj.message = isJoined ? 'Joined' : 'Join';
+
+                    updatedTournaments.push(tournamentObj);
+                }
+
+                res.json({ livetournament: updatedTournaments });
             }
+            
         } catch (error) {
             console.error('Error Occured', error);
             res.status(500).json({message: 'Internal Server Error'});
@@ -713,12 +744,28 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
     //Fetch all (upcoming) tournament route / endpoint
     app.get('/fetch_upcoming_tournaments', async (req, res) => {
         try {
+            const  { userid } = req.query;
             const livetournament = await liveTournament.find({ status: 'upcoming' });
 
-            if (!livetournament) {
-                return res.status(404).json({ message: "No live tournament avaliable" });
-            }else{
-                res.json(livetournament);
+            if (livetournament.length === 0) {
+                return res.status(404).json({ message: "No live tournament available" });
+            } else {
+                // Create a new array of plain objects
+                const updatedTournaments = [];
+
+                for (const tournament of livetournament) {
+                    const isJoined = await Leaderboard.findOne({ userId: userid, leaderboardId: tournament._id });
+
+                    // Convert tournament to a plain object
+                    const tournamentObj = tournament.toObject();
+
+                    // Add the message property
+                    tournamentObj.message = isJoined ? 'Joined' : 'Join';
+
+                    updatedTournaments.push(tournamentObj);
+                }
+
+                res.json({ livetournament: updatedTournaments });
             }
         } catch (error) {
             console.error('Error Occured', error);
@@ -882,7 +929,8 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
                         username: userName.username,
                         userImg: userName.userImg,
                         played: 0,
-                        score: 0
+                        score: 0,
+                        status: '<i class="fi fi-rr-menu-dots"></i>'
                     });
 
                     // Save the user to the leaderboard
@@ -949,6 +997,14 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
             }
 
             if (gameScore < getLeaderboard.score) {
+                const updateStatus = await Leaderboard.findByIdAndUpdate(
+                    getLeaderboard._id,
+                    { status: '<i class="fi fi-rr-caret-up text-success"></i>' }
+                );
+
+                if (!updateStatus) {
+                    return res.status(400).json({ message: 'Could not update score' });
+                }
                  // Get all leaderboard entries sorted by score (highest first)
                  const sortedLeaderboard = await Leaderboard.find().sort({ score: -1 });
                 
@@ -963,6 +1019,7 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
                 const updateScore = await Leaderboard.findByIdAndUpdate(
                     getLeaderboard._id,
                     { score: gameScore },
+                    {status: '<i class="fi fi-rr-caret-up text-success"></i>'},
                     { new: true }
                 );
                 
@@ -1536,6 +1593,9 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
         if (checkExistingBank.length == 3) {
             return res.status(400).json({ message: 'Maximum bank account number reached' })
         }
+
+        const checkIfBankexist = await bankInfo.findOne({accountNo: accountNo});
+        if (checkIfBankexist) return res.status(400).json({message: 'Bank account already exist'});
 
         try {
             const bankImagesResponse = await fetch('https://nigerianbanks.xyz/');

@@ -69,7 +69,7 @@
             }
           }, 50);
            
-          const timer = document.querySelector(".timer");
+          const timer = document.querySelector(".timer_inner");
 
           const timerElement = document.createElement("span");
           timerElement.id = `timer-${id}`;
