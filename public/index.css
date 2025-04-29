@@ -149,13 +149,14 @@ button{
 ._top_three_box{
     justify-content: space-around;
     overflow: auto;
-    padding-left: 10px;
+    padding-left: 15px;
 }
 ._top_three_box::-webkit-scrollbar{
     display: none;
 }
 ._top_player{
     min-width: fit-content;
+    margin-right: -10px;
 }
 ._top_player .img-fluid{
     width: 100px !important;
