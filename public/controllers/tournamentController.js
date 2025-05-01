@@ -244,7 +244,7 @@ async function handleMultipleTournaments() {
             "Dodge, dash, and surf your way through busy train tracks in this epic Subway Surfers tournament! 🚄💨 Collect coins, power-ups, and boosters as you race for the highest score. It's not just about speed — it's about style, skill, and non-stop fun!",
             0,
             100,
-            "./Assets/_games/_games/subwaysurfersny/imdex.html"
+            "./Assets/_games/_games/subwaysurfersny/index.html"
         );
         const basketballHoop = await createNewTournament(
             "Basketball Hoop",
@@ -252,7 +252,7 @@ async function handleMultipleTournaments() {
             "Time to show off those shooting skills! 🎯🏀 Swipe, aim, and sink as many baskets as you can before the clock runs out. The more perfect shots you hit, the higher your score — it’s all about precision and speed!",
             0,
             100,
-            "./Assets/_games/_games/Basketball Hoop/main.html"
+            "./Assets/_games/_games/basketball frvr/main.html"
         );
         const pieAttack = await createNewTournament(
             "Pie Attack",

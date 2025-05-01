@@ -11,6 +11,7 @@ const userid = sessionStorage.getItem('userid');
       });
 
       function preload() {
+        this.load.image('bg', 'assets/images/background.jpg'); 
         game.load.image("ball", "assets/images/ball.png");
         game.load.image("hoop", "assets/images/hoop.png");
         game.load.image("side rim", "assets/images/side_rim.png");
@@ -79,7 +80,9 @@ const userid = sessionStorage.getItem('userid');
         fail.volume = 0.1;
         spawn = game.add.audio("spawn");
 
-        game.stage.backgroundColor = "#fff";
+        // game.stage.backgroundColor = "#fff";
+        var bg = this.add.image(500, 400, 'bg'); // In Phaser 2, use .sprite instead
+        bg.anchor.setTo(0.5, 0.5);
 
         // high_score_text = game.add.text(450, 25, 'High Score\n' + high_score, { font: 'Arial', fontSize: '32px', fill: '#000', align: 'center' });
         current_score_text = game.add.text(187, 300, "", {
