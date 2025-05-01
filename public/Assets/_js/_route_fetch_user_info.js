@@ -3,6 +3,13 @@ const loader = document.getElementById("loader");
 const contentHolder = document.getElementById("mainContent");
 const mainAlert = document.getElementById("mainAlert");
 
+const activeNumber = sessionStorage.getItem("open_tournaments")
+if (activeNumber) {
+    document.querySelector(".active_count").innerHTML = activeNumber;
+}else{
+    document.querySelector(".active_count").style.background = "transparent";
+}
+
 var fullName ;
 var email ;
 var accountVerified;
@@ -79,7 +86,6 @@ function fetchUserGameInfo() {
 
             const progressBar1 = document.getElementById("progress-bar1");
             const progressBar2 = document.getElementById("progress-bar2");
-            const progressTracker = document.querySelector(".progress-tracker");
 
             if (data.userLevel === 1) {
                 if (progressBar1) {
@@ -88,7 +94,6 @@ function fetchUserGameInfo() {
                         document.querySelector(".circular-progress").style.background = `conic-gradient(#66FCF1 ${percentCalculator}%, #66fcf200 ${percentCalculator}% 100%)`;
                     }                
                     progressBar1.style.width = percentCalculator+"%";
-                    progressTracker.style.left = percentCalculator - 3 + "px";
                 }
             }else{
                 if (progressBar1 & progressBar2) {

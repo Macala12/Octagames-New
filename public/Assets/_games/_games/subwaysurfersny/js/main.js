@@ -1,4 +1,3 @@
-const API_BASE_URL = 'https://octagames-new-production.up.railway.app';
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
 const userid = sessionStorage.getItem('userid');
@@ -10832,7 +10831,6 @@ const userid = sessionStorage.getItem('userid');
               window.parent.location.reload;
             });
             backtohome.addEventListener('click', async () => {
-              // window.location.href = "../../../../home.html";
                 window.parent.history.back();
             });
         }),

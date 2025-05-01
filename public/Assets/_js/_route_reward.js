@@ -171,8 +171,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const bank_box = document.getElementById("_redeem_box");
                 const optionBottomSheet = document.getElementById("optionBox");
 
-                if (result.length < 1) {
-                    bankAccountBox.innerHTML = `
+                if (result.length == 0) {
+                    bank_box.innerHTML = `
                         <div class="_empty">
                             <h6>
                                 <span>Add a <b>bank account</b> to redeem reward</span>
@@ -259,6 +259,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const detId = "hidden_details_"+reward.gameId;
                     const arrId = "arrow_"+detId;
 
+                    const isoDate = reward.gameDateTime;
+                    const date = new Date(isoDate);
+                    const readableDate = date.toLocaleString();
+
                     rewardDiv.innerHTML = `
                         <span id="${arrId}">
                             <i class="fi fi-rr-angle-small-down" onclick="revealGameid('${detId}')"></i>
@@ -278,7 +282,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <p>${reward.gamePlayers}</p>
 
                             <h6>Date & Time</h6>
-                            <p>${reward.gameDateTime}</p>
+                            <p>${readableDate}</p>
                         </div>
                     `;
 
@@ -327,6 +331,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const detId = "hidden_details_"+payout.reference;
                     const arrId = "arrow_"+detId;
 
+                    const isoDate = payout.updatedAt;
+                    const date = new Date(isoDate);
+                    const readableDate = date.toLocaleString();
+
                     payoutDiv.innerHTML = `
                         <span id="${arrId}">
                             <i class="fi fi-rr-angle-small-down" onclick="revealGameid('${detId}')"></i>
@@ -352,7 +360,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <p>${payout.accountNo}</p>
 
                             <h6>Date & Time</h6>
-                            <p>${payout.updatedAt}</p>
+                            <p>${readableDate}</p>
                         </div>
                     `;
 
@@ -448,7 +456,7 @@ async function deleteBank(bankId) {
             mainAlert.appendChild(alert);
             console.log(result.message);
         }else{
-            console.log(result.message);
+            window.location.reload();
         }
 
     } catch (error) {

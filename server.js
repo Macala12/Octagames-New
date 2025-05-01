@@ -673,7 +673,6 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
     });
 
 // Tournament Logics ---------------------------------------------------------------//
-    //Create new (live) tournament
     app.post('/new_tournaments', async (req, res) => {
         try {
             const { tournamentName, tournamentImgUrl, tournamentReward, tournamentStartTime, tournamentEndTime } = req.body;
@@ -692,7 +691,24 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
         }
     });
 
-    //Fetch all (Exclusive) tournamet route / endpoint
+    app.get('/fetch_top_player', async (req, res) => {
+       try {
+        const topPlayers = await UserGameInfo.find().sort({ userGamesPlayed: -1 }).limit(5).exec();
+        if (!topPlayers) {
+            return res.status(404).json({ message: "No top players" });
+        }
+
+        const topPlayerUserInfos = await Promise.all(
+            topPlayers.map(player => User.findOne({ _id: player.userId }))
+        );
+        
+        res.json(topPlayerUserInfos);
+
+       } catch (error) {
+        
+       } 
+    });
+
     app.get('/fetch_exclusive_tournaments', async (req, res) => {
         try {
             const exclusivetournament = await liveTournament.find({ type: 'exclusive' });
@@ -708,7 +724,6 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
         }
     });
 
-    //Fetch all (live) tournamet route / endpoint
     app.get('/fetch_live_tournaments', async (req, res) => {
         try {
             const  { userid } = req.query;
@@ -727,7 +742,7 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
                     const tournamentObj = tournament.toObject();
 
                     // Add the message property
-                    tournamentObj.message = isJoined ? 'Joined' : 'Join';
+                    tournamentObj.message = isJoined ? 'Joined 😤' : 'Join';
 
                     updatedTournaments.push(tournamentObj);
                 }
@@ -741,7 +756,6 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
         }
     });
 
-    //Fetch all (upcoming) tournament route / endpoint
     app.get('/fetch_upcoming_tournaments', async (req, res) => {
         try {
             const  { userid } = req.query;
@@ -966,7 +980,7 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
                         {
                           $set: {
                             userXP: newUserXp,
-                            userOctacoin: newUserOctacoin
+                            userOctacoin: newUserOctacoin,
                           },
                           $inc: {
                             userGamesPlayed: 1
@@ -1028,7 +1042,7 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
                 }
                 
                 // Get all leaderboard entries sorted by score (highest first)
-                const sortedLeaderboard = await Leaderboard.find().sort({ score: -1 });
+                const sortedLeaderboard = await Leaderboard.find({leaderboardId: leaderboardId}).sort({ score: -1 });
                 
                 // Find the index/position of the updated user
                 const position = sortedLeaderboard.findIndex(entry => entry._id.toString() === updateScore._id.toString()) + 1;

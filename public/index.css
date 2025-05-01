@@ -24,9 +24,11 @@ button{
 }
 .tooltip{
     position: absolute !important;
-    left: 88% !important;
+    left: 82% !important;
     z-index: 1 !important;
     animation: tooltip 1s infinite !important;
+    transform: none !important;
+    max-width: fit-content;
 } 
 @keyframes tooltip {
     0% {top: 62px;}

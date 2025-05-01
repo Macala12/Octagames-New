@@ -220,13 +220,11 @@ function handleTournamentLifecycle(tournamentId) {
         }
 
         if (tournament.status === 'ended') {
-            setTimeout(async () => {
-                const deleteLeaderboard = await Leaderboard.deleteMany({ leaderboardId: tournamentId});
-                console.log(`Deleted ${deleteLeaderboard.deletedCount} records with ${tournamentId}`);
+            const deleteLeaderboard = await Leaderboard.deleteMany({ leaderboardId: tournamentId});
+            console.log(`Deleted ${deleteLeaderboard.deletedCount} records with ${tournamentId}`);
 
-                const deletedTournament = await liveTournament.deleteOne(tournamentId);
-                console.log(`Deleted ${tournamentId} record from database - successful`)
-            }, 5 * 1000);
+            const deletedTournament = await liveTournament.deleteOne(tournamentId);
+            console.log(`Deleted ${tournamentId} record from database - successful`)
         }
     }, 10 * 1000); // Every 10 seconds
 }
@@ -246,7 +244,7 @@ async function handleMultipleTournaments() {
             "Dodge, dash, and surf your way through busy train tracks in this epic Subway Surfers tournament! 🚄💨 Collect coins, power-ups, and boosters as you race for the highest score. It's not just about speed — it's about style, skill, and non-stop fun!",
             0,
             100,
-            "./Assets/_games/_games/subwaysurfersny/"
+            "./Assets/_games/_games/subwaysurfersny/imdex.html"
         );
         const basketballHoop = await createNewTournament(
             "Basketball Hoop",
@@ -254,7 +252,7 @@ async function handleMultipleTournaments() {
             "Time to show off those shooting skills! 🎯🏀 Swipe, aim, and sink as many baskets as you can before the clock runs out. The more perfect shots you hit, the higher your score — it’s all about precision and speed!",
             0,
             100,
-            "./Assets/_games/_games/Basketball Hoop/"
+            "./Assets/_games/_games/Basketball Hoop/main.html"
         );
         const pieAttack = await createNewTournament(
             "Pie Attack",
@@ -262,7 +260,7 @@ async function handleMultipleTournaments() {
             "Ready, aim, and fire pies like a true champion! 🥧💥 Smash moving targets, rack up crazy combos, and watch the points fly. Fast hands and sharp aim are the name of the game — miss too many, and it's game over!",
             0,
             100,
-            "./Assets/_games/_games/pieattack/"
+            "./Assets/_games/_games/pieattack/main.html"
         );
         const monsterCandy = await createNewTournament(
             "Monster Candy",
@@ -270,7 +268,7 @@ async function handleMultipleTournaments() {
             "This little monster’s got a serious sweet tooth — and it’s up to you to keep the candy flowing! 🍭👾 Catch as many candies as you can, dodge the nasty bombs, and stack up a high score before time runs out.",
             0,
             100,
-            "./Assets/_games/_games/monstercandy/"
+            "./Assets/_games/_games/monstercandy/main.html"
         );
         handleTournamentLifecycle(subwaySurfers._id);
         handleTournamentLifecycle(basketballHoop._id);

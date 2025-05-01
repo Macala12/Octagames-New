@@ -924,7 +924,7 @@ async function checkIfUserIsJoined(status, id, entryfee, playUrl) {
                 joinBtn.innerHTML = joinedHTML;
             }
 
-            const playGameHref = playUrl+`main.html?id=${id}`;
+            const playGameHref = playUrl+`?id=${id}`;
             const activePlayHTML = `<a class="btn play_btn" href="${playGameHref}">Play Game</a>`;
             const disabledPlayHTML = `<a class="btn play_btn disabled">Play Game</a>`;
 

@@ -36,6 +36,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     rewardDiv.classList.add("_reward_history_box");
                     const detId = "hidden_details_"+reward.gameId;
                     const arrId = "arrow_"+detId;
+
+                    const isoDate = reward.gameDateTime;
+                    const date = new Date(isoDate);
+                    const readableDate = date.toLocaleString();
         
                     rewardDiv.innerHTML = `
                         <span id="${arrId}">
@@ -56,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <p>${reward.gamePlayers}</p>
         
                             <h6>Date & Time</h6>
-                            <p>${reward.gameDateTime}</p>
+                            <p>${readableDate}</p>
                         </div>
                     `;
         
@@ -105,6 +109,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const detId = "hidden_details_"+payout.reference;
                     const arrId = "arrow_"+detId;
     
+                    const isoDate = payout.updatedAt;
+                    const date = new Date(isoDate);
+                    const readableDate = date.toLocaleString();
+                    
                     payoutDiv.innerHTML = `
                         <span id="${arrId}">
                             <i class="fi fi-rr-angle-small-down" onclick="revealGameid('${detId}')"></i>
@@ -130,7 +138,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <p>${payout.accountNo}</p>
     
                             <h6>Date & Time</h6>
-                            <p>${payout.updatedAt}</p>
+                            <p>${readableDate}</p>
                         </div>
                     `;
     
@@ -142,3 +150,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 });
+
+function revealGameid(gameid) {
+    const arrId = "arrow_"+gameid
+    document.getElementById(gameid).style.display = "block";
+    document.getElementById(gameid).style.transition = "1s";
+    document.getElementById(arrId).innerHTML = `
+        <i class="fi fi-rr-angle-small-up" onclick="hideGameid('${gameid}')"></i>
+    `;
+}
+
+function hideGameid(gameid) {
+    const arrId = "arrow_"+gameid;
+    document.getElementById(gameid).style.display = "none";
+    document.getElementById(gameid).style.transition = "1s";
+    document.getElementById(arrId).innerHTML = `
+        <i class="fi fi-rr-angle-small-down" onclick="revealGameid('${gameid}')"></i>
+    `;
+}

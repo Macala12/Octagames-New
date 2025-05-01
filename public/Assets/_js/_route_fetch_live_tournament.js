@@ -2,10 +2,67 @@ document.querySelector("main").style.display = "none";
 const userId = sessionStorage.getItem("userid");
 const exclusiveTournament = document.querySelector("._exclusive_box");
 document.addEventListener('DOMContentLoaded', async () => {
+    topPlayers();
     fetchAndDisplayTournaments();
 }) 
 
+async function topPlayers() {
+    const response = await fetch(`${API_BASE_URL}/fetch_top_player`);
+    const result = await response.json();
+    const topPlayersBox = document.querySelector("._top_three_box");
 
+    if (!response.ok) {
+        const alert = document.createElement("div");
+        alert.classList.add('alert', 'alertDanger', 'alert-dismissible', 'fade', 'show');
+        alert.innerHTML = `
+            <i class="fi fi-rr-exclamation"></i> ${tournaments.message}!
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        `;
+        mainAlert.appendChild(alert);
+    }else{
+        console.log(result)
+        let topPlayerOne = result[0];
+        let topPlayerTwo = result[1];
+        let topPlayerThree = result[2];
+        let topPlayerFour = result[3];
+        let topPlayerFive = result[4];
+
+        if (topPlayerOne) {
+            const topOneUserImg = document.querySelector("._tp_one .player_info").innerHTML = `
+                <img class="mx-auto d-block" src="${topPlayerOne.userImg}" alt="">
+                <h5>${topPlayerOne.username}</h5>
+            `;
+        }
+
+        if (topPlayerTwo) {
+            const topUser = document.querySelector("._tp_two .player_info").innerHTML = `
+                <img class="mx-auto d-block" src="${topPlayerTwo.userImg}" alt="">
+                <h5>${topPlayerTwo.username}</h5>
+            `;
+        }
+
+        if (topPlayerThree) {
+            const topUser = document.querySelector("._tp_three .player_info").innerHTML = `
+                <img class="mx-auto d-block" src="${topPlayerThree.userImg}" alt="">
+                <h5>${topPlayerThree.username}</h5>
+            `;
+        }
+
+        // if (topPlayerOne) {
+        //     const topUser = document.querySelector("._tp_one .player_info").innerHTML = `
+        //         <img class="mx-auto d-block" src="${topPlayerOne.userImg}" alt="">
+        //         <h5>${topPlayerOne.usernamer}</h5>
+        //     `;
+        // }
+
+        // if (topPlayerOne) {
+        //     const topUser = document.querySelector("._tp_one .player_info").innerHTML = `
+        //         <img class="mx-auto d-block" src="${topPlayerOne.userImg}" alt="">
+        //         <h5>${topPlayerOne.usernamer}</h5>
+        //     `;
+        // }
+    }
+}
 
 async function fetchAndDisplayTournaments() {
     const promises = [];
@@ -23,7 +80,6 @@ async function fetchAndDisplayTournaments() {
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                 `;
                 mainAlert.appendChild(alert);
-                throw new Error('Failed to fetch tournament');
             }
 
             const liveTournamentContainer = document.getElementById('_exclusive_box');
@@ -113,7 +169,6 @@ async function fetchAndDisplayTournaments() {
 
             // Create a temporary wrapper div for new content
             const tempContainer = document.createElement("div");
-            console.log(tournaments);
 
             tournaments.livetournament.forEach(tournament => {
                 const tournamentDiv = document.createElement('div');
@@ -262,6 +317,11 @@ async function fetchAndDisplayTournaments() {
             }
 
             const timerCount = sessionStorage.setItem("open_tournaments", tournaments.length);
+            const activeNumber = sessionStorage.getItem("open_tournaments")
+            if (activeNumber) {
+                document.querySelector(".active_count").style.background = "#000";
+                document.querySelector(".active_count").innerHTML = activeNumber;
+            }
 
             // Create a temporary wrapper div for new content
             const tempContainer = document.createElement("div");
@@ -319,11 +379,6 @@ async function fetchAndDisplayTournaments() {
         setInterval(fetchAndDisplayTournaments, 60000);
     }, 10000);
 
-}
-
-const activeNumber = sessionStorage.getItem("open_tournaments")
-if (activeNumber) {
-    document.querySelector(".active_count").innerHTML = activeNumber;
 }
 
 async function howItWorks(name) {
