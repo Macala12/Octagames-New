@@ -151,17 +151,18 @@ button{
 ._top_three_box{
     justify-content: space-around;
     overflow: auto;
+    padding-left: 15px;
 }
 ._top_three_box::-webkit-scrollbar{
     display: none;
 }
 ._top_player{
     min-width: fit-content;
-    margin-right: 15px;
+    margin-right: -10px;
 }
 ._top_player .img-fluid{
     width: 100px !important;
-    margin-left: -20px;
+    margin-left: 10px;
 }
 .player_info{
     background-color: #1F2833;
