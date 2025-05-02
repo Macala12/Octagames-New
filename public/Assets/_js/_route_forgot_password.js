@@ -2,6 +2,10 @@
 document.getElementById('forgotPasswordForm').addEventListener('submit', async (e) => {
     e.preventDefault(); 
 
+    document.querySelector(".btn").innerHTML = `
+    <span class="spinner-border spinner-border-sm"></span>
+    `;
+
     const email = document.getElementById("email").value;
     const response = await fetch(`${API_BASE_URL}/forgot_password?email=${email}`);
     const result = await response.json();
@@ -20,6 +24,9 @@ document.getElementById('forgotPasswordForm').addEventListener('submit', async (
         `;
 
         mainAlert.appendChild(alert);
+        document.querySelector(".btn").innerHTML = `
+            Send Password Reset Link
+        `;
         console.log(result.message);
     }else{
         window.location.href = "password_reset_link.html?email="+email;

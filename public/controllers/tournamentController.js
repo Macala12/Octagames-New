@@ -223,7 +223,7 @@ function handleTournamentLifecycle(tournamentId) {
             const deleteLeaderboard = await Leaderboard.deleteMany({ leaderboardId: tournamentId});
             console.log(`Deleted ${deleteLeaderboard.deletedCount} records with ${tournamentId}`);
 
-            const deletedTournament = await liveTournament.deleteOne(tournamentId);
+            const deletedTournament = await liveTournament.deleteOne({ _id: new mongoose.Types.ObjectId(tournamentId) });            
             console.log(`Deleted ${tournamentId} record from database - successful`)
         }
     }, 10 * 1000); // Every 10 seconds

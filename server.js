@@ -174,7 +174,7 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
             
             const token = jwt.sign({ userId: fetchedUserId._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-            const verificationLink = `http://localhost:3000/verify-email?token=${token}`;
+            const verificationLink = `https://octagames-new-production.up.railway.app/verify-email?token=${token}`;
 
             await transporter.sendMail({
             from: `"Octagames" <${process.env.EMAIL_USER}>`,
@@ -569,16 +569,43 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
 
         const token = jwt.sign({ userId: userEmail._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        const verificationLink = `http://localhost:3000/public/update_password.html?id=${userid}`;
+        const verificationLink = `https://octagames-new-production.up.railway.app/update_password.html?id=${userid}`;
 
         await transporter.sendMail({
         from: `"Octagames" <${process.env.EMAIL_USER}>`,
         to: userEmail.email,
         subject: "Update Your Password",
         html: `
-            <h2>Welcome to G-Run Arena!</h2>
-            <p>Click the link below to update your password:</p>
-            <a href="${verificationLink}">Update Your Password</a>
+              <div style="width: 100%; display: flex; font-family: 'Montserrat', sans-serif; border-radius: 10px; background-color: #1a1a1a; color: #ffffff; max-width: 600px; margin: auto;">
+                <div style="padding: 30px;">
+                    <h2 style="text-align: left; color: #FFC107;">Update Your Password</h2>
+                    <p style="font-size: 16px; text-align: left; line-height: 1.6;">
+                        Hey Michael,<br><br>
+                        It looks like you requested to update your password. To continue, please click the button below:
+                    </p>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <a href="${verificationLink}" style="background-color: #FFC107; width: 80%; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
+                            Update Password
+                        </a>
+                    </div>
+                    <p style="font-size: 14px; color: #cccccc; line-height: 1.6;">
+                        If you didn’t make this request, you can safely ignore this message. Your account will remain secure.
+                    </p>
+                    <p style="text-align: center; margin-top: 25px !important; margin-bottom: 10px !important;">
+                        <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-facebook"></i></a>
+                        <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-instagram"></i></a>
+                        <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-twitter-alt-circle"></i></a>
+                        <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-whatsapp"></i></a>
+                    </p>
+                    <p style="text-align: center; font-size: 14px;">
+                        Lagos, Nigeria
+                    </p>
+                    <p style="font-size: 14px; text-align: center; color: #666666; margin-top: 20px;">
+                        ⚡ Powered by Octagames <br>
+                        Level up your gaming experience with our competitive tournaments, rewards, and non-stop action.
+                    </p>
+                </div>
+            </div>
         `
         });
 
@@ -624,15 +651,43 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
             },
             });
 
-            const verificationLink = `http://localhost:3000/update_forgot_password.html?email=${email}&userid=${checkEmail._id}`;
+            const verificationLink = `https://octagames-new-production.up.railway.app/update_forgot_password.html?email=${email}&userid=${checkEmail._id}`;
             await transporter.sendMail({
             from: `"Octagames" <${process.env.EMAIL_USER}>`,
             to: email,
             subject: "Forgot Your Password",
             html: `
-                <h2>Welcome to G-Run Arena!</h2>
-                <p>Click the link below to reset your password:</p>
-                <a href="${verificationLink}">Reset Password</a>
+                  <div style="width: 100%; display: flex; font-family: 'Montserrat', sans-serif; border-radius: 10px; background-color: #1a1a1a; color: #ffffff; max-width: 600px; margin: auto;">
+                    <div style="padding: 30px;">
+                        <h2 style="text-align: left; color: #FFC107;">Forgot Your Password</h2>
+                        <p style="font-size: 16px; text-align: left; line-height: 1.6;">
+                            Hey ${checkEmail.firstName},<br><br>
+                            We received a request to reset your Octagames account password. Don’t worry — we’ve got you covered.
+                            To update your password securely, just click the button below:
+                        </p>
+                        <div style="text-align: center; margin: 30px 0;">
+                            <a href="${verificationLink}" style="background-color: #FFC107; width: 80%; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
+                                Update Password
+                            </a>
+                        </div>
+                        <p style="font-size: 14px; color: #cccccc; line-height: 1.6;">
+                            If you didn’t make this request, you can safely ignore this message. Your account will remain secure.
+                        </p>
+                        <p style="text-align: center; margin-top: 25px !important; margin-bottom: 10px !important;">
+                            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-facebook"></i></a>
+                            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-instagram"></i></a>
+                            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-twitter-alt-circle"></i></a>
+                            <a href="" style="color: #fff !important; text-decoration: none; padding-right: 15px;"><i class="fi fi-brands-whatsapp"></i></a>
+                        </p>
+                        <p style="text-align: center; font-size: 14px;">
+                            Lagos, Nigeria
+                        </p>
+                        <p style="font-size: 14px; text-align: center; color: #666666; margin-top: 20px;">
+                            ⚡ Powered by Octagames <br>
+                            Level up your gaming experience with our competitive tournaments, rewards, and non-stop action.
+                        </p>
+                    </div>
+                </div>
             `
             });
             res.status(200).json({ message: 'User registered successfully'});
@@ -1477,7 +1532,7 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
         const { userid } = req.query;
 
         const objectUserId = new mongoose.Types.ObjectId(userid);
-        const fetchUserRewardInfo = await redeemRewardHistories.find({userid: objectUserId});
+        const fetchUserRewardInfo = await redeemRewardHistories.find({userid: objectUserId}).sort({ createdAt: -1 });
 
         if (!fetchUserRewardInfo) {
             return res.status(400).json({ message: 'No Rewards avaliable' });
@@ -1495,7 +1550,7 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
          const { userid } = req.query;
  
          const objectUserId = new mongoose.Types.ObjectId(userid);
-         const fetchUserPayoutInfo = await payoutHistories.find({userid: objectUserId});
+         const fetchUserPayoutInfo = await payoutHistories.find({userid: objectUserId}).sort({ updatedAt: -1 });
  
          if (!fetchUserPayoutInfo) {
              return res.status(400).json({ message: 'No Rewards avaliable' });

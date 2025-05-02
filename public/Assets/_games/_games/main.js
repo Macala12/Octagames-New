@@ -40,7 +40,7 @@
               topscorebox.innerText = `${scoreToBeat}`;
             } catch (error) {
             }
-          }, 20000);
+          }, 5000);
           console.log("Has not ended");
           const startTime = result.tournamentStartTime;
           const endTime = result.tournamentEndTime;

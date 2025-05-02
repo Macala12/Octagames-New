@@ -28,6 +28,9 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
                     <!-- <button type="button" class="close" data-dismiss="alert">&times;</button> -->
                 </div>
             `;
+            document.querySelector(".submitBtn").innerHTML = `
+            Login
+            `;
         }
         else{
             sessionStorage.setItem("userid", result.userid);

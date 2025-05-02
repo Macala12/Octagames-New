@@ -84,59 +84,61 @@ async function fetchAndDisplayTournaments() {
 
             const liveTournamentContainer = document.getElementById('_exclusive_box');
 
-            // Create a temporary wrapper div for new content
-            const tempContainer = document.createElement("div");
+            if (liveTournamentContainer) {
+                // Create a temporary wrapper div for new content
+                const tempContainer = document.createElement("div");
 
-            tournaments.forEach(tournament => {
-                const tournamentDiv = document.createElement('div');
-                tournamentDiv.innerHTML = `
-                    <div class="_exclusive" data-start-time="${tournament.tournamentStartTime}" data-end-time="${tournament.tournamentEndTime}" data-tournament-id="${tournament._id}">
-                        <div class="_game_img exclusiveGameImg"></div>
-                        <div class="pt-2 pl-3 pr-3 pb-2">
-                            <div class="_game_name">
-                                <h6>${tournament.tournamentName}</h6> 
-                            </div>
-                            <div class="mb-2">
-                                <span class="badge">${tournament.tagOne}</span>
-                                <span class="badge">${tournament.tagTwo}</span>
-                                <span class="badge">${tournament.tagThree}</span>
-                            </div>
-                            <div class="_game_desc">
-                                <p class="mb-2"><span id="status-${tournament._id}">Ends in: </span><b id="timer-${tournament._id}">--:--</b></p>
-                                <div class="_game_win_amount">
-                                    <span>${tournament.tournamentDesc}</span>
-                                    Reward: <b>N40,000</b> 
+                tournaments.forEach(tournament => {
+                    const tournamentDiv = document.createElement('div');
+                    tournamentDiv.innerHTML = `
+                        <div class="_exclusive" data-start-time="${tournament.tournamentStartTime}" data-end-time="${tournament.tournamentEndTime}" data-tournament-id="${tournament._id}">
+                            <div class="_game_img exclusiveGameImg"></div>
+                            <div class="pt-2 pl-3 pr-3 pb-2">
+                                <div class="_game_name">
+                                    <h6>${tournament.tournamentName}</h6> 
                                 </div>
-                                <a href="" class=""><i class="fi fi-rr-info"></i> How it works?</a>
-                            </div>
-                            <div class="_game_player_join">
-                                <div class="_player_joined mb-2">
-                                    <p class="mt-2"><i class="fi fi-rr-joystick mr-1"></i> <kbd>${tournament.playerJoinedCount}</kbd> players / 100 joined</p>
+                                <div class="mb-2">
+                                    <span class="badge">${tournament.tagOne}</span>
+                                    <span class="badge">${tournament.tagTwo}</span>
+                                    <span class="badge">${tournament.tagThree}</span>
                                 </div>
-                                <a href="./tournament_page.html?id=${tournament._id}&tag=live" class="btn mb-1">
-                                    <div class="d-flex">
-                                        <div class="pointDiv">${tournament.entryAmount} pts</div>
-                                        <div class="joinDiv">Open</div>
+                                <div class="_game_desc">
+                                    <p class="mb-2"><span id="status-${tournament._id}">Ends in: </span><b id="timer-${tournament._id}">--:--</b></p>
+                                    <div class="_game_win_amount">
+                                        <span>${tournament.tournamentDesc}</span>
+                                        Reward: <b>N40,000</b> 
                                     </div>
-                                </a>
-                            </div>             
+                                    <a href="" class=""><i class="fi fi-rr-info"></i> How it works?</a>
+                                </div>
+                                <div class="_game_player_join">
+                                    <div class="_player_joined mb-2">
+                                        <p class="mt-2"><i class="fi fi-rr-joystick mr-1"></i> <kbd>${tournament.playerJoinedCount}</kbd> players / 100 joined</p>
+                                    </div>
+                                    <a href="./tournament_page.html?id=${tournament._id}&tag=live" class="btn mb-1">
+                                        <div class="d-flex">
+                                            <div class="pointDiv">${tournament.entryAmount} pts</div>
+                                            <div class="joinDiv">Open</div>
+                                        </div>
+                                    </a>
+                                </div>             
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
 
-                const gameImg = tournamentDiv.querySelector(".exclusiveGameImg");
-                gameImg.style.background = `linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, #1F2833 100%), url('${tournament.tournamentImgUrl}')`;
+                    const gameImg = tournamentDiv.querySelector(".exclusiveGameImg");
+                    gameImg.style.background = `linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, #1F2833 100%), url('${tournament.tournamentImgUrl}')`;
 
-                tempContainer.appendChild(tournamentDiv);
-            });
+                    tempContainer.appendChild(tournamentDiv);
+                });
 
-            // Once all is ready, replace the old content with the new one
-            liveTournamentContainer.innerHTML = ""; // Clear old content
-            liveTournamentContainer.innerHTML = tempContainer.innerHTML; // Add new content
+                // Once all is ready, replace the old content with the new one
+                liveTournamentContainer.innerHTML = ""; // Clear old content
+                liveTournamentContainer.innerHTML = tempContainer.innerHTML; // Add new content
 
-            tournaments.forEach(tournament => {
-                setupTournamentTimer(tournament._id, tournament.tournamentStartTime, tournament.tournamentEndTime);
-            });
+                tournaments.forEach(tournament => {
+                    setupTournamentTimer(tournament._id, tournament.tournamentStartTime, tournament.tournamentEndTime);
+                });   
+            }
             
         } catch (error) {
             console.error('Error fetching tournament:', error);
@@ -166,48 +168,49 @@ async function fetchAndDisplayTournaments() {
             }
 
             const liveTournamentContainer = document.getElementById('_tournamentLive');
+            if (liveTournamentContainer) {
+                // Create a temporary wrapper div for new content
+                const tempContainer = document.createElement("div");
 
-            // Create a temporary wrapper div for new content
-            const tempContainer = document.createElement("div");
-
-            tournaments.livetournament.forEach(tournament => {
-                const tournamentDiv = document.createElement('div');
-                tournamentDiv.innerHTML = `
-                    <div class="_tournament_box" data-start-time="${tournament.tournamentStartTime}" data-end-time="${tournament.tournamentEndTime}"  data-tournament-id="${tournament._id}">
-                                <div class="_game_img">
-                                    <img src="${tournament.tournamentImgUrl}" alt="">
+                tournaments.livetournament.forEach(tournament => {
+                    const tournamentDiv = document.createElement('div');
+                    tournamentDiv.innerHTML = `
+                        <div class="_tournament_box" data-start-time="${tournament.tournamentStartTime}" data-end-time="${tournament.tournamentEndTime}"  data-tournament-id="${tournament._id}">
+                                    <div class="_game_img">
+                                        <img src="${tournament.tournamentImgUrl}" alt="">
+                                    </div>
+                                    <div class="p-2">
+                                        <div class="_game_name">
+                                            <h6>${tournament.tournamentName} <span class="badge">New!</span></h6>
+                                        </div>
+                                        <div class="_game_desc">
+                                            <p class="mb-2"><span id="status-${tournament._id}">Starts in:</span> <b id="timer-${tournament._id}">--:--</b></p>
+                                            <div class="_game_win_amount">Reward: N10,000</div>
+                                            <a class="" onclick="howItWorks('${tournament.tournamentName}')"><i class="fi fi-rr-info"></i> How to Win</a>
+                                        </div>
+                                        <div class="_game_player_join">
+                                            <div class="_player_joined mb-2"></div>
+                                            <a href="./tournament_page.html?id=${tournament._id}&tag=live" class="btn mb-1">
+                                                <div class="d-flex">
+                                                    <div class="pointDiv">100 pts</div>
+                                                    <div class="joinDiv">${tournament.message}</div>
+                                                </div>
+                                            </a>                                
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="p-2">
-                                    <div class="_game_name">
-                                        <h6>${tournament.tournamentName} <span class="badge">New!</span></h6>
-                                    </div>
-                                    <div class="_game_desc">
-                                        <p class="mb-2"><span id="status-${tournament._id}">Starts in:</span> <b id="timer-${tournament._id}">--:--</b></p>
-                                        <div class="_game_win_amount">Reward: N${tournament.tournamentReward}</div>
-                                        <a class="" onclick="howItWorks('${tournament.tournamentName}')"><i class="fi fi-rr-info"></i> How to Win</a>
-                                    </div>
-                                    <div class="_game_player_join">
-                                        <div class="_player_joined mb-2"></div>
-                                        <a href="./tournament_page.html?id=${tournament._id}&tag=live" class="btn mb-1">
-                                            <div class="d-flex">
-                                                <div class="pointDiv">100 pts</div>
-                                                <div class="joinDiv">${tournament.message}</div>
-                                            </div>
-                                        </a>                                
-                                    </div>
-                                </div>
-                            </div>
-                `;
+                    `;
 
-                tempContainer.appendChild(tournamentDiv);
-            }) ;
+                    tempContainer.appendChild(tournamentDiv);
+                }) ;
 
-            // Once all is ready, replace the old content with the new one
-            liveTournamentContainer.innerHTML = ""
-            liveTournamentContainer.innerHTML = tempContainer.innerHTML;
-            tournaments.livetournament.forEach(tournament => {
-                setupTournamentTimer(tournament._id, tournament.tournamentStartTime, tournament.tournamentEndTime);
-            });
+                // Once all is ready, replace the old content with the new one
+                liveTournamentContainer.innerHTML = ""
+                liveTournamentContainer.innerHTML = tempContainer.innerHTML;
+                tournaments.livetournament.forEach(tournament => {
+                    setupTournamentTimer(tournament._id, tournament.tournamentStartTime, tournament.tournamentEndTime);
+                });   
+            }
         }
         catch (error) {
             console.error('Error fetching tournament:', error); 
@@ -237,48 +240,49 @@ async function fetchAndDisplayTournaments() {
             }
 
             const liveTournamentContainer = document.getElementById('_tournamentUpcoming');
-
-            // Create a temporary wrapper div for new content
-            const tempContainer = document.createElement("div");
-
-            tournaments.livetournament.forEach(tournament => {
-                const tournamentDiv = document.createElement('div');
-                tournamentDiv.innerHTML = `
-                    <div class="_tournament_box" data-start-time="${tournament.tournamentStartTime}" data-end-time="${tournament.tournamentEndTime}"  data-tournament-id="${tournament._id}">
-                                <div class="_game_img">
-                                    <img src="${tournament.tournamentImgUrl}" alt="">
-                                </div>
-                                <div class="p-2">
-                                    <div class="_game_name">
-                                        <h6>${tournament.tournamentName} <span class="badge">New!</span></h6>
-                                    </div>
-                                    <div class="_game_desc">
-                                        <p class="mb-2"><span id="status-${tournament._id}">Starts in:</span> <b id="timer-${tournament._id}">--:--</b></p>
-                                        <div class="_game_win_amount">Reward: N${tournament.tournamentReward}</div>
-                                        <a class="" onclick="howItWorks('${tournament.tournamentName}')"><i class="fi fi-rr-info"></i> How to Win</a>
-                                    </div>
-                                    <div class="_game_player_join">
-                                        <div class="_player_joined mb-2"></div>
-                                        <a href="./tournament_page.html?id=${tournament._id}&tag=live" class="btn mb-1">
-                                            <div class="d-flex">
-                                                <div class="pointDiv">100</div>
-                                                <div class="joinDiv">${tournament.message}</div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                `;
-
-                tempContainer.appendChild(tournamentDiv);        
-            }); 
-
             // Once all is ready, replace the old content with the new one
-            liveTournamentContainer.innerHTML = ""
-            liveTournamentContainer.innerHTML = tempContainer.innerHTML;
-            tournaments.livetournament.forEach(tournament => {
-                setupTournamentTimer(tournament._id, tournament.tournamentStartTime, tournament.tournamentEndTime);
-            });    
+            if (liveTournamentContainer) {
+                // Create a temporary wrapper div for new content
+                const tempContainer = document.createElement("div");
+
+                tournaments.livetournament.forEach(tournament => {
+                    const tournamentDiv = document.createElement('div');
+                    tournamentDiv.innerHTML = `
+                        <div class="_tournament_box" data-start-time="${tournament.tournamentStartTime}" data-end-time="${tournament.tournamentEndTime}"  data-tournament-id="${tournament._id}">
+                                    <div class="_game_img">
+                                        <img src="${tournament.tournamentImgUrl}" alt="">
+                                    </div>
+                                    <div class="p-2">
+                                        <div class="_game_name">
+                                            <h6>${tournament.tournamentName} <span class="badge">New!</span></h6>
+                                        </div>
+                                        <div class="_game_desc">
+                                            <p class="mb-2"><span id="status-${tournament._id}">Starts in:</span> <b id="timer-${tournament._id}">--:--</b></p>
+                                            <div class="_game_win_amount">Reward: N10,000</div>
+                                            <a class="" onclick="howItWorks('${tournament.tournamentName}')"><i class="fi fi-rr-info"></i> How to Win</a>
+                                        </div>
+                                        <div class="_game_player_join">
+                                            <div class="_player_joined mb-2"></div>
+                                            <a href="./tournament_page.html?id=${tournament._id}&tag=live" class="btn mb-1">
+                                                <div class="d-flex">
+                                                    <div class="pointDiv">100</div>
+                                                    <div class="joinDiv">${tournament.message}</div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                    `;
+
+                    tempContainer.appendChild(tournamentDiv);        
+                }); 
+
+                liveTournamentContainer.innerHTML = ""
+                liveTournamentContainer.innerHTML = tempContainer.innerHTML;
+                tournaments.livetournament.forEach(tournament => {
+                    setupTournamentTimer(tournament._id, tournament.tournamentStartTime, tournament.tournamentEndTime);
+                });       
+            }
         }
         catch (error) {
             console.error('Error fetching tournament:', error); 
@@ -309,11 +313,13 @@ async function fetchAndDisplayTournaments() {
             }
 
             if (tournaments.length == 0) {
-                liveTournamentContainer.innerHTML = `
-                <div class="_empty">
-                    <h6>You have no <b>active / joined</b> tournament</h6>
-                </div>
-            `;
+                tempContainer.innerHTML = `
+                    <div class="_empty">
+                        <h6>You have no <b>active / joined</b> tournament</h6>
+                    </div>
+                `;
+            liveTournamentContainer.innerHTML = tempContainer.innerHTML;
+
             }
 
             const timerCount = sessionStorage.setItem("open_tournaments", tournaments.length);
