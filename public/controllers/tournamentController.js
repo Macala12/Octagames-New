@@ -73,6 +73,14 @@ function handleTournamentLifecycle(tournamentId) {
         }
 
         const now = new Date();
+        if (tournament.status === 'ended') {
+            console.log(`Deleting ${tournament._id}`)
+            const deleteLeaderboard = await Leaderboard.deleteMany({ leaderboardId: tournament._id});
+            console.log(`Deleted ${deleteLeaderboard.deletedCount} records with ${tournament._id}`);
+
+            const deletedTournament = await liveTournament.deleteOne({ _id: new mongoose.Types.ObjectId(tournament._id) });
+            console.log(`Deleted ${tournament._id} record from database - successful`)
+        }
 
         if (tournament.status === 'upcoming' && now >= tournament.tournamentStartTime && now < tournament.tournamentEndTime) {
             await Tournament.findByIdAndUpdate(tournamentId, { status: 'active' });
@@ -219,13 +227,6 @@ function handleTournamentLifecycle(tournamentId) {
             clearInterval(interval); // Stop checking once ended
         }
 
-        if (tournament.status === 'ended') {
-            const deleteLeaderboard = await Leaderboard.deleteMany({ leaderboardId: tournamentId});
-            console.log(`Deleted ${deleteLeaderboard.deletedCount} records with ${tournamentId}`);
-
-            const deletedTournament = await liveTournament.deleteOne({ _id: new mongoose.Types.ObjectId(tournamentId) });            
-            console.log(`Deleted ${tournamentId} record from database - successful`)
-        }
     }, 10 * 1000); // Every 10 seconds
 }
 
