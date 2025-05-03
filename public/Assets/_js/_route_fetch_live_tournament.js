@@ -1,8 +1,9 @@
 document.querySelector("main").style.display = "none";
 const userId = sessionStorage.getItem("userid");
-const exclusiveTournament = document.querySelector("._exclusive_box");
 document.addEventListener('DOMContentLoaded', async () => {
-    topPlayers();
+    if (document.querySelector("._top_three_box")) {
+        topPlayers();
+    }
     fetchAndDisplayTournaments();
 }) 
 
@@ -293,7 +294,7 @@ async function fetchAndDisplayTournaments() {
         try {
             const response = await fetch(`${API_BASE_URL}/fetch_active_tournament?userid=${userId}`);
             const tournaments = await response.json();
-            const liveTournamentContainer = document.getElementById('_tournamentActive');
+            const activeTournamentBox = document.getElementById('_tournamentActive');
 
             if (!response.ok) {
                 const alert = document.createElement("div");
@@ -311,21 +312,22 @@ async function fetchAndDisplayTournaments() {
                 mainAlert.appendChild(alert);
                 console.log(tournaments.message);
             }
-
-            if (tournaments.length == 0) {
-                tempContainer.innerHTML = `
-                    <div class="_empty">
-                        <h6>You have no <b>active / joined</b> tournament</h6>
-                    </div>
-                `;
-            liveTournamentContainer.innerHTML = tempContainer.innerHTML;
-            }
-
+            
             const timerCount = sessionStorage.setItem("open_tournaments", tournaments.length);
             const activeNumber = sessionStorage.getItem("open_tournaments")
             if (activeNumber) {
                 document.querySelector(".active_count").style.background = "#000";
                 document.querySelector(".active_count").innerHTML = activeNumber;
+            }
+
+            if (tournaments.length == 0) {
+                console.log(tournaments);
+                activeTournamentBox.innerHTML = `
+                    <div class="_empty">
+                        <h6>You have no <b>active / joined</b> tournament</h6>
+                    </div>
+                `;
+                return;
             }
 
             // Create a temporary wrapper div for new content
@@ -366,8 +368,8 @@ async function fetchAndDisplayTournaments() {
             }); 
 
             // Once all is ready, replace the old content with the new one
-            liveTournamentContainer.innerHTML = ""
-            liveTournamentContainer.innerHTML = tempContainer.innerHTML;
+            activeTournamentBox.innerHTML = ""
+            activeTournamentBox.innerHTML = tempContainer.innerHTML;
             tournaments.forEach(tournament => {
                 setupTournamentTimer(tournament.tournament._id, tournament.tournament.tournamentStartTime, tournament.tournament.tournamentEndTime);
             });        
