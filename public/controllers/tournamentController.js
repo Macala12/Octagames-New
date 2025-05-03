@@ -33,7 +33,7 @@ async function createNewTournament(tournamentName, tournamentImgUrl, tournamentD
     return tournament;
 }
 
-async function createNewExclusiveTournament(tournamentName, tournamentImgUrl, tournamentDesc, tournamentReward, entryAmount, type, tagOne, tagTwo, tagThree, playerJoinedCount) {
+async function createNewExclusiveTournament(tournamentName, tournamentImgUrl, tournamentDesc, tournamentReward, entryAmount, type, tagOne, tagTwo, tagThree, playerJoinedCount, tournamentPlayUrl) {
     const now = new Date();
     const lobbyDuration = 60 * 60 * 1000;  // Lobby duration (e.g., 1 hour)
     const tournamentDuration = 60 * 60 * 1000; // Tournament duration (e.g., 1 hour)
@@ -287,7 +287,8 @@ async function handleMultipleTournaments() {
             'Trivia',
             'BrainTeaser',
             'QuizGame',
-            0
+            0,
+            './Assets/_games/_games/trivia/main.html'
         );
         const codm = await createNewExclusiveTournament(
             "Call of Duty Mobile: Single",

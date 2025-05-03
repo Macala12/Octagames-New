@@ -1,3 +1,7 @@
+const userid = sessionStorage.getItem('userid');
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get("id");
+
 const categories = [
     { id: 1, name: "General Knowledge" },
     { id: 2, name: "History" },
@@ -126,7 +130,8 @@ const categories = [
         if (live == 0) {
             //Send Score to Backend
             async function updateScore() {
-                document.getElementById("c2canvasdiv").style.display = "none";
+                document.getElementById("gameBox").style.display = "none";
+                document.querySelector("body").style.background = "url('./')";
                 const gameOverBox = document.querySelector(".game-over-contanier");
                 const soundOver = new Audio("../../../_sound/mixkit-player-losing-or-failing-2042.wav");
                 try {
@@ -184,7 +189,6 @@ const categories = [
                 }
             }
             updateScore();
-            clearInterval(checkingScoreTrack);
         }
         currentTime = 10;  // Reset time if answer is incorrect
         }

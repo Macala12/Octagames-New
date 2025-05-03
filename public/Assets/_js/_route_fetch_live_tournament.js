@@ -319,7 +319,6 @@ async function fetchAndDisplayTournaments() {
                     </div>
                 `;
             liveTournamentContainer.innerHTML = tempContainer.innerHTML;
-
             }
 
             const timerCount = sessionStorage.setItem("open_tournaments", tournaments.length);

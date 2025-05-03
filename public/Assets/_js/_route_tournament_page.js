@@ -215,7 +215,7 @@ function updateTournamentUI(result) {
         const firstPrize = document.getElementById("firstPrize");
         const secondPrize = document.getElementById("secondPrize");
         const thirdPrize = document.getElementById("thirdPrize");
-        document.querySelector(".leaderboard_main").style.marginTop = "415px"
+        document.querySelector(".leaderboard_main").style.marginTop = "335px"
     
         if (joinedSection) {
             joinedSection.textContent = result.tournamentName;
