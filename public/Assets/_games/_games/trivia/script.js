@@ -21,7 +21,13 @@ const categories = [
   let currentTime = 10;
   const maxTime = 30;
   let timerInterval;
-  let live = 10;
+  let live = 5;
+
+  const soundCorrect = new Audio("./img/mixkit-correct-answer-tone-2870.wav");
+  const soundFailed = new Audio("./img/mixkit-wrong-long-buzzer-954.wav");
+  const soundNewQuestion = new Audio("./img/mixkit-tile-game-reveal-960.wav");
+  const soundTimer = new Audio("./img/mixkit-tick-tock-clock-timer-1045.wav");
+
   
   let currentTriviaQuestion = {}; // Store the current trivia question
   
@@ -46,7 +52,8 @@ const categories = [
   function startTimer() {
     clearInterval(timerInterval);
     updateTimerDisplay();
-  
+    soundTimer.play();
+    
     timerInterval = setInterval(() => {
       currentTime--;
       updateTimerDisplay();
@@ -122,10 +129,16 @@ const categories = [
     
         // Carry-over timer logic
         if (isCorrect) {
+        soundTimer.pause();
+        soundTimer.currentTime = 0;
+        soundCorrect.play();
         const carryOver = currentTime;
         scoreElem.innerHTML = `Score: ${score += 10}`;  // Update score
         currentTime = Math.min(10 + carryOver, maxTime);  // Add carry-over time
         } else {
+          soundTimer.pause();
+          soundTimer.currentTime = 0;
+          soundFailed.play();
         liveElem.innerHTML = `${--live}`
         if (live == 0) {
             //Send Score to Backend
@@ -195,6 +208,7 @@ const categories = [
     
         // Next question after a short delay
         setTimeout(() => {
+          soundNewQuestion.play();
         loadRandomQuestion(); // Fetch new random question
         }, 1500);
     }

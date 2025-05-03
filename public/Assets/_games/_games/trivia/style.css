@@ -12,6 +12,12 @@ body {
     width: 100% !important;
     height: 100vh !important;
   }
+  button:focus{
+    background-color: transparent;
+  }
+  button:hover{
+    background-color: transparent;
+  }
   .live_container{
     display: flex;
     justify-content: center;
@@ -57,7 +63,6 @@ body {
   button {
     padding: 1em;
     font-size: 1em;
-    background-color: #FFC107;
     color: #1a1a1a;
     border: none;
     border-radius: 6px;
@@ -73,7 +78,7 @@ body {
     flex-wrap: wrap;
   }
   
-  .timer {
+  .trivia_timer {
     color: #00e676 !important;
     padding: 10px 10px;
     border-radius: 50%;
@@ -96,10 +101,5 @@ body {
     cursor: pointer;
     transition: 0.3s;
     box-sizing: border-box;
-  }
-  
-  .option-btn:hover {
-    background-color: #FFC107;
-    color: #1a1a1a;
   }
   

@@ -54,6 +54,7 @@ async function createNewExclusiveTournament(tournamentName, tournamentImgUrl, to
         tagTwo,
         tagThree,
         playerJoinedCount,
+        tournamentPlayUrl,
         tournamentStartTime: startTime,
         tournamentEndTime: endTime
     });
