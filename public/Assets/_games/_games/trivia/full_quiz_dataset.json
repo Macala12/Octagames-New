@@ -1,0 +1,969 @@
+[
+  {
+      "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+      "category": "General Knowledge",
+      "text": "Which African country is known as the 'Pearl of Africa'?",
+      "options": ["Kenya", "Uganda", "Ghana", "Nigeria"],
+      "correct": "Uganda",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+      "category": "General Knowledge",
+      "text": "What is the largest lake in Africa?",
+      "options": ["Lake Tanganyika", "Lake Victoria", "Lake Malawi", "Lake Chad"],
+      "correct": "Lake Victoria",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
+      "category": "General Knowledge",
+      "text": "Which African country has the highest population?",
+      "options": ["Ethiopia", "Nigeria", "Kenya", "South Africa"],
+      "correct": "Nigeria",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
+      "category": "General Knowledge",
+      "text": "What is the currency of South Africa?",
+      "options": ["Rand", "Shilling", "Naira", "Cedi"],
+      "correct": "Rand",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
+      "category": "General Knowledge",
+      "text": "Which African mountain is the highest?",
+      "options": ["Mount Kenya", "Mount Kilimanjaro", "Mount Elgon", "Mount Cameroon"],
+      "correct": "Mount Kilimanjaro",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c",
+      "category": "General Knowledge",
+      "text": "Which African country is an island nation in the Indian Ocean?",
+      "options": ["Madagascar", "Mauritius", "Seychelles", "Comoros"],
+      "correct": "Madagascar",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "a7b8c9d0-e1f2-4a3b-5c6d-7e8f9a0b1c2d",
+      "category": "General Knowledge",
+      "text": "What is the official language of Algeria?",
+      "options": ["French", "Arabic", "Swahili", "Hausa"],
+      "correct": "Arabic",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e",
+      "category": "General Knowledge",
+      "text": "Which African country is known for its ancient rock-hewn churches?",
+      "options": ["Ethiopia", "Sudan", "Mali", "Zimbabwe"],
+      "correct": "Ethiopia",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f",
+      "category": "General Knowledge",
+      "text": "What is the capital of Morocco?",
+      "options": ["Casablanca", "Rabat", "Marrakesh", "Fez"],
+      "correct": "Rabat",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a",
+      "category": "General Knowledge",
+      "text": "Which African animal is known as the 'King of the Jungle'?",
+      "options": ["Elephant", "Lion", "Giraffe", "Rhino"],
+      "correct": "Lion",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b",
+      "category": "General Knowledge",
+      "text": "Which African country was formerly known as Rhodesia?",
+      "options": ["Zambia", "Zimbabwe", "Malawi", "Botswana"],
+      "correct": "Zimbabwe",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c",
+      "category": "General Knowledge",
+      "text": "What is the main religion in Somalia?",
+      "options": ["Christianity", "Islam", "Traditional", "Hinduism"],
+      "correct": "Islam",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d",
+      "category": "General Knowledge",
+      "text": "Which African country is famous for its Maasai warriors?",
+      "options": ["Kenya", "Uganda", "Rwanda", "Burundi"],
+      "correct": "Kenya",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e",
+      "category": "General Knowledge",
+      "text": "What is the currency of Kenya?",
+      "options": ["Shilling", "Cedi", "Naira", "Dinar"],
+      "correct": "Shilling",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "c5d6e7f8-a9b0-1c2d-3e4f-5a6b7c8d9e0f",
+      "category": "General Knowledge",
+      "text": "Which African river flows through the city of Timbuktu?",
+      "options": ["Nile", "Niger", "Congo", "Zambezi"],
+      "correct": "Niger",
+      "difficulty": "Hard"
+  },
+
+  {
+      "id": "d6e7f8a9-b0c1-2d3e-4f5a-6b7c8d9e0f1a",
+      "category": "History",
+      "text": "Who was Nigeria’s first President?",
+      "options": ["Nnamdi Azikiwe", "Obafemi Awolowo", "Ahmadu Bello", "Tafawa Balewa"],
+      "correct": "Nnamdi Azikiwe",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "e7f8a9b0-c1d2-3e4f-5a6b-7c8d9e0f1a2b",
+      "category": "History",
+      "text": "In which year did the Nigerian Civil War begin?",
+      "options": ["1965", "1967", "1970", "1973"],
+      "correct": "1967",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "f8a9b0c1-d2e3-4f5a-6b7c-8d9e0f1a2b3c",
+      "category": "History",
+      "text": "Which Nigerian kingdom was known for its bronze plaques?",
+      "options": ["Owo", "Benin", "Ife", "Igbo-Ukwu"],
+      "correct": "Benin",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "a9b0c1d2-e3f4-5a6b-7c8d-9e0f1a2b3c4d",
+      "category": "History",
+      "text": "Who founded the Nigerian National Democratic Party in 1923?",
+      "options": ["Herbert Macaulay", "Ladoke Akintola", "Aminu Kano", "Funmilayo Ransome-Kuti"],
+      "correct": "Herbert Macaulay",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "b0c1d2e3-f4a5-6b7c-8d9e-0f1a2b3c4d5e",
+      "category": "History",
+      "text": "What was Nigeria’s capital city from 1914 to 1991?",
+      "options": ["Abuja", "Lagos", "Calabar", "Kaduna"],
+      "correct": "Lagos",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "c1d2e3f4-a5b6-7c8d-9e0f-1a2b3c4d5e6f",
+      "category": "History",
+      "text": "Which Nigerian leader introduced the Structural Adjustment Programme in 1986?",
+      "options": ["Shehu Shagari", "Ibrahim Babangida", "Olusegun Obasanjo", "Muhammadu Buhari"],
+      "correct": "Ibrahim Babangida",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "d2e3f4a5-b6c7-8d9e-0f1a-2b3c4d5e6f7a",
+      "category": "History",
+      "text": "What was the name of the first Nigerian university, established in 1948?",
+      "options": ["University of Lagos", "University of Ibadan", "Ahmadu Bello University", "University of Nigeria"],
+      "correct": "University of Ibadan",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "e3f4a5b6-c7d8-9e0f-1a2b-3c4d5e6f7a8b",
+      "category": "History",
+      "text": "Which Nigerian woman was a prominent anti-colonial activist in the 1940s?",
+      "options": ["Funmilayo Ransome-Kuti", "Margaret Ekpo", "Queen Amina", "Hajiya Gambo Sawaba"],
+      "correct": "Funmilayo Ransome-Kuti",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "f4a5b6c7-d8e9-0f1a-2b3c-4d5e6f7a8b9c",
+      "category": "History",
+      "text": "In which year did Nigeria become a republic?",
+      "options": ["1960", "1963", "1966", "1979"],
+      "correct": "1963",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "a5b6c7d8-e9f0-1a2b-3c4d-5e6f7a8b9c0d",
+      "category": "History",
+      "text": "Which Nigerian city was a major slave trade port in the 18th century?",
+      "options": ["Badagry", "Kano", "Enugu", "Ibadan"],
+      "correct": "Badagry",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "b6c7d8e9-f0a1-2b3c-4d5e-6f7a8b9c0d1e",
+      "category": "History",
+      "text": "Who was the leader of the Biafran secessionist state?",
+      "options": ["Odumegwu Ojukwu", "Yakubu Gowon", "Murtala Mohammed", "Sani Abacha"],
+      "correct": "Odumegwu Ojukwu",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "c7d8e9f0-a1b2-3c4d-5e6f-7a8b9c0d1e2f",
+      "category": "History",
+      "text": "Which Nigerian ethnic group is associated with the ancient Nok culture?",
+      "options": ["Yoruba", "Igbo", "Hausa", "Jukun"],
+      "correct": "Jukun",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a",
+      "category": "History",
+      "text": "What was the name of Nigeria’s currency before the Naira?",
+      "options": ["Pound", "Cedi", "Shilling", "Dinar"],
+      "correct": "Pound",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "e9f0a1b2-c3d4-5e6f-7a8b-9c0d1e2f3a4b",
+      "category": "History",
+      "text": "Which Nigerian leader was assassinated in 1976?",
+      "options": ["Murtala Mohammed", "Shehu Shagari", "Yakubu Gowon", "Olusegun Obasanjo"],
+      "correct": "Murtala Mohammed",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "f0a1b2c3-d4e5-6f7a-8b9c-0d1e2f3a4b5c",
+      "category": "History",
+      "text": "Which Nigerian city hosted the 1973 All-Africa Games?",
+      "options": ["Lagos", "Abuja", "Ibadan", "Kano"],
+      "correct": "Lagos",
+      "difficulty": "Medium"
+  },
+
+  {
+      "id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+      "category": "Sports",
+      "text": "Which country won the FIFA World Cup in 2022?",
+      "options": ["Brazil", "France", "Argentina", "Germany"],
+      "correct": "Argentina",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
+      "category": "Sports",
+      "text": "Who holds the women’s 100m world record?",
+      "options": ["Shelly-Ann Fraser-Pryce", "Florence Griffith-Joyner", "Elaine Thompson-Herah", "Carmelita Jeter"],
+      "correct": "Florence Griffith-Joyner",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f",
+      "category": "Sports",
+      "text": "In which sport is the term ‘hole-in-one’ used?",
+      "options": ["Tennis", "Golf", "Hockey", "Cricket"],
+      "correct": "Golf",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
+      "category": "Sports",
+      "text": "Which city hosted the 2020 Summer Olympics?",
+      "options": ["Rio de Janeiro", "Tokyo", "London", "Beijing"],
+      "correct": "Tokyo",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b",
+      "category": "Sports",
+      "text": "Who is the all-time top scorer in the UEFA Champions League?",
+      "options": ["Lionel Messi", "Cristiano Ronaldo", "Robert Lewandowski", "Raúl"],
+      "correct": "Cristiano Ronaldo",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c",
+      "category": "Sports",
+      "text": "Which sport uses a shuttlecock?",
+      "options": ["Tennis", "Badminton", "Squash", "Table Tennis"],
+      "correct": "Badminton",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d",
+      "category": "Sports",
+      "text": "Which country has won the most Olympic gold medals in history?",
+      "options": ["China", "United States", "Russia", "Germany"],
+      "correct": "United States",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e",
+      "category": "Sports",
+      "text": "Who won the men’s Wimbledon title in 2023?",
+      "options": ["Novak Djokovic", "Carlos Alcaraz", "Rafael Nadal", "Roger Federer"],
+      "correct": "Carlos Alcaraz",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f",
+      "category": "Sports",
+      "text": "In which sport is the ‘Stanley Cup’ awarded?",
+      "options": ["Basketball", "Ice Hockey", "Baseball", "American Football"],
+      "correct": "Ice Hockey",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a",
+      "category": "Sports",
+      "text": "Which African country won the Africa Cup of Nations in 2019?",
+      "options": ["Nigeria", "Algeria", "Senegal", "Cameroon"],
+      "correct": "Algeria",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b",
+      "category": "Sports",
+      "text": "What is the maximum score in a single frame of ten-pin bowling?",
+      "options": ["100", "200", "300", "400"],
+      "correct": "300",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c",
+      "category": "Sports",
+      "text": "Which sport is known as ‘the sweet science’?",
+      "options": ["Wrestling", "Boxing", "Judo", "Karate"],
+      "correct": "Boxing",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d",
+      "category": "Sports",
+      "text": "Who is the only boxer to retire undefeated as a world champion?",
+      "options": ["Muhammad Ali", "Floyd Mayweather", "Mike Tyson", "Rocky Marciano"],
+      "correct": "Rocky Marciano",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e",
+      "category": "Sports",
+      "text": "Which country won the first Cricket World Cup in 1975?",
+      "options": ["Australia", "India", "West Indies", "England"],
+      "correct": "West Indies",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "c5d6e7f8-a9b0-1c2d-3e4f-5a6b7c8d9e0f",
+      "category": "Sports",
+      "text": "In which sport is the ‘Ryder Cup’ contested?",
+      "options": ["Tennis", "Golf", "Rugby", "Sailing"],
+      "correct": "Golf",
+      "difficulty": "Medium"
+  },
+
+  {
+      "id": "d6e7f8a9-b0c1-2d3e-4f5a-6b7c8d9e0f1a",
+      "category": "Science",
+      "text": "What is Nigeria’s primary export commodity, extracted from the Niger Delta?",
+      "options": ["Coal", "Crude Oil", "Natural Gas", "Tin"],
+      "correct": "Crude Oil",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "e7f8a9b0-c1d2-3e4f-5a6b-7c8d9e0f1a2b",
+      "category": "Science",
+      "text": "Which Nigerian crop is used to produce garri?",
+      "options": ["Yam", "Cassava", "Rice", "Maize"],
+      "correct": "Cassava",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "f8a9b0c1-d2e3-4f5a-6b7c-8d9e0f1a2b3c",
+      "category": "Science",
+      "text": "What is the chemical formula for water, taught in Nigerian schools?",
+      "options": ["H2O", "CO2", "O2", "H2SO4"],
+      "correct": "H2O",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "a9b0c1d2-e3f4-5a6b-7c8d-9e0f1a2b3c4d",
+      "category": "Science",
+      "text": "Which Nigerian scientist is known for contributions to supercomputing?",
+      "options": ["Philip Emeagwali", "Bennett Omalu", "Barth Nnaji", "Samuel Okoye"],
+      "correct": "Philip Emeagwali",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "b0c1d2e3-f4a5-6b7c-8d9e-0f1a2b3c4d5e",
+      "category": "Science",
+      "text": "What type of energy is generated by the Kainji Dam in Nigeria?",
+      "options": ["Solar", "Hydroelectric", "Thermal", "Wind"],
+      "correct": "Hydroelectric",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "c1d2e3f4-a5b6-7c8d-9e0f-1a2b3c4d5e6f",
+      "category": "Science",
+      "text": "Which disease, common in Nigeria, is caused by the Anopheles mosquito?",
+      "options": ["Tuberculosis", "Malaria", "Cholera", "Typhoid"],
+      "correct": "Malaria",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "d2e3f4a5-b6c7-8d9e-0f1a-2b3c4d5e6f7a",
+      "category": "Science",
+      "text": "What is the primary gas in Nigeria’s natural gas reserves?",
+      "options": ["Methane", "Oxygen", "Carbon Dioxide", "Nitrogen"],
+      "correct": "Methane",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "e3f4a5b6-c7d8-9e0f-1a2b-3c4d5e6f7a8b",
+      "category": "Science",
+      "text": "Which Nigerian mineral is used in steel production?",
+      "options": ["Gold", "Iron Ore", "Limestone", "Gypsum"],
+      "correct": "Iron Ore",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "f4a5b6c7-d8e9-0f1a-2b3c-4d5e6f7a8b9c",
+      "category": "Science",
+      "text": "What is the process by which plants in Nigeria produce food?",
+      "options": ["Respiration", "Photosynthesis", "Fermentation", "Digestion"],
+      "correct": "Photosynthesis",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "a5b6c7d8-e9f0-1a2b-3c4d-5e6f7a8b9c0d",
+      "category": "Science",
+      "text": "Which Nigerian scientist discovered the concussion effects in NFL players?",
+      "options": ["Philip Emeagwali", "Bennett Omalu", "Samuel Okoye", "Barth Nnaji"],
+      "correct": "Bennett Omalu",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "b6c7d8e9-f0a1-2b3c-4d5e-6f7a8b9c0d1e",
+      "category": "Science",
+      "text": "What is the boiling point of water at sea level, as taught in Nigeria?",
+      "options": ["50°C", "100°C", "150°C", "200°C"],
+      "correct": "100°C",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "c7d8e9f0-a1b2-3c4d-5e6f-7a8b9c0d1e2f",
+      "category": "Science",
+      "text": "Which Nigerian crop is a major source of palm oil?",
+      "options": ["Cocoa", "Oil Palm", "Groundnut", "Rubber"],
+      "correct": "Oil Palm",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a",
+      "category": "Science",
+      "text": "What is the SI unit of force, used in Nigerian physics classes?",
+      "options": ["Watt", "Newton", "Joule", "Pascal"],
+      "correct": "Newton",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "e9f0a1b2-c3d4-5e6f-7a8b-9c0d1e2f3a4b",
+      "category": "Science",
+      "text": "Which Nigerian river is a major source of fish for local communities?",
+      "options": ["Niger", "Benue", "Sokoto", "Kaduna"],
+      "correct": "Niger",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "f0a1b2c3-d4e5-6f7a-8b9c-0d1e2f3a4b5c",
+      "category": "Science",
+      "text": "What type of rock is coal, mined in Nigeria?",
+      "options": ["Igneous", "Sedimentary", "Metamorphic", "Volcanic"],
+      "correct": "Sedimentary",
+      "difficulty": "Hard"
+  },
+
+  {
+      "id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+      "category": "Mathematics",
+      "text": "Calculate: 7 * 4 + 15 / 3?",
+      "options": ["33", "35", "28", "30"],
+      "correct": "33",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
+      "category": "Mathematics",
+      "text": "What is 6 * 8 - 12 / 4 * 2?",
+      "options": ["42", "44", "46", "48"],
+      "correct": "42",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f",
+      "category": "Mathematics",
+      "text": "Solve: 3 * 9 + 20 / 5 * 3?",
+      "options": ["39", "41", "37", "43"],
+      "correct": "39",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
+      "category": "Mathematics",
+      "text": "What is 5 * 6 + 10 / 2 - 3?",
+      "options": ["32", "34", "30", "28"],
+      "correct": "32",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b",
+      "category": "Mathematics",
+      "text": "Calculate: 4 * 7 - 18 / 6 + 5?",
+      "options": ["30", "28", "32", "26"],
+      "correct": "30",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c",
+      "category": "Mathematics",
+      "text": "Solve: 8 * 5 + 24 / 8 * 4?",
+      "options": ["52", "48", "50", "54"],
+      "correct": "52",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d",
+      "category": "Mathematics",
+      "text": "What is 3 * 8 + 15 / 5 * 6?",
+      "options": ["42", "40", "44", "38"],
+      "correct": "42",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e",
+      "category": "Mathematics",
+      "text": "Calculate: 9 * 4 - 10 / 2 + 7?",
+      "options": ["38", "36", "40", "34"],
+      "correct": "38",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f",
+      "category": "Mathematics",
+      "text": "Solve: 6 * 7 + 20 / 10 * 5?",
+      "options": ["52", "50", "48", "54"],
+      "correct": "52",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a",
+      "category": "Mathematics",
+      "text": "What is 5 * 8 - 12 / 3 * 2?",
+      "options": ["32", "34", "36", "30"],
+      "correct": "32",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b",
+      "category": "Mathematics",
+      "text": "Calculate: 4 * 9 + 15 / 5 * 4?",
+      "options": ["48", "46", "50", "44"],
+      "correct": "48",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c",
+      "category": "Mathematics",
+      "text": "Solve: 7 * 6 - 10 / 2 * 3?",
+      "options": ["27", "29", "31", "33"],
+      "correct": "27",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d",
+      "category": "Mathematics",
+      "text": "What is 3 * 10 + 18 / 3 * 2?",
+      "options": ["42", "40", "44", "38"],
+      "correct": "42",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e",
+      "category": "Mathematics",
+      "text": "Calculate: 8 * 4 - 20 / 5 * 3?",
+      "options": ["20", "22", "24", "26"],
+      "correct": "20",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "c5d6e7f8-a9b0-1c2d-3e4f-5a6b7c8d9e0f",
+      "category": "Mathematics",
+      "text": "Solve: 5 * 7 + 12 / 4 * 6?",
+      "options": ["53", "51", "55", "49"],
+      "correct": "53",
+      "difficulty": "Medium"
+  },
+
+  {
+      "id": "d6e7f8a9-b0c1-2d3e-4f5a-6b7c8d9e0f1a",
+      "category": "Reasoning",
+      "text": "If APPLE is coded as 2116, how is BANANA coded?",
+      "options": ["1214", "1315", "1416", "1517"],
+      "correct": "1214",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "e7f8a9b0-c1d2-3e4f-5a6b-7c8d9e0f1a2b",
+      "category": "Reasoning",
+      "text": "What comes next in the sequence: 3, 7, 15, 31, ?",
+      "options": ["63", "65", "67", "69"],
+      "correct": "63",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "f8a9b0c1-d2e3-4f5a-6b7c-8d9e0f1a2b3c",
+      "category": "Reasoning",
+      "text": "Which word is to ‘hot’ as ‘cold’ is to ‘freezing’?",
+      "options": ["Warm", "Boiling", "Tepid", "Scorching"],
+      "correct": "Boiling",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "a9b0c1d2-e3f4-5a6b-7c8d-9e0f1a2b3c4d",
+      "category": "Reasoning",
+      "text": "If all dogs bark and some animals are dogs, do some animals bark?",
+      "options": ["Yes", "No", "Maybe", "Cannot tell"],
+      "correct": "Yes",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "b0c1d2e3-f4a5-6b7c-8d9e-0f1a2b3c4d5e",
+      "category": "Reasoning",
+      "text": "Which number does not belong: 9, 16, 25, 36, 42?",
+      "options": ["9", "16", "25", "42"],
+      "correct": "42",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "c1d2e3f4-a5b6-7c8d-9e0f-1a2b3c4d5e6f",
+      "category": "Reasoning",
+      "text": "If yesterday was Wednesday, what day is it tomorrow?",
+      "options": ["Monday", "Tuesday", "Thursday", "Friday"],
+      "correct": "Friday",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "d2e3f4a5-b6c7-8d9e-0f1a-2b3c4d5e6f7a",
+      "category": "Reasoning",
+      "text": "What comes next: 1, 4, 9, 16, ?",
+      "options": ["25", "27", "29", "31"],
+      "correct": "25",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "e3f4a5b6-c7d8-9e0f-1a2b-3c4d5e6f7a8b",
+      "category": "Reasoning",
+      "text": "If A = 1, B = 2, C = 3, what is the value of ‘CAT’?",
+      "options": ["312", "321", "123", "213"],
+      "correct": "312",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "f4a5b6c7-d8e9-0f1a-2b3c-4d5e6f7a8b9c",
+      "category": "Reasoning",
+      "text": "Which shape does not belong: Circle, Square, Triangle, Rectangle?",
+      "options": ["Circle", "Square", "Triangle", "Rectangle"],
+      "correct": "Circle",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "a5b6c7d8-e9f0-1a2b-3c4d-5e6f7a8b9c0d",
+      "category": "Reasoning",
+      "text": "If 2 + 3 = 10, 4 + 5 = 18, what is 6 + 7?",
+      "options": ["26", "28", "30", "32"],
+      "correct": "26",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "b6c7d8e9-f0a1-2b3c-4d5e-6f7a8b9c0d1e",
+      "category": "Reasoning",
+      "text": "What comes next: 2, 6, 12, 20, ?",
+      "options": ["30", "32", "34", "36"],
+      "correct": "30",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "c7d8e9f0-a1b2-3c4d-5e6f-7a8b9c0d1e2f",
+      "category": "Reasoning",
+      "text": "If ‘pen’ is to ‘write’ as ‘knife’ is to what?",
+      "options": ["Cut", "Cook", "Eat", "Slice"],
+      "correct": "Cut",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a",
+      "category": "Reasoning",
+      "text": "Which number comes next: 5, 10, 20, 40, ?",
+      "options": ["60", "80", "100", "120"],
+      "correct": "80",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "e9f0a1b2-c3d4-5e6f-7a8b-9c0d1e2f3a4b",
+      "category": "Reasoning",
+      "text": "If all birds fly and some animals are birds, do some animals fly?",
+      "options": ["Yes", "No", "Maybe", "Cannot tell"],
+      "correct": "Yes",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "f0a1b2c3-d4e5-6f7a-8b9c-0d1e2f3a4b5c",
+      "category": "Reasoning",
+      "text": "What is the missing number: 1, 3, 6, 10, ?",
+      "options": ["12", "14", "16", "18"],
+      "correct": "16",
+      "difficulty": "Hard"
+  },
+
+  {
+      "id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+      "category": "Music",
+      "text": "Which Nigerian artist is known as ‘Mr. Eazi’?",
+      "options": ["Wizkid", "Tems", "Oluwatosin Ajibade", "Davido"],
+      "correct": "Oluwatosin Ajibade",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
+      "category": "Music",
+      "text": "What genre is associated with Nigerian artist 2Baba?",
+      "options": ["Afrobeat", "Highlife", "R&B", "Fuji"],
+      "correct": "R&B",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f",
+      "category": "Music",
+      "text": "Which Nigerian artist released the album ‘Made in Lagos’?",
+      "options": ["Burna Boy", "Wizkid", "Davido", "Olamide"],
+      "correct": "Wizkid",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
+      "category": "Music",
+      "text": "Who is considered the pioneer of Fuji music in Nigeria?",
+      "options": ["King Sunny Ade", "Ayinde Barrister", "Fela Kuti", "Ebenezer Obey"],
+      "correct": "Ayinde Barrister",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b",
+      "category": "Music",
+      "text": "Which Nigerian female artist is known as the ‘First Lady of Soundcity’?",
+      "options": ["Tiwa Savage", "Yemi Alade", "Simi", "Seyi Shay"],
+      "correct": "Tiwa Savage",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "f6a7b8c9-d0e1-2f3a-4b5c-6d7e8f9a0b1c",
+      "category": "Music",
+      "text": "Which Nigerian artist is nicknamed ‘OBO’?",
+      "options": ["Wizkid", "Davido", "Burna Boy", "Olamide"],
+      "correct": "Davido",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "a7b8c9d0-e1f2-3a4b-5c6d-7e8f9a0b1c2d",
+      "category": "Music",
+      "text": "What is the stage name of Nigerian rapper Oladipo Olamide?",
+      "options": ["Phyno", "Olamide", "MI Abaga", "Vector"],
+      "correct": "Olamide",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "b8c9d0e1-f2a3-4b5c-6d7e-8f9a0b1c2d3e",
+      "category": "Music",
+      "text": "Which Nigerian artist won the BET Award for Best International Act in 2018?",
+      "options": ["Davido", "Wizkid", "Burna Boy", "Tiwa Savage"],
+      "correct": "Davido",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "c9d0e1f2-a3b4-5c6d-7e8f-9a0b1c2d3e4f",
+      "category": "Music",
+      "text": "Which Nigerian music genre is characterized by Islamic influences?",
+      "options": ["Juju", "Fuji", "Highlife", "Afrobeat"],
+      "correct": "Fuji",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "d0e1f2a3-b4c5-6d7e-8f9a-0b1c2d3e4f5a",
+      "category": "Music",
+      "text": "Which Nigerian artist is known for the song ‘Ye’?",
+      "options": ["Wizkid", "Burna Boy", "Davido", "Olamide"],
+      "correct": "Burna Boy",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b",
+      "category": "Music",
+      "text": "Who is the Nigerian artist behind the hit song ‘Essence’?",
+      "options": ["Wizkid", "Tems", "Davido", "Burna Boy"],
+      "correct": "Wizkid",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "f2a3b4c5-d6e7-8f9a-0b1c-2d3e4f5a6b7c",
+      "category": "Music",
+      "text": "Which Nigerian artist is known as the ‘YBNL Boss’?",
+      "options": ["Olamide", "Phyno", "MI Abaga", "Vector"],
+      "correct": "Olamide",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "a3b4c5d6-e7f8-9a0b-1c2d-3e4f5a6b7c8d",
+      "category": "Music",
+      "text": "Which Nigerian female artist released the album ‘Celia’?",
+      "options": ["Tiwa Savage", "Yemi Alade", "Simi", "Tems"],
+      "correct": "Tiwa Savage",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "b4c5d6e7-f8a9-0b1c-2d3e-4f5a6b7c8d9e",
+      "category": "Music",
+      "text": "Which Nigerian artist is associated with the Zanku dance style?",
+      "options": ["Zlatan", "Naira Marley", "Olamide", "Davido"],
+      "correct": "Zlatan",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "c5d6e7f8-a9b0-1c2d-3e4f-5a6b7c8d9e0f",
+      "category": "Music",
+      "text": "Which Nigerian music pioneer is known for Highlife music?",
+      "options": ["Fela Kuti", "Ebenezer Obey", "Victor Uwaifo", "King Sunny Ade"],
+      "correct": "Victor Uwaifo",
+      "difficulty": "Hard"
+  },
+
+  {
+      "id": "d6e7f8a9-b0c1-2d3e-4f5a-6b7c8d9e0f1a",
+      "category": "Guess the Logo & Country",
+      "text": "Which company uses a logo with a blue oval and white lettering?",
+      "options": ["Ford", "Toyota", "Honda", "BMW"],
+      "correct": "Ford",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "e7f8a9b0-c1d2-3e4f-5a6b-7c8d9e0f1a2b",
+      "category": "Guess the Logo & Country",
+      "text": "Which country’s flag has a red circle on a white background?",
+      "options": ["Japan", "South Korea", "China", "Vietnam"],
+      "correct": "Japan",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "f8a9b0c1-d2e3-4f5a-6b7c-8d9e0f1a2b3c",
+      "category": "Guess the Logo & Country",
+      "text": "Which company has a logo with a golden ‘M’ on a red background?",
+      "options": ["Burger King", "McDonald’s", "Wendy’s", "KFC"],
+      "correct": "McDonald’s",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "a9b0c1d2-e3f4-5a6b-7c8d-9e0f1a2b3c4d",
+      "category": "Guess the Logo & Country",
+      "text": "Which country’s flag features a cedar tree in the center?",
+      "options": ["Lebanon", "Syria", "Jordan", "Iraq"],
+      "correct": "Lebanon",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "b0c1d2e3-f4a5-6b7c-8d9e-0f1a2b3c4d5e",
+      "category": "Guess the Logo & Country",
+      "text": "Which company uses a logo with a silver swoosh on a black background?",
+      "options": ["Nike", "Adidas", "Puma", "Under Armour"],
+      "correct": "Nike",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "c1d2e3f4-a5b6-7c8d-9e0f-1a2b3c4d5e6f",
+      "category": "Guess the Logo & Country",
+      "text": "Which country’s flag has three horizontal stripes of black, white, and green with a red triangle?",
+      "options": ["Sudan", "South Sudan", "Egypt", "Libya"],
+      "correct": "Sudan",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "d2e3f4a5-b6c7-8d9e-0f1a-2b3c4d5e6f7a",
+      "category": "Guess the Logo & Country",
+      "text": "Which company has a logo with a red and white circular target?",
+      "options": ["Walmart", "Target", "Amazon", "Costco"],
+      "correct": "Target",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "e3f4a5b6-c7d8-9e0f-1a2b-3c4d5e6f7a8b",
+      "category": "Guess the Logo & Country",
+      "text": "Which country’s flag has a blue and yellow cross on a white background?",
+      "options": ["Sweden", "Norway", "Finland", "Denmark"],
+      "correct": "Sweden",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "f4a5b6c7-d8e9-0f1a-2b3c-4d5e6f7a8b9c",
+      "category": "Guess the Logo & Country",
+      "text": "Which company uses a logo with a green mermaid (siren)?",
+      "options": ["Starbucks", "Dunkin’", "Costa Coffee", "Tim Hortons"],
+      "correct": "Starbucks",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "a5b6c7d8-e9f0-1a2b-3c4d-5e6f7a8b9c0d",
+      "category": "Guess the Logo & Country",
+      "text": "Which country’s flag has a red maple leaf in the center?",
+      "options": ["Canada", "Australia", "New Zealand", "United States"],
+      "correct": "Canada",
+      "difficulty": "Easy"
+  },
+  {
+      "id": "b6c7d8e9-f0a1-2b3c-4d5e-6f7a8b9c0d1e",
+      "category": "Guess the Logo & Country",
+      "text": "Which company has a logo with a blue bird?",
+      "options": ["Facebook", "Twitter", "Instagram", "LinkedIn"],
+      "correct": "Twitter",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "c7d8e9f0-a1b2-3c4d-5e6f-7a8b9c0d1e2f",
+      "category": "Guess the Logo & Country",
+      "text": "Which country’s flag has a yellow sun with eight rays?",
+      "options": ["Philippines", "Malaysia", "Indonesia", "Thailand"],
+      "correct": "Philippines",
+      "difficulty": "Hard"
+  },
+  {
+      "id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a",
+      "category": "Guess the Logo & Country",
+      "text": "Which company uses a logo with a red and yellow clamshell?",
+      "options": ["Shell", "Chevron", "Exxon", "BP"],
+      "correct": "Shell",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "e9f0a1b2-c3d4-5e6f-7a8b-9c0d1e2f3a4b",
+      "category": "Guess the Logo & Country",
+      "text": "Which country’s flag has green, white, and orange vertical stripes?",
+      "options": ["Ireland", "Italy", "India", "Nigeria"],
+      "correct": "Ireland",
+      "difficulty": "Medium"
+  },
+  {
+      "id": "f0a1b2c3-d4e5-6f7a-8b9c-0d1e2f3a4b5c",
+      "category": "Guess the Logo & Country",
+      "text": "Which company has a logo with a black swoosh and orange accents?",
+      "options": ["Nike", "Under Armour", "Puma", "Adidas"],
+      "correct": "Under Armour",
+      "difficulty": "Hard"
+  }
+]

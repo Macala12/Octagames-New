@@ -73,14 +73,6 @@ function handleTournamentLifecycle(tournamentId) {
         }
 
         const now = new Date();
-        if (tournament.status === 'ended') {
-            console.log(`Deleting ${tournament._id}`)
-            const deleteLeaderboard = await Leaderboard.deleteMany({ leaderboardId: tournament._id});
-            console.log(`Deleted ${deleteLeaderboard.deletedCount} records with ${tournament._id}`);
-
-            const deletedTournament = await liveTournament.deleteOne({ _id: new mongoose.Types.ObjectId(tournament._id) });
-            console.log(`Deleted ${tournament._id} record from database - successful`)
-        }
 
         if (tournament.status === 'upcoming' && now >= tournament.tournamentStartTime && now < tournament.tournamentEndTime) {
             await Tournament.findByIdAndUpdate(tournamentId, { status: 'active' });
@@ -223,8 +215,15 @@ function handleTournamentLifecycle(tournamentId) {
     
                 console.log("User has been rewarded");
             }
+        }
 
-            clearInterval(interval); // Stop checking once ended
+        if (tournament.status === 'ended') {
+            console.log(`Deleting ${tournament._id}`)
+            const deleteLeaderboard = await Leaderboard.deleteMany({ leaderboardId: tournament._id});
+            console.log(`Deleted ${deleteLeaderboard.deletedCount} records with ${tournament._id}`);
+
+            const deletedTournament = await liveTournament.deleteOne({ _id: new mongoose.Types.ObjectId(tournament._id) });
+            console.log(`Deleted ${tournament._id} record from database - successful`)
         }
 
     }, 10 * 1000); // Every 10 seconds
@@ -278,10 +277,22 @@ async function handleMultipleTournaments() {
     }, 10 * 60 * 1000); // Every 10 mins for regular tournament
 
     setInterval(async () => {
-        const newExclusiveTournament = await createNewExclusiveTournament(
+        const trivia = await createNewExclusiveTournament(
+            "Octagames Trivia",
+            "./Assets/_games/_img/trivia.jpeg",
+            "Test your knowledge across multiple categories in fast-paced, fun trivia battles! Compete against friends or players worldwide, climb the leaderboards, and take on daily challenges for rewards. Who’s the trivia master? Play now and find out!",
+            0,
+            1000,
+            'exclusive',
+            'Trivia',
+            'BrainTeaser',
+            'QuizGame',
+            0
+        );
+        const codm = await createNewExclusiveTournament(
             "Call of Duty Mobile: Single",
             "./Assets/_games/_img/codm.jpg",
-            "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet, aliquam! elit. Amet, aliquam!",
+            "Join the ultimate CODM showdown! Battle it out with players from around the world in intense, fast-paced matches. Test your skills, claim your victory, and rise to the top of the leaderboard. Whether you're a sharpshooter or a strategist, this tournament is your chance to prove you're the best.",
             0,
             1000,
             'exclusive',
@@ -290,7 +301,8 @@ async function handleMultipleTournaments() {
             'No Team',
             0
         );
-        handleTournamentLifecycle(newExclusiveTournament._id);
+        handleTournamentLifecycle(trivia._id);
+        handleTournamentLifecycle(codm._id);
     }, 240 * 60 * 1000); // Every 4 hours for exclusive tournament
 }
 

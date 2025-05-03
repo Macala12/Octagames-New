@@ -1,0 +1,68 @@
+{
+  "General Knowledge": [
+    {
+      "text": "What is the capital of Ghana?",
+      "options": [
+        "Accra",
+        "Kumasi",
+        "Tamale",
+        "Cape Coast"
+      ],
+      "correct": "Accra"
+    },
+    {
+      "text": "Which African country is known as the 'Rainbow Nation'?",
+      "options": [
+        "South Africa",
+        "Kenya",
+        "Nigeria",
+        "Egypt"
+      ],
+      "correct": "South Africa"
+    }
+  ],
+  "Mathematics": [
+    {
+      "text": "What is the value of 3 * 8 + 10 / 2?",
+      "options": [
+        "34",
+        "28",
+        "26",
+        "32"
+      ],
+      "correct": "34"
+    },
+    {
+      "text": "Solve: (6 + 2) * 5 - 4",
+      "options": [
+        "36",
+        "32",
+        "30",
+        "40"
+      ],
+      "correct": "36"
+    }
+  ],
+  "Music": [
+    {
+      "text": "Who sang the hit song 'Essence' featuring Justin Bieber?",
+      "options": [
+        "Wizkid",
+        "Davido",
+        "Burnaboy",
+        "Tiwa Savage"
+      ],
+      "correct": "Wizkid"
+    },
+    {
+      "text": "Which Nigerian artist is known as the 'African Giant'?",
+      "options": [
+        "Burna Boy",
+        "2Baba",
+        "Olamide",
+        "Dbanj"
+      ],
+      "correct": "Burna Boy"
+    }
+  ]
+}

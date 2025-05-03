@@ -782,7 +782,7 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
     app.get('/fetch_live_tournaments', async (req, res) => {
         try {
             const  { userid } = req.query;
-            const livetournament = await liveTournament.find({ status: 'active' });
+            const livetournament = await liveTournament.find({ status: 'active', type: 'regular' });
 
             if (livetournament.length === 0) {
                 return res.status(404).json({ message: "No live tournament available" });
@@ -814,7 +814,7 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
     app.get('/fetch_upcoming_tournaments', async (req, res) => {
         try {
             const  { userid } = req.query;
-            const livetournament = await liveTournament.find({ status: 'upcoming' });
+            const livetournament = await liveTournament.find({ status: 'upcoming', type: 'regular' });
 
             if (livetournament.length === 0) {
                 return res.status(404).json({ message: "No live tournament available" });
