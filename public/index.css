@@ -5,6 +5,15 @@ body{
     height: 100vh;
     position: relative;
 }
+@supports (-webkit-appearance: none) {
+    /* Chrome-specific styles here */
+    ._top_three_box  {
+      margin-left: -55px !important;
+    }
+    ._top_player{
+        margin-right: -15px !important;
+    }
+}
 main{
     margin-bottom: 50px;
 }
