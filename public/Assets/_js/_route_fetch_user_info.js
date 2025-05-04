@@ -62,9 +62,9 @@ function fetchUserGameInfo() {
                 let winRateHome = Math.round(data.userTopWins / data.userGamesPlayed * 100) + "%";
                 if (winRateHome == NaN) {
                     winRateHome = 0;
-                    document.getElementById("winRate").innerHTML = winRateHome + "%";
+                    document.getElementById("winRate").innerHTML = winRateHome;
                 }else{
-                    document.getElementById("winRate").innerHTML = winRateHome + "%";
+                    document.getElementById("winRate").innerHTML = winRateHome;
                 }
             }
             if (document.getElementById("level")) {
