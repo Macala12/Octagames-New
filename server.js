@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport({
     },
 });
 const { handleMultipleTournaments } = require('./public/controllers/tournamentController');
-const { paymentProcessor } = require('./public/controllers/paymentController');
+const { startPaymentProcessor } = require('./public/controllers/paymentController');
 
 //Models
 const User = require('./public/models/User');
@@ -48,7 +48,7 @@ app.use(express.json());
     }).then(() => {
         console.log("MongoDB Connected");
         // handleMultipleTournaments();
-        paymentProcessor();
+        startPaymentProcessor();
     })
     .catch(err => console.log("DB Connection Error:", err));
 
@@ -1597,31 +1597,38 @@ app.use(express.json());
         });        
     });
 
-    app.get('/verify_paystack_payout',async (req, res) =>{
-        const { reference } = req.query;
+    app.get('/verify_paystack_payout', async (req, res) => {
         try {
-            const secretKey = process.env.PYK_SECRET_KEY;    // Replace with your Paystack secret key
+            const { reference } = req.query;
             const url = `https://api.paystack.co/transfer/verify/${reference}`;
-
-            axios.get(url, {
-            headers: {
-                'Authorization': `Bearer ${secretKey}`,
-                'Accept': 'application/json'
-            }
-            })
-            .then(async (response) => {
-            console.log('Transfer verification result:', response.data.data.status);
-            if (response.data.data.status === 'success') {
-                const updatePayoutStatus = await payoutHistories.findOneAndUpdate({ reference: reference }, {status: 'success'});
-                if(!updatePayoutStatus) return res.status(400).json({ message: 'Could not Update Payout Status' });
-                res.status(200).json({ message: 'success' });
-            }
-            })
-            .catch(error => {
-            console.error('Error verifying transfer:', error.response ? error.response.data : error.message);
+        
+            const response = await axios.get(url, {
+                headers: {
+                    'Authorization': `Bearer ${process.env.PYK_SECRET_KEY}`,
+                    'Content-Type': 'application/json'
+                }
             });
+        
+            console.log('Transfer verification result:', response.data.data.status);
+        
+            if (response.data.data.status === 'success') {
+                const updatePayoutStatus = await payoutHistories.findOneAndUpdate(
+                    { reference: reference },
+                    { status: 'success' }
+                );
+        
+                if (!updatePayoutStatus) {
+                    return res.status(400).json({ message: 'Could not update payout status' });
+                }
+        
+                return res.status(200).json({ message: 'success' });
+            } else {
+                return res.status(200).json({ message: 'Transfer not yet successful' });
+            }
+        
         } catch (error) {
-            
+            console.error('Error verifying transfer:', error.response?.data || error.message);
+            return res.status(500).json({ message: 'Failed to verify transfer' });
         }
     });
 

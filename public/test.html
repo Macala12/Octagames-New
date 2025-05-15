@@ -374,14 +374,14 @@
 <script>
   async function testPaystack() {
     try {
-      const payoutRes = await fetch(`${API_BASE_URL}/monnify_transfer`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-      });
+      const response = await fetch(`http://localhost:3000/verify_paystack_payout?reference=0dd166c6-4518-4048-ac98-64eb8f123ab0`);
+        const result = await response.json();
 
-      const payoutResult = await payoutRes.json();
-
-      if (!payoutRes.ok) {}
+        if (!response.ok) {
+            console.log(result.message);
+        }else{
+            console.log(result.message);
+        }
   } catch (error) {
       
     }

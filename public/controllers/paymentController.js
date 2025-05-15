@@ -1,32 +1,37 @@
 const mongoose = require('mongoose');
 const payoutHistories = require('../models/PayoutHistories');
 
-async function paymentProcessor() {
-    const processingPayments = await payoutHistories.find({ status: 'processing'});
-    if (!processingPayments) {
-        console.log('could not find payments')
-    }
-    if (processingPayments.length < 1) {
-        console.log('no processing payment')
+async function checkAllStatuses() {
+    const processingPayments = await payoutHistories.find({ status: 'processing' });
+
+    if (!processingPayments || processingPayments.length < 1) {
+        console.log('No processing payments');
+        return;
     }
 
-    processingPayments.forEach(processingPayment => {
-        checkStatus(processingPayment.reference);
-    });
-}
- 
-async function checkStatus(reference) {
-    setInterval(async () => {
-        console.log("Checking Payout");
-        const response = await fetch(`https://octagames-new-production.up.railway.app/verify_paystack_payout?reference=${reference}`);
-        const result = await response.json();
-        if (!response.ok) {
-            console.log(result.message);
-        }else{
-            console.log(result.message);
+    console.log(`Checking ${processingPayments.length} payouts...`);
+    
+    for (const payment of processingPayments) {
+        try {
+            const response = await fetch(`http://localhost:3000/verify_paystack_payout?reference=${payment.reference}`);
+            const result = await response.json();
+
+            if (!response.ok) {
+                console.log(`Error for ${payment.reference}:`, result.message || result);
+            } else {
+                console.log(`Success for ${payment.reference}:`, result.message);
+            }
+        } catch (err) {
+            console.error(`Failed to check ${payment.reference}:`, err);
         }
-    }, 60 * 1000);
-
+    }
 }
 
-module.exports = { checkStatus, paymentProcessor };
+// Run every 6 seconds
+function startPaymentProcessor() {
+    setInterval(() => {
+        checkAllStatuses();
+    }, 6000);
+}
+
+module.exports = { startPaymentProcessor };
