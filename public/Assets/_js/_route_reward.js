@@ -16,6 +16,7 @@ var redeemBankName;
 var rewardsLenght;
 var payoutsLength;
 let amountVar;
+let walletBal;
 
 inputField.addEventListener("input", async () => {
   const value = inputField.value;
@@ -138,6 +139,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 mainAlert.appendChild(alert);
                 console.log(result.message);
             }else{
+                walletBal = result.rewardAmount;
                 document.getElementById("rewardAmount").innerHTML = `
                     N${result.rewardAmount}
                 `;
@@ -687,7 +689,7 @@ async function reedempayout() {
             <i class="fi fi-rr-exclamation mr-1"></i> Amount has to be more than N100
         `;
     }else{
-        if (amount > octaCoin) {
+        if (amount > walletBal) {
             errorInAmount.style.color = "red";
             errorInAmount.innerHTML = `
                 <i class="fi fi-rr-exclamation mr-1"></i> Are you a thief? 😂, Why do you want to withdraw more than what you have hmm senior man...
