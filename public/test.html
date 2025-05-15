@@ -369,9 +369,23 @@
   
 
   <button class="" style="background-color: yellow; padding: 15px; font-weight: 700;" onclick="testPaystack()">Test Paystack recipient</button>
-
+  <br>
+  <button class="" style="background-color: yellow; padding: 15px; font-weight: 700;" id="notif">Test Notification</button>
 </body>
 <script>
+  const notif = document.getElementById("notif");
+  notif.addEventListener("click", () => {
+    Notification.requestPermission().then(perm => {
+      if (perm === 'granted') {
+        new Notification("Octagames Notification", {
+          body: "This is a test notification",
+          icon: "./Assets/_icons/Octagame Logo.png",
+          tag: "testOne"
+        })
+      }
+    })
+  })
+
   async function testPaystack() {
     try {
       const response = await fetch(`http://localhost:3000/verify_paystack_payout?reference=0dd166c6-4518-4048-ac98-64eb8f123ab0`);
