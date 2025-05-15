@@ -214,6 +214,7 @@ async function fetchAndDisplayTournaments() {
                 // Once all is ready, replace the old content with the new one
                 liveTournamentContainer.innerHTML = ""
                 liveTournamentContainer.innerHTML = tempContainer.innerHTML;
+                
                 tournaments.livetournament.forEach(tournament => {
                     setupTournamentTimer(tournament._id, tournament.tournamentStartTime, tournament.tournamentEndTime);
                 });   

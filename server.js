@@ -47,22 +47,11 @@ app.use(express.json());
         useUnifiedTopology: true
     }).then(() => {
         console.log("MongoDB Connected");
-        // handleMultipleTournaments();
+        handleMultipleTournaments();
         startPaymentProcessor();
     })
     .catch(err => console.log("DB Connection Error:", err));
 
-
-    app.use((req, res, next) => {
-        const userAgent = req.headers['user-agent'];
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-    
-        if (!isMobile) {
-            return res.sendFile(path.join(__dirname, '/public/not_allowed.html'));
-        }
-    
-        next();
-    });
 
     //Signup Route / Endpoint
     app.post('/signup', async (req, res) => {

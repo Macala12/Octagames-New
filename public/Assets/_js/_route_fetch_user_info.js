@@ -76,6 +76,12 @@ function fetchUserGameInfo() {
             if (document.getElementById("level")) {
                 document.getElementById("level").innerHTML = "Lv " + data.userLevel;
             }
+            if (document.querySelector(".stat_level")) {
+                document.querySelector(".stat_level").innerHTML = `
+                    <img src="./Assets/_icons/one.png" class="img-fluid" width="18px" alt="">
+                    Level ${data.userLevel}
+                `;
+            }
             if (document.getElementById("xp")) {
                 document.getElementById("xp").innerHTML = data.userXP + "/300XP";
             }

@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="img_box d-flex justify-content-center">
                         <img src="./Assets/_icons/checked.png" width="160px" class="img-fluid" alt="">
                     </div>
-                    <h4>N${result.message.amount / 100} payment was a ${result.message.status}</h4>
-                    <p>Please check your inbox and follow the instruction to verify your account.</p>
+                    <h4>N${result.message.amount / 100} payment successful</h4>
+                    <p>Your payment was successful. Thank you for your purchase—your transaction has been completed.</p>
                     <a href="home.html" class="btn">Got It!</a>
                 </div>
             `; 

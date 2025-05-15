@@ -382,10 +382,26 @@
         }else{
             console.log(result.message);
         }
-  } catch (error) {
-      
+    } catch (error) {
+        
+      }
+  }
+  
+  let reference = "opoeksmdfd";
+  async function testVerify() {
+    const response = await fetch(`http://localhost:3000/verify_paystack_payout?reference=${reference}`);
+    const result = await response.json();
+
+    if (!response.ok) {
+      console.log(result)
+    }else{
+      console.log(result)
     }
   }
+
+  // setInterval(() => {
+  //   testVerify();
+  // }, 6000);
 
       // try {
     //     const response = await fetch(`${API_BASE_URL}/fetch_exclusive_tournaments`)

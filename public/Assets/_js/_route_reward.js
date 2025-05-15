@@ -803,8 +803,9 @@ async function payOut() {
                     } else {
                         bottomSheet.innerHTML = `
                             <img src="./Assets/_icons/withdraw.png" class="d-block mx-auto mb-2" width="70px" alt="">
-                            <button class="btn w-100 p-3 mt-3" id="closeSheet">Okay!</button>
                             <h6 class="text-center" style="font-weight: 700;">Your withdrawal is on its way, Chief</h6>
+                            <button class="btn w-100 p-3 mt-3" id="closeSheet">Okay!</button>
+
                         `;
                         const closeBtn = document.getElementById("closeSheet");
                         closeBtn.addEventListener("click", closeSheet);

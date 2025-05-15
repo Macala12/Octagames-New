@@ -10819,20 +10819,22 @@ const userid = sessionStorage.getItem('userid');
                       </div>
                   `;
                   soundOver.play();
+                  
+                  const playagain = document.getElementById("playAgain");
+                  const backtohome = document.getElementById("backToGame");
+                  
+                  playagain.addEventListener('click', async () => {
+                  window.parent.location.reload();
+                  });
+                  backtohome.addEventListener('click', async () => {
+                    window.parent.history.back();
+                  });
                 }
               } catch (error) {
                 console.error("Error Updating Score",error)
               }
             }
             updateScore();
-            const playagain = document.getElementById("playAgain");
-            const backtohome = document.getElementById("backToGame");
-            playagain.addEventListener('click', async () => {
-              window.parent.location.reload;
-            });
-            backtohome.addEventListener('click', async () => {
-                window.parent.history.back();
-            });
         }),
         (n.revive = function () {
           this.updateView();
