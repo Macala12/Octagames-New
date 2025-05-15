@@ -12,8 +12,8 @@ async function checkAllStatuses() {
     console.log(`Checking ${processingPayments.length} payouts...`);
     
     for (const payment of processingPayments) {
+        const response = await fetch(`http://localhost:3000/verify_paystack_payout?reference=${payment.reference}`);
         try {
-            const response = await fetch(`http://localhost:3000/verify_paystack_payout?reference=${payment.reference}`);
             const result = await response.json();
 
             if (!response.ok) {
