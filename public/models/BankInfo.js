@@ -6,7 +6,8 @@ const bankInfoSchema = new mongoose.Schema({
     bankCode: Number,
     bankImg: String,
     accountNo: Number,
-    accountName: String
+    accountName: String,
+    recipientCode: String
 }, {versionKey: false});
 
 const bankInfo = mongoose.model('bankinfo', bankInfoSchema, 'bankinfo');

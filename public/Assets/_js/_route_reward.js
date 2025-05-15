@@ -15,6 +15,7 @@ var redeemAccountName;
 var redeemBankName;
 var rewardsLenght;
 var payoutsLength;
+let amountVar;
 
 inputField.addEventListener("input", async () => {
   const value = inputField.value;
@@ -109,7 +110,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
 
-            console.log(results);
+            console.log(result);
 
         } catch (error) {
             
@@ -215,6 +216,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                     bank_box.appendChild(bankAccountBox);
                 });
 
+                const dot = document.querySelector(".bank_number_dot");
+                if (result.length === 1) {
+                    dot.innerHTML = `
+                        <span class="fill"></span>
+                        <span class="outline"></span>
+                        <span class="outline"></span>
+                    `
+                }else if (result.length === 2){
+                    dot.innerHTML = `
+                        <span class="fill"></span>
+                        <span class="fill"></span>
+                        <span class="outline"></span>
+                    `
+                }else if (result.length === 3){
+                    dot.innerHTML = `
+                        <span class="fill"></span>
+                        <span class="fill"></span>
+                        <span class="fill"></span>
+                    `
+                }
             }
 
         } catch (error) {
@@ -325,7 +346,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                 `;
             }else{
-                payouts.forEach(payout => {
+                payouts.slice(0, 3).forEach(payout => {
                     const payoutDiv = document.createElement("div");
                     payoutDiv.classList.add("_payout_history_box");
                     const detId = "hidden_details_"+payout.reference;
@@ -334,20 +355,37 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const isoDate = payout.updatedAt;
                     const date = new Date(isoDate);
                     const readableDate = date.toLocaleString();
+                    let badge;
+                    if (payout.status === "processing") {
+                        badge = `
+                            <div class="badge processing_badge">
+                                Processing
+                            </div>
+                        `;
+                    }else if(payout.status === "success"){
+                        badge = `
+                            <div class="badge paid_badge">
+                                Paid
+                            </div>
+                        `;
+                    }
 
                     payoutDiv.innerHTML = `
                         <span id="${arrId}">
                             <i class="fi fi-rr-angle-small-down" onclick="revealGameid('${detId}')"></i>
                         </span>
 
-                        <h6>reference</h6>
-                        <p>ID-${payout.reference}</p>
+                        <h6>
+                            Transaction Ref
+                            ${badge}
+                        </h6>
+                        <p>${payout.reference}</p>
 
                         <div class="hidden_details" id="${detId}">
                             <h6>Status</h6>
                             <p>${payout.status}</p>
 
-                            <h6>amount</h6>
+                            <h6>Amount</h6>
                             <p>${payout.amount}</p>
 
                             <h6>Paid to</h6>
@@ -380,7 +418,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
         if (!bottomSheet || !openBtn || !closeBtn || !dragHandle) {
             console.error("One or more elements are missing from the DOM.");
-            return; // Stop execution if elements are missing
+            return;
         }
     
         let isDragging = false, startY, startBottom;
@@ -437,10 +475,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function deleteBank(bankId) {
     try {
+        document.querySelector('._delete').innerHTML = `
+            <span class="spinner-border spinner-border-sm"></span>
+        `;
         const response = await fetch(`${API_BASE_URL}/delete_bank?id=${bankId}`);
         const result = await response.json();
 
         if (!response.ok) {
+            document.querySelector('._delete').innerHTML = `
+                <i class="fi fi-rr-trash"></i>
+            `;
             const alert = document.createElement("div");
             alert.classList.add('alert');
             alert.classList.add('alertDanger');
@@ -634,19 +678,8 @@ async function fetchBank(bankCode) {
 
 async function reedempayout() {
     const amount = document.getElementById("amount").value;
+    amountVar = amount;
     const errorInAmount = document.getElementById("errorInAmount");
-
-    const bankTransferData = {
-        reference: generateTransactionRef("OCTASUB"),
-        userid: userid,
-        amount: amount,
-        bankname: redeemBankName,
-        bank: redeemBankCode,
-        account: redeemBankAccount,
-        accountname: redeemAccountName,
-        name: fullName,
-        email: email
-    };
 
     if (amount < 100) {
         errorInAmount.style.color = "red";
@@ -657,7 +690,7 @@ async function reedempayout() {
         if (amount > octaCoin) {
             errorInAmount.style.color = "red";
             errorInAmount.innerHTML = `
-                <i class="fi fi-rr-exclamation mr-1"></i> Are you a thief? 😂, Why do you want to withdraw is more than what you have...
+                <i class="fi fi-rr-exclamation mr-1"></i> Are you a thief? 😂, Why do you want to withdraw more than what you have hmm senior man...
             `;
         }else{
             try {
@@ -679,7 +712,7 @@ async function reedempayout() {
                 const result = await response.json();
 
                 if (!response.ok) {
-                    const bottomSheet = document.querySelector(".bottom-sheet-inner").innerHTML = `
+                    document.querySelector(".bottom-sheet-inner").innerHTML = `
                         <h6 class="text-center"> 
                             ${result.message}
                         </h6>
@@ -687,15 +720,18 @@ async function reedempayout() {
                     console.log(result.message);
                 }else{
                     console.log(result.message)
-                    const bottomSheet = document.querySelector(".bottom-sheet-inner").innerHTML = `
-                    <div class="drag-handle"></div>
-                    <button class="btn close_sheet" id="closeSheet">Close</button>
-                    <h4>Enter OTP Code</h4>
-                    <p>Kindly enter the OTP code sent to your email to authorize redeem:</p>
-                    <p id="errorInAmount"></p>
-                    <input type="number" maxlength="5" id="otp" class="form-control">
-                    <button class="btn w-100 p-3 mt-3" id="otpButton" onclick="payOut()">Proceed to reedem</button>
-                `;
+                    document.querySelector(".bottom-sheet-inner").innerHTML = `
+                        <div class="drag-handle"></div>
+                        <button class="btn close_sheet" id="closeSheet">Close</button>
+                        <h4>Enter OTP Code</h4>
+                        <p>Kindly enter the OTP code sent to your email to authorize redeem:</p>
+                        <p id="errorInAmount"></p>
+                        <input type="number" maxlength="5" id="otp" class="form-control">
+                        <button class="btn w-100 p-3 mt-3" id="otpButton" onclick="payOut()">Proceed to reedem</button>
+                    `;
+                    const closeBtn = document.getElementById("closeSheet");
+                    closeBtn.addEventListener("click", closeSheet);
+
                 }
 
             } catch (error) {
@@ -715,7 +751,8 @@ async function payOut() {
         document.getElementById("errorInAmount").style.color = '#dc3545';
     }else{
         try {
-            const bottomSheet = document.querySelector(".bottom-sheet-inner").innerHTML = `
+            const bottomSheet = document.querySelector(".bottom-sheet-inner");
+            bottomSheet.innerHTML = `
                 <div class="drag-handle"></div>
                 <button class="btn close_sheet" id="closeSheet">Close</button>
                 <div class="d-flex justify-content-center">
@@ -724,56 +761,70 @@ async function payOut() {
                     </h6>
                 </div>
             `;
-
+        
             const response = await fetch(`${API_BASE_URL}/verify_otp?userid=${userid}&otp=${otp}`);
             const result = await response.json();
-
+        
             if (!response.ok) {
-                const bottomSheet = document.querySelector(".bottom-sheet-inner").innerHTML = `
-                    <h6 class="text-center"> 
-                        ${result.message}
-                    </h6>
+                bottomSheet.innerHTML = `
+                    <h6 class="text-center">${result.message}</h6>
                 `;
-                console.log(result.message);
-            }else{
-                alert(result.message)
-                // Payout request
-                // try {
-                //     const response = await fetch(`${API_BASE_URL}/reedem_payout`,  {
-                //         method: 'POST',
-                //         headers: {'Content-Type': 'application/json'},
-                //         body: JSON.stringify(bankTransferData)
-                //     });
-                //     const result = await response.json();
+                console.log("OTP verification failed:", result.message);
+            } else {
+                console.log("OTP verified:", result.message);
+        
+                const bankTransferData = {
+                    userid: userid,
+                    amount: amountVar,
+                    bankName: redeemBankName,
+                    accountNo: redeemBankAccount,
+                    accountName: redeemAccountName
+                };
+        
+                try {
+                    console.log('Starting Payout...');
+                    const payoutRes = await fetch(`${API_BASE_URL}/paystack_payout`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(bankTransferData)
+                    });
+        
+                    const payoutResult = await payoutRes.json();
+        
+                    if (!payoutRes.ok) {
+                        const alert = document.createElement("div");
+                        alert.classList.add('alert', 'alertDanger', 'alert-dismissible', 'fade', 'show');
+                        alert.innerHTML = `
+                            <i class="fi fi-rr-exclamation"></i> ${payoutResult.message}!
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        `;
+                        mainAlert.appendChild(alert);
+                        console.log("Payout failed:", payoutResult.message);
+                    } else {
+                        bottomSheet.innerHTML = `
+                            <img src="./Assets/_icons/withdraw.png" class="d-block mx-auto mb-2" width="70px" alt="">
+                            <button class="btn w-100 p-3 mt-3" id="closeSheet">Okay!</button>
+                            <h6 class="text-center" style="font-weight: 700;">Your withdrawal is on its way, Chief</h6>
+                        `;
+                        const closeBtn = document.getElementById("closeSheet");
+                        closeBtn.addEventListener("click", closeSheet);
 
-                //     if (!response.ok) {
-                //         const alert = document.createElement("div");
-                //         alert.classList.add('alert');
-                //         alert.classList.add('alertDanger');
-                //         alert.classList.add('alert-dismissible');
-                //         alert.classList.add('fade');
-                //         alert.classList.add('show');
-
-                //         alert.innerHTML = `
-                //            <i class="fi fi-rr-exclamation"></i> ${result.message}!
-                //             <button type="button" class="close" data-dismiss="alert">&times;</button>
-                //         `;
-
-                //         mainAlert.appendChild(alert);
-                //         console.log(result.message)
-                //     }
-                //     console.log(result);
-
-                // } catch (error) {
-                    
-                // }
+                        console.log("Payout successful:", payoutResult.message);
+                    }
+                } catch (error) {
+                    console.error('Error with Paystack payout:', error);
+                }
             }
-
         } catch (error) {
-            
+            console.error("Error verifying OTP or handling payout:", error);
         }
+        
     }
 
+}
+
+function closeSheet() {
+    bottomSheet.style.bottom = "-100%"; // Slide down
 }
 
 function generateTransactionRef(prefix = "TX") {
@@ -781,11 +832,3 @@ function generateTransactionRef(prefix = "TX") {
     const randomStr = Math.random().toString(36).substring(2, 8).toUpperCase(); // Random alphanumeric
     return `${prefix}_${timestamp}_${randomStr}`;
 }
-
-{/* <div class="d-flex justify-content-center">
-<span>
-    <img src="./Assets/_icons/check.png" width="70px" alt="">
-    <h4 class="text-center">Payment Successful</h4>
-    <p>Your reward is on its way to you, chief</p>  
-</span>
-</div> */}

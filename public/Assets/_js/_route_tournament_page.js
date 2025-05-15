@@ -479,7 +479,7 @@ async function joinedUsers() {
         if (result < 4) {
             playersnumber = 0;
             document.getElementById("_players_numbers").innerHTML = `
-                +${playersnumber} players joined & waiting
+                +${playersnumber} players joined
             `;
         }else{
             var playersnumber = result - 3;

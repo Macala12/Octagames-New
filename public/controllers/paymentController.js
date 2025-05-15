@@ -14,15 +14,19 @@ async function paymentProcessor() {
         checkStatus(processingPayment.reference);
     });
 }
-
+ 
 async function checkStatus(reference) {
-    const response = await fetch(`${API_BASE_URL}/verify_payout?reference=${reference}`);
-    const result = await response.json();
-    if (!reponse.ok) {
-        console.log(result.message);
-    }else{
-        console.log(result.message);
-    }
+    setInterval(async () => {
+        console.log("Checking Payout");
+        const response = await fetch(`http://localhost:3000/verify_paystack_payout?reference=${reference}`);
+        const result = await response.json();
+        if (!response.ok) {
+            console.log(result.message);
+        }else{
+            console.log(result.message);
+        }
+    }, 60 * 1000);
+
 }
 
 module.exports = { checkStatus, paymentProcessor };

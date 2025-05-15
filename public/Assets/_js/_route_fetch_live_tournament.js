@@ -117,7 +117,10 @@ async function fetchAndDisplayTournaments() {
                                     </div>
                                     <a href="./tournament_page.html?id=${tournament._id}&tag=live" class="btn mb-1">
                                         <div class="d-flex">
-                                            <div class="pointDiv">${tournament.entryAmount} pts</div>
+                                            <div class="pointDiv">
+                                            <img src="./Assets/_icons/coin.png" width="20px" class="" alt="">
+                                            ${tournament.entryAmount}
+                                            </div>
                                             <div class="joinDiv">Open</div>
                                         </div>
                                     </a>
@@ -193,7 +196,10 @@ async function fetchAndDisplayTournaments() {
                                             <div class="_player_joined mb-2"></div>
                                             <a href="./tournament_page.html?id=${tournament._id}&tag=live" class="btn mb-1">
                                                 <div class="d-flex">
-                                                    <div class="pointDiv">100 pts</div>
+                                                    <div class="pointDiv">                                                                                
+                                                    <img src="./Assets/_icons/coin.png" width="20px" class="" alt="">
+                                                    100
+                                                    </div>
                                                     <div class="joinDiv">${tournament.message}</div>
                                                 </div>
                                             </a>                                
@@ -266,7 +272,10 @@ async function fetchAndDisplayTournaments() {
                                             <div class="_player_joined mb-2"></div>
                                             <a href="./tournament_page.html?id=${tournament._id}&tag=live" class="btn mb-1">
                                                 <div class="d-flex">
-                                                    <div class="pointDiv">100</div>
+                                                    <div class="pointDiv">
+                                                    <img src="./Assets/_icons/coin.png" width="20px" class="" alt="">
+                                                    100
+                                                    </div>
                                                     <div class="joinDiv">${tournament.message}</div>
                                                 </div>
                                             </a>
@@ -355,7 +364,10 @@ async function fetchAndDisplayTournaments() {
                                 </div>
                                 <a href="./tournament_page.html?id=${tournament.tournament._id}&tag=live" class="btn mb-1">
                                     <div class="d-flex">
-                                        <div class="pointDiv">100 pts</div>
+                                        <div class="pointDiv">
+                                            <img src="./Assets/_icons/coin.png" width="20px" class="" alt="">
+                                            100
+                                        </div>
                                         <div class="joinDiv">Open</div>
                                     </div>
                                 </a>

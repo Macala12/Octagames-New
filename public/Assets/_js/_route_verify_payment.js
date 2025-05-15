@@ -1,3 +1,4 @@
+document.querySelector("main").style.display = "none";
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
 const reference = urlParams.get("reference");
@@ -22,27 +23,29 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         mainAlert.appendChild(alert);
         console.log(result.message);
-    }else{
-       if (result.status == 'success') {
+    }else{ 
+        document.querySelector("main").style.display = "block";
+        document.getElementById("loader").style.display = "none";
+       if (result.message.status == 'success') {
             verificationBox.innerHTML = `
                 <div>
                     <div class="img_box d-flex justify-content-center">
                         <img src="./Assets/_icons/checked.png" width="160px" class="img-fluid" alt="">
                     </div>
-                    <h4>N${result.amount} payment was a ${result.status}</h4>
+                    <h4>N${result.message.amount / 100} payment was a ${result.message.status}</h4>
                     <p>Please check your inbox and follow the instruction to verify your account.</p>
-                    <button class="btn">Got It!</button>
+                    <a href="home.html" class="btn">Got It!</a>
                 </div>
-            `;
+            `; 
        }else{
         verificationBox.innerHTML = `
             <div>
                 <div class="img_box d-flex justify-content-center">
-                    <img src="./Assets/_icons/check.png" width="160px" class="img-fluid" alt="">
+                    <img src="./Assets/_icons/credit-card.png" width="160px" class="img-fluid" alt="">
                 </div>
-                <h4>N${result.amount} payment ${result.status}</h4>
+                <h4>N${result.message.amount} payment ${result.message.status}</h4>
                 <p>Please check your inbox and follow the instruction to verify your account.</p>
-                <button class="btn">Got It!</button>
+                <a href="home.html" class="btn">Got It!</a>
             </div>
         `;
        }

@@ -2,10 +2,13 @@ require('dotenv').config();
 const express = require("express");
 const mongoose = require('mongoose');
 const axios = require('axios');
+const base64 = require('base-64');
+const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
 const path = require("path");
 const app = express();
 const jwt = require('jsonwebtoken');
+const Flutterwave = require('flutterwave-node-v3');
 const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -38,16 +41,52 @@ app.use(express.static(path.join(__dirname, "public")));
 // Middleware to parse JSON requests
 app.use(express.json());
 
-// Connect to MongoDB 
-mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mongodb.net/octagames", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
-    console.log("MongoDB Connected");
-    handleMultipleTournaments();
-    paymentProcessor();
-})
-.catch(err => console.log("DB Connection Error:", err));
+    // Connect to MongoDB 
+    mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mongodb.net/octagames", {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }).then(() => {
+        console.log("MongoDB Connected");
+        // handleMultipleTournaments();
+        paymentProcessor();
+    })
+    .catch(err => console.log("DB Connection Error:", err));
+
+
+    //Monnify Token
+    let accessToken;
+    const apiKey = 'MK_TEST_H5AUKUT8Q9';
+    const clientSecret = 'TB56FL17EUNGNQ8H24DEXHXRXXA7BTZ6';
+    const url = 'https://sandbox.monnify.com/api/v1/auth/login';
+    const baseURl = 'https://sandbox.monnify.com';
+
+    // Encode 'apiKey:clientSecret' to Base64
+    const token = base64.encode(`${apiKey}:${clientSecret}`);
+
+    axios.post(url, {}, {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${token}`
+    }
+    })
+    .then(response => {
+    // console.log('Response:', response.data.responseBody.accessToken);
+    accessToken = response.data.responseBody.accessToken;
+    })
+    .catch(error => {
+    console.error('Error:', error.response ? error.response.data : error.message);
+    }); 
+
+    app.use((req, res, next) => {
+        const userAgent = req.headers['user-agent'];
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+    
+        if (!isMobile) {
+            return res.sendFile(path.join(__dirname, 'not-allowed.html'));
+        }
+    
+        next();
+    });
 
     //Signup Route / Endpoint
     app.post('/signup', async (req, res) => {
@@ -248,8 +287,8 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
                     <div style="padding: 30px;">
                         <h2 style="text-align: left; color: #FFC107;">Redeem Reward OTP</h2>
                         <p style="font-size: 16px; text-align: left; line-height: 1.6;">
-                        Hey ${userEmail.firstnam + " " + userEmail.lastName} Alaoma,<br><br>
-                        To complete your redeem request please enter the OTP code provided below in the website. The code will expire in <b>10 minutes</b>
+                        Hey ${userEmail.firstName + " " + userEmail.lastName} ,<br><br>
+                        To complete your redeem request please enter the OTP code provided below in the website. The code will expire in <b>15 minutes</b>
                         </p>
                         <div style="text-align: center; margin: 30px 0;">
                         <span style="font-size: 20px; margin-right: 10px;"><b>${otp}</b></span>
@@ -1366,52 +1405,44 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
         }else{
             var coinAmount = coin.coinAmount;
         }
-
-        var config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: `https://api.korapay.com/merchant/api/v1/charges/${reference}`,
-            headers: { 
-              'Authorization': 'Bearer sk_live_ptDSddv11sZQyXTcq7cx3zYwmbZtbMa54u7biNmo'
-            }
-        };
-
-        try {
-            const response = await axios(config);
-            const result = response.data;
         
-            console.log(result);
-        
-            if (result.status == true) {
-                if (result.data.status == 'success') {
-                    objectuserId = new mongoose.Types.ObjectId(userid)
-                    const updateUserCoin = await UserGameInfo.findOneAndUpdate({ userId: objectuserId }, { $inc: { userOctacoin: coinAmount } });
-                    if (!updateUserCoin) {
-                        return res.status(200).json({ message: 'could not update coins' });
-                    }
-
-                    const newTransactionHistory = new transactionHistories({
-                        reference: reference,
-                        status: result.data.status,
-                        userid: objectuserId,
-                        amount: coin.nairaAmount,
-                        paymentfromAccNo: result.data.payer_bank_account.account_number,
-                        paymentfromBankName: result.data.payer_bank_account.bank_name,
-                        paymentfromName: result.data.payer_bank_account.account_name
-                    });
-                    await newTransactionHistory.save();
-
-                    return res.status(200).json(result.data);
+        axios.get(`https://api.paystack.co/transaction/verify/${reference}`, {
+          headers: {
+            Authorization: `Bearer ${process.env.PYK_SECRET_KEY}`,
+            'Content-Type': 'application/json',
+          }
+        })
+        .then(async (response) => {
+          console.log(response.data);
+          if (response.data.data.status === 'success') {
+            const key = 1;
+            if (key == 1) {
+                objectuserId = new mongoose.Types.ObjectId(userid)
+                const updateUserCoin = await UserGameInfo.findOneAndUpdate({ userId: objectuserId }, { $inc: { userOctacoin: coinAmount } });
+                if (!updateUserCoin) {
+                    return res.status(200).json({ message: 'could not update coins' });
                 }
-            } else {
-                return res.status(500).json({ error: "Failed to fetch payment data." }, result);
-            }
 
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ error: "An error occurred while fetching banks." });
+                const newTransactionHistory = new transactionHistories({
+                    reference: reference,
+                    status: response.data.data.status,
+                    userid: objectuserId,
+                    amount: coin.nairaAmount,
+                    paymentfromAccNo: response.data.data.authorization.account_name || null,
+                    paymentfromBankName: response.data.data.authorization.bank,
+                    paymentfromName: response.data.data.customer.email
+                });
+                await newTransactionHistory.save();
+
+                return res.status(200).json({ message: response.data.data });
+            }
+        } else {
+            return res.status(500).json({ error: "Failed to fetch payment data." });
         }
-          
+        })
+        .catch(error => {
+          console.error(error.response ? error.response.data : error.message);
+        });          
     });
 
     app.get('/verify_payout', async(req, res) => {
@@ -1478,7 +1509,267 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
           console.error('❌ Error handling Korapay webhook:', error.message);
           res.status(500).json({ status: 'error', message: 'Internal Server Error' });
         }
-      });
+    });
+
+    //Paystack Transfer / Payout
+    app.post('/paystack_payin', async (req, res) => {
+        try {
+            const { coinid, redirect_url, name, email } = req.body;
+
+            objectCoinId = new mongoose.Types.ObjectId(coinid)
+            const coin = await Coins.findById(objectCoinId);
+            if (!coin) {
+                return res.status(200).json({ message: 'Coin not valid' });
+            }
+
+            const url = 'https://api.paystack.co/transaction/initialize';
+
+            const data = {
+            email: email,
+            amount: coin.nairaAmount * 100,
+            callback_url: `https://octagames-new-production.up.railway.app/verify_payment.html?id=${coinid}`
+            };
+
+            axios.post(url, data, {
+            headers: {
+                'Authorization': `Bearer ${process.env.PYK_SECRET_KEY}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+            })
+            .then(response => {
+            console.log('Transaction initialized:', response.data);
+            return res.status(200).json({ message: response.data })
+            })
+            .catch(error => {
+            console.error('Error initializing transaction:', error.response?.data || error.message);
+            });
+
+        } catch (error) {
+            
+        }
+    });
+
+    app.post('/paystack_payout', async (req, res) => {
+        const { userid, amount, bankName, accountNo, accountName } = req.body;
+        const userRecipient = await bankInfo.findOne({ userid: userid });
+        if (!userRecipient) {
+            return res.status(400).json({ message: 'User Bank Details could not be found' });
+        }
+
+        let myuuid = uuidv4();
+
+        const data = {
+            source: 'balance',
+            amount: `${amount}`,
+            reference: `${myuuid}`,
+            recipient: `${userRecipient.recipientCode}`,
+            reason: 'Testing Transfer'
+        };
+
+        axios.post('https://api.paystack.co/transfer', data, {
+        headers: {
+            Authorization: `Bearer ${process.env.PYK_SECRET_KEY}`,  // Replace SECRET_KEY with your actual secret key
+            'Content-Type': 'application/json'
+        }
+        })
+        .then(async (response) => {
+            console.log(response.data);
+            const responseData = response.data;
+        
+            if (responseData.data.status === 'success') {
+                const objectUserId = new mongoose.Types.ObjectId(userid);
+        
+                // Await the user reward wallet
+                const userRewardWallet = await rewardInfo.findById(objectUserId);
+                if (!userRewardWallet) {
+                    return res.status(400).json({ message: 'No User Reward Found' });
+                }
+        
+                const newRewardBalance = userRewardWallet.rewardAmount - amount;
+        
+                // Await the update
+                const updateRewardWallet = await rewardInfo.findByIdAndUpdate(
+                    objectUserId,
+                    { rewardAmount: newRewardBalance }
+                );
+        
+                if (!updateRewardWallet) {
+                    return res.status(400).json({ message: 'Could Not update User Wallet' });
+                }
+        
+                const newPayoutHistory = new payoutHistories({
+                    reference: myuuid,
+                    status: 'processing',
+                    userid: objectUserId,
+                    bankName: bankName,
+                    accountNo: accountNo,
+                    accountName: accountName,
+                    amount: amount
+                });
+        
+                await newPayoutHistory.save();
+        
+                return res.status(200).json({ message: 'success' });
+            } else {
+                return res.status(400).json({ message: 'failed' });
+            }
+        })
+        .catch((error) => {
+            console.error('Payout Error:', error);
+            return res.status(500).json({ message: 'Server error', error: error.message });
+        });        
+    });
+
+    app.get('/verify_paystack_payout',async (req, res) =>{
+        const { reference } = req.query;
+        try {
+            const secretKey = process.env.PYK_SECRET_KEY;    // Replace with your Paystack secret key
+            const url = `https://api.paystack.co/transfer/verify/${reference}`;
+
+            axios.get(url, {
+            headers: {
+                'Authorization': `Bearer ${secretKey}`,
+                'Accept': 'application/json'
+            }
+            })
+            .then(async (response) => {
+            console.log('Transfer verification result:', response.data.data.status);
+            if (response.data.data.status === 'success') {
+                const updatePayoutStatus = await payoutHistories.findOneAndUpdate({ reference: reference }, {status: 'success'});
+                if(!updatePayoutStatus) return res.status(400).json({ message: 'Could not Update Payout Status' });
+                res.status(200).json({ message: 'success' });
+            }
+            })
+            .catch(error => {
+            console.error('Error verifying transfer:', error.response ? error.response.data : error.message);
+            });
+        } catch (error) {
+            
+        }
+    });
+
+    app.post('/flutterwave_payout', async (req, res) => {
+        const flw = new Flutterwave(
+            process.env.FLW_PUBLIC_KEY,
+            process.env.FLW_SECRET_KEY
+        );
+        const details = {
+            account_bank: '50211',
+            account_number: '1234567890',
+            amount: 100,
+            currency: 'NGN',
+            narration: 'Testing Payment',
+            reference: 'dfs23fhr7ntg0293039_PMCK',
+        };
+        flw.Transfer.initiate(details)
+        .then(console.log)
+        .catch(console.log);
+    });
+
+    //Monnify Payout / Transfer
+    app.post('/monnify_transfer', async (req, res) => {
+        const url = `${baseURl}/api/v2/disbursements/single`;
+
+        const { reference, userid, amount, bankname, bank, account, accountname} = req.body;
+    
+        
+        // Transaction data to send in the request body
+        const transactionData = {
+            "amount": `${amount}`,
+            "reference": `${reference}`,
+            "narration": "Redeem Reward",
+            "destinationBankCode": `${bank}`,
+            "destinationAccountNumber": `${account}`,
+            "currency": "NGN",
+            "sourceAccountNumber": "2926745847",
+            "async": true
+        };
+    
+        try {
+            // Sending the POST request with transaction data
+            const response = await axios.post(url, transactionData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+    
+            // Handle the response
+            console.log('Response:', response.data);
+            if (response.data.responseMessage === 'success') {
+
+                objectUserId = new mongoose.Types.ObjectId(userid)
+
+                const userRewardWallet = await rewardInfo.findById(objectUserId);
+                if (!userRewardWallet) {
+                    return res.status(400).json({ message: 'No User Reward Found' });
+                }
+
+                const newRewardBalance = userRewardWallet.rewardAmount - amount;
+
+                const updateRewardWallet = await rewardInfo.findByIdAndUpdate(objectUserId, { rewardAmount: newRewardBalance });
+                if (!updateRewardWallet) {
+                    return res.status(400).json({ message: 'Could Not update User Wallet' });
+                }
+
+                const newPayoutHistory = new payoutHistories({
+                    reference: reference,
+                    status: 'processing',
+                    userid: objectUserId,
+                    bankName: bankname,
+                    accountNo: account,
+                    accountName: accountname,
+                    amount: amount
+                });
+                await newPayoutHistory.save();
+
+                res.status(200).json(response.data);
+            } else {
+                return res.status(500).json({ error: "Failed to fetch bank data." }, result);
+            }
+        } catch (error) {
+            console.error('Error:', error.response ? error.response.data : error.message);
+            res.status(500).json({ error: error.message }); // Send error response
+        }
+    });
+
+    app.post('/verify_monnify_payout', async (req, res) => {
+        const { reference } = req.query;
+        const url = `${baseURl}/api/v2/disbursements/single/summary?reference=${reference}`;
+        
+        axios.get(url, {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+          }
+        })
+        .then(response => {
+          console.log('Response:', response.data);
+          if (response.data.responseBody === 'SUCCESS') {
+            const updatePayoutStatus = payoutHistories.findOneAndUpdate(reference, {status: 'success'});
+            if(!updatePayoutStatus) return res.status(400).json({ message: 'Could not Update Payout Status' });
+            res.status(200).json({ message: 'success' });
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error.response ? error.response.data : error.message);
+        }); 
+    });
+
+    app.post("/my/webhook/url", function(req, res) {
+        //validate event
+        const hash = crypto.createHmac('sha512', secret).update(JSON.stringify(req.body)).digest('hex');
+        if (hash == req.headers['x-paystack-signature']) {
+        // Retrieve the request's body
+        const event = req.body;
+        // Do something with event
+        if (event.event == 'transfer.success') {
+            
+        }  
+        }
+        res.send(200);
+    });
 
 // Reward Logic -------------------------------------------------------------------------//
     app.get('/reward_hover', async (req, res) => {
@@ -1664,9 +1955,9 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
         }
 
         const checkIfBankexist = await bankInfo.findOne({accountNo: accountNo});
+
         if (checkIfBankexist) return res.status(400).json({message: 'Bank account already exist'});
 
-        try {
             const bankImagesResponse = await fetch('https://nigerianbanks.xyz/');
             
             if (!bankImagesResponse.ok) {
@@ -1674,31 +1965,49 @@ mongoose.connect("mongodb+srv://michael-user-1:Modubass1212@assetron.tdmvued.mon
             }
           
             const result = await bankImagesResponse.json();
-            // console.log(result);
           
             // Find bank info by code
             const bankImg = result.find(b => b.code.trim() === String(bankCode).trim());
 
-            const newBankInfo = new bankInfo({
-                userid: objectUserId,
-                bankName,
-                bankCode,
-                bankImg: bankImg.logo || null,
-                accountNo,
-                accountName
-            });
-            await newBankInfo.save();
-                  
-        } catch (error) {
-            console.error('Error fetching bank info:', error);
-          
-            res.status(500).json({
-              status: 'error',
-              message: 'Something went wrong while fetching bank image.'
-            });
-        }
+            const data = {
+            type: 'nuban',
+            name: `${accountName}`,
+            account_number: `${accountNo}`,
+            bank_code: `${bankCode}`,
+            currency: 'NGN'
+            };
+    
+            axios.post('https://api.paystack.co/transferrecipient', data, {
+            headers: {
+                Authorization: 'Bearer sk_test_652825ee963d91b1ba2111a48a4384430126d23d',
+                'Content-Type': 'application/json'
+            }
+            })
+            .then(response => {
+                const responseData = response.data;
+                if (responseData.status == true) {
+                    const recipient_code = responseData.data.recipient_code;
 
+                    const newBankInfo = new bankInfo({
+                        userid: objectUserId,
+                        bankName,
+                        bankCode,
+                        bankImg: bankImg.logo || null,
+                        accountNo,
+                        accountName,
+                        recipientCode: recipient_code
+                    });
+                    
+                    newBankInfo.save();
+                }
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error(error.response ? error.response.data : error.message);
+            });
+                  
         res.status(200).json({ message: 'Bank details added successfully' });
+
     });
 
     app.get('/delete_bank', async (req, res) => {

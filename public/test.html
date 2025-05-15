@@ -368,8 +368,25 @@
   </div>
   
 
+  <button class="" style="background-color: yellow; padding: 15px; font-weight: 700;" onclick="testPaystack()">Test Paystack recipient</button>
+
 </body>
 <script>
+  async function testPaystack() {
+    try {
+      const payoutRes = await fetch(`${API_BASE_URL}/monnify_transfer`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+      });
+
+      const payoutResult = await payoutRes.json();
+
+      if (!payoutRes.ok) {}
+  } catch (error) {
+      
+    }
+  }
+
       // try {
     //     const response = await fetch(`${API_BASE_URL}/fetch_exclusive_tournaments`)
     //     const tournaments = await response.json();

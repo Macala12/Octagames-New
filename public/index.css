@@ -108,6 +108,16 @@ button{
     font-size: 17px;
     margin-left: 10px;
 }
+._header_small{
+    font-size: 13px;
+    margin-left: 0px;
+}
+.text_info{
+    font-size: 10px;
+    color: #66FCF1;
+    padding-left: 8px;
+    font-weight: 600;
+}
 ._header_box{
     justify-content: space-between;
 }
@@ -178,7 +188,7 @@ button{
     padding: 10px;
     border-radius: 10px;
     margin-left: -40px;
-    min-width: 100px;
+    min-width: 90px;
 }
 .player_info img{
     width: 50px;
@@ -187,7 +197,8 @@ button{
 .player_info h5{
     font-size: 10px;
     text-overflow: ellipsis;
-    width: 95%;
+    width: 100%;
+    max-width: 76px;
     overflow: hidden;
     text-align: center;
 }
@@ -582,8 +593,8 @@ button{
 }
 .records h5{
     font-weight: 600 !important;
-    font-size: 17px !important;
-    margin-top: 6px;
+    font-size: 15px !important;
+    margin-top: 8px;
     margin-bottom: 0px !important;
 }
 ._progress{
@@ -1268,7 +1279,7 @@ button{
     font-weight: 600;
 }
 ._reward_box p{
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
 }
 ._reward_box button{
@@ -1293,7 +1304,7 @@ button{
     color: #66FCF1 !important;
     padding: 10px !important;
     border-radius: 15px !important;
-    margin-top: 20px;
+    margin-top: 15px;
     font-weight: 600 !important;
     font-size: 14px !important;
 }
@@ -1303,6 +1314,28 @@ button{
     width: 100%;
     overflow: auto;
     white-space: nowrap;
+}
+.bank_number_dot{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+.bank_number_dot span{
+    margin-right: 5px;
+}
+.bank_number_dot .fill{
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #66FCF1;
+}
+.bank_number_dot .outline{
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #66FCF1;
 }
 ._bank_acoount_box{
     position: relative;
@@ -1329,13 +1362,13 @@ button{
     right: 20px;
     width: 40px;
 }
-#_reward_history_box{
+#_reward_history_box, #_payout_history_box{
     height: fit-content;
 }
-._reward_history h6{
+._reward_history h6, ._payout_history_box h6{
     font-size: 14px;
 }
-._reward_history a{
+._reward_history a, ._payout_history_box a{
     background-color: transparent !important;
     border: 2px solid #66FCF1 !important;
     color: #66FCF1 !important;
@@ -1348,11 +1381,11 @@ button{
     display: block;
     text-align: center;
 }
-._reward_history h6 .float-right{
+._reward_history h6 .float-right, ._payout_history_box h6 .float-right{
     color: #ccc;
     font-size: 13px;
 }
-._reward_history_box{
+._reward_history_box, ._payout_history_box{
     background-color: #1F2833;
     padding: 15px 15px 1px 15px;
     border-radius: 5px;
@@ -1360,20 +1393,17 @@ button{
     margin-bottom: 10px;
     position: relative;
 }
-._reward_history_box .hidden_details{
+._reward_history_box .hidden_details, ._payout_history_box .hidden_details{
     display: none;
 }
-._reward_history_box i{
+._reward_history_box i, ._payout_history_box i{
     position: absolute;
     top: 20px;
     right: 30px;
     font-size: 22px;
     color: #66FCF1;
 }
-._reward_history_box h6{
-    font-size: 14px;
-}
-._reward_history_box p{
+._reward_history_box p, ._payout_history_box p{
     font-size: 13px;
     margin-bottom: 15px !important;
 }
@@ -1399,10 +1429,26 @@ button{
     font-size: 14px;
     color: #66FCF1 !important;
 }
+._payout_history_box{
+    position: relative;
+}
+._payout_history_box .badge{
+    margin-left: 10px;
+    font-weight: 600;
+    padding: 5px 10px;
+}
+._payout_history_box .processing_badge{
+    color: #000;
+    background-color: #ffc107 !important;
+}
+._payout_history_box .paid_badge{
+    color: #000;
+    background-color: #28a745 !important;
+}
 
 /* Profile */
 ._profile{
-    margin-top: 100px;
+    margin-top: 65px;
 }
 ._profile_history h6{
     font-size: 14px;

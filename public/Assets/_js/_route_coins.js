@@ -74,7 +74,7 @@ async function payModal(coinAmount, nairaAmount, coinId) {
                     <select name="payment_gateway" class="form-control" id="payment_gateway">
                         <optgroup>
                             <option value="">--- Select an option ---</option>
-                            <option value="korapay">KoraPay</option>
+                            <option value="paystack">Paystack</option>
                             <option value="rewards">Rewards</option>
                         </optgroup>
                     </select>
@@ -91,6 +91,9 @@ async function payModal(coinAmount, nairaAmount, coinId) {
 }
 
 async function buyCoin(coinId) {
+    document.querySelector('.modal-footer button').innerHTML = `
+        <span class="spinner-border spinner-border-sm"></span>
+    `;
     const paymentOptions = document.getElementById("payment_gateway");
     if (paymentOptions.value.trim() == '') {
         document.getElementById("errorText").innerHTML = `<i class="fi fi-rr-exclamation mr-1"></i> You have to select an option `;
@@ -160,19 +163,18 @@ async function buyCoin(coinId) {
             
         }
     }
-    if (paymentOptions.value == 'korapay') {
+    if (paymentOptions.value == 'paystack') {
         try {
             const reference = generateTransactionRef("OCTASUB");
             const buyCoin = {
                 coinid: coinId,
-                redirect_url: `localhost:3000/home.html?id=${coinId}`,
+                redirect_url: `https://localhost:3000/verify_payment.html?id=${coinId}`,
                 reference: reference,
                 name: fullName,
                 email: email
             };
 
-            console.log(buyCoin);
-            const response = await fetch(`${API_BASE_URL}/buy_coin`,  {
+            const response = await fetch(`${API_BASE_URL}/paystack_payin`,  {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(buyCoin)
@@ -195,10 +197,9 @@ async function buyCoin(coinId) {
                 mainAlert.appendChild(alert);
                 console.log(result.message);
             }else{
-                console.log(result.data.checkout_url);
-                const transactionReference = result.data.reference;
-                const checkoutUrl = result.data.checkout_url;
-                window.location.href = checkoutUrl;
+                console.log(result);
+                const checkoutUrl = result.message.data.authorization_url;
+                window.location.href = checkoutUrl+'';
             }
 
         } catch (error) {
