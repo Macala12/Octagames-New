@@ -53,36 +53,12 @@ app.use(express.json());
     .catch(err => console.log("DB Connection Error:", err));
 
 
-    //Monnify Token
-    let accessToken;
-    const apiKey = 'MK_TEST_H5AUKUT8Q9';
-    const clientSecret = 'TB56FL17EUNGNQ8H24DEXHXRXXA7BTZ6';
-    const url = 'https://sandbox.monnify.com/api/v1/auth/login';
-    const baseURl = 'https://sandbox.monnify.com';
-
-    // Encode 'apiKey:clientSecret' to Base64
-    const token = base64.encode(`${apiKey}:${clientSecret}`);
-
-    axios.post(url, {}, {
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Basic ${token}`
-    }
-    })
-    .then(response => {
-    // console.log('Response:', response.data.responseBody.accessToken);
-    accessToken = response.data.responseBody.accessToken;
-    })
-    .catch(error => {
-    console.error('Error:', error.response ? error.response.data : error.message);
-    }); 
-
     app.use((req, res, next) => {
         const userAgent = req.headers['user-agent'];
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
     
         if (!isMobile) {
-            return res.sendFile(path.join(__dirname, 'not_allowed.html'));
+            return res.sendFile(path.join(__dirname, '/public/not_allowed.html'));
         }
     
         next();
