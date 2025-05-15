@@ -82,7 +82,7 @@ app.use(express.json());
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
     
         if (!isMobile) {
-            return res.sendFile(path.join(__dirname, 'not-allowed.html'));
+            return res.sendFile(path.join(__dirname, 'not_allowed.html'));
         }
     
         next();
