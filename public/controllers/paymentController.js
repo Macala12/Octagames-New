@@ -18,7 +18,7 @@ async function paymentProcessor() {
 async function checkStatus(reference) {
     setInterval(async () => {
         console.log("Checking Payout");
-        const response = await fetch(`http://localhost:3000/verify_paystack_payout?reference=${reference}`);
+        const response = await fetch(`https://octagames-new-production.up.railway.app/verify_paystack_payout?reference=${reference}`);
         const result = await response.json();
         if (!response.ok) {
             console.log(result.message);
