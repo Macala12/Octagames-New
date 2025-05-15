@@ -22,7 +22,10 @@ async function checkAllStatuses() {
                 console.log(`Success for ${payment.reference}:`, result.message);
             }
         } catch (err) {
-            console.error(`Failed to check ${payment.reference}:`, err);
+            // console.error(`Failed to check ${payment.reference}:`, err);
+            const text = await response.text();
+            console.error(`Failed to parse JSON for ${reference}. Raw response:\n`, text); // 🔍 You'll see the full HTML here
+            return;
         }
     }
 }
