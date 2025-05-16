@@ -25,9 +25,6 @@ var _players_joinedinnerHTML = `
         </div>
         <div class="_players_joined_user_img" data-start-time="" data-end-time="">
             <i class="topThree" id="topthree">
-                <img src="" alt="">
-                <img src="" alt="">
-                <img src="" alt="">
             </i>
             <span class="_players_numbers" id="_players_numbers">
             </span>
@@ -185,9 +182,9 @@ async function getLeaderboard(id) {
 
         // Safely assign top 3 user images
         const topThree = leaderboard.slice(0, 3);
-        topOne = topThree[0]?.userImg || "default1.png";
-        topTwo = topThree[1]?.userImg || "default2.png";
-        topThreeImg = topThree[2]?.userImg || "default3.png";
+        topOne = topThree[0]?.userImg || "https://api.dicebear.com/9.x/big-smile/svg?seed=George&radius=50&backgroundType=gradientLinear&randomizeIds=true&skinColor=643d19,8c5a2b,a47539,c99c62&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf";
+        topTwo = topThree[1]?.userImg || "https://api.dicebear.com/9.x/big-smile/svg?seed=Michael&radius=50&backgroundType=gradientLinear&randomizeIds=true&skinColor=643d19,8c5a2b,a47539,c99c62&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf";
+        topThree = topThree[2]?.userImg || "https://api.dicebear.com/9.x/big-smile/svg?seed=Vera&radius=50&backgroundType=gradientLinear&randomizeIds=true&skinColor=643d19,8c5a2b,a47539,c99c62&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf";
 
     } catch (error) {
         showAlert("Network error. Try again.");
@@ -207,6 +204,7 @@ function updateTournamentUI(result) {
         const tagThree = document.querySelector(".tagThree");
         const exclusiveCount = document.querySelector(".exclusive_count");
         const exclusiveKBD = document.querySelector(".count");
+        const topThreeImages = document.getElementById("topthree");
         const joinedSection = document.querySelector("._players_joined h5");
         const descParagraph = document.querySelector("._players_joined .desc p");
         const userImgContainer = document.querySelector("._players_joined_user_img");
@@ -239,6 +237,14 @@ function updateTournamentUI(result) {
             descParagraph.textContent = result.tournamentDesc;
         } else {
             console.warn("Missing: ._players_joined .desc p");
+        }
+
+        if (topThreeImages) {
+            topThreeImages.innerHTML = `
+                ${topOne}
+                ${topTwo}
+                ${topThree}
+            `;
         }
     
         if (timer) {
@@ -431,7 +437,6 @@ startTournamentRefetching();
 
 async function addUserToTournament() {
     if (addUserRequest) return;
-
     addUserRequest = true;
     try {
 
@@ -455,8 +460,13 @@ async function addUserToTournament() {
             `;
 
             mainAlert.appendChild(alert);
-            document.querySelector(".joinDiv").innerHTML = `
-                Join
+            document.getElementById("joinBtn").innerHTML = `
+                 <a class="btn mb-1" id="join_btn" onclick="addUserToTournament()">
+                    <div class="d-flex">
+                        <div class="pointDiv">100 pts</div>
+                        <div class="joinDiv">Join</div>
+                    </div>
+                </a>
             `;
             console.log(result.message)
         }else{
@@ -476,19 +486,20 @@ async function joinedUsers() {
 
         if (!response.ok) {
             console.log(result.message);
-        }
-
-        var playersnumber;
-        if (result < 4) {
-            playersnumber = 0;
-            document.getElementById("_players_numbers").innerHTML = `
-                +${playersnumber} players joined
-            `;
         }else{
-            var playersnumber = result - 3;
-            document.getElementById("_players_numbers").innerHTML = `
-                +${playersnumber} players joined & waiting
-            `;
+
+            var playersnumber;
+            if (result.length < 4) {
+                playersnumber = 0;
+                document.getElementById("_players_numbers").innerHTML = `
+                    +${playersnumber} players joined
+                `;
+            }else{
+                var playersnumber = result.length - 3;
+                document.getElementById("_players_numbers").innerHTML = `
+                    +${playersnumber} players joined
+                `;
+            }
         }
 
     } catch (error) {
@@ -521,7 +532,7 @@ async function checkIfUserIsJoined(status, id, entryfee, playUrl) {
                 <div class="active d-flex justify-content-center">
                     <a class="btn mb-1 joined_btn">
                         <div class="d-flex">
-                            <div class="pointDiv">${entryfee} <img src="./Assets/_icons/coin.png" width="20px" class="" alt=""></div>
+                            <div class="pointDiv">${entryfee} <img src="./Assets/_icons/coin.png" width="20px" class="" alt=""> </div>
                             <div class="joinDiv text-dark">Joined</div>
                         </div>
                     </a>
@@ -547,7 +558,7 @@ async function checkIfUserIsJoined(status, id, entryfee, playUrl) {
             const notJoinedHTML = `
                 <a class="btn mb-1" id="join_btn" onclick="addUserToTournament()">
                     <div class="d-flex">
-                        <div class="pointDiv">${entryfee} pts</div>
+                        <div class="pointDiv">${entryfee} <img src="./Assets/_icons/coin.png" width="20px" class="" alt=""> </div>
                         <div class="joinDiv">Join</div>
                     </div>
                 </a>
