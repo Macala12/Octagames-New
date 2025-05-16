@@ -752,7 +752,7 @@ app.use(express.json());
 
     app.get('/fetch_top_player', async (req, res) => {
        try {
-        const topPlayers = await UserGameInfo.find().sort({ userGamesPlayed: -1 }).limit(5).exec();
+        const topPlayers = await UserGameInfo.find().sort({ userTopWins: -1 }).limit(5).exec();
         if (!topPlayers) {
             return res.status(404).json({ message: "No top players" });
         }

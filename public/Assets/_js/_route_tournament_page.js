@@ -455,6 +455,9 @@ async function addUserToTournament() {
             `;
 
             mainAlert.appendChild(alert);
+            document.querySelector(".joinDiv").innerHTML = `
+                Join
+            `;
             console.log(result.message)
         }else{
             addUserRequest = false;
@@ -518,7 +521,7 @@ async function checkIfUserIsJoined(status, id, entryfee, playUrl) {
                 <div class="active d-flex justify-content-center">
                     <a class="btn mb-1 joined_btn">
                         <div class="d-flex">
-                            <div class="pointDiv">${entryfee} pts</div>
+                            <div class="pointDiv">${entryfee} <img src="./Assets/_icons/coin.png" width="20px" class="" alt=""></div>
                             <div class="joinDiv text-dark">Joined</div>
                         </div>
                     </a>

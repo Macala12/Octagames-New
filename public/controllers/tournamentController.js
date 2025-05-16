@@ -275,7 +275,7 @@ async function handleMultipleTournaments() {
         handleTournamentLifecycle(basketballHoop._id);
         handleTournamentLifecycle(pieAttack._id);
         handleTournamentLifecycle(monsterCandy._id);
-    }, 10 * 60 * 1000); // Every 10 mins for regular tournament
+    }, 9 * 60 * 1000); // Every 9 mins for regular tournament
 
     setInterval(async () => {
         const trivia = await createNewExclusiveTournament(

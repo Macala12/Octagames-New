@@ -34,7 +34,7 @@ async function topPlayers() {
                 <h5>${topPlayerOne.username}</h5>
             `;
         }
-
+ 
         if (topPlayerTwo) {
             const topUser = document.querySelector("._tp_two .player_info").innerHTML = `
                 <img class="mx-auto d-block" src="${topPlayerTwo.userImg}" alt="">

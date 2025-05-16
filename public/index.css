@@ -1590,8 +1590,8 @@ button{
 }
 
 .alertDanger{
-    background-color: #dc35469c;
-    border-left: 4px solid #d9293b !important;
+    background-color: #dc3546;
+    border-left: 4px solid #ffffff !important;
     font-weight: 700;
     padding: 15px !important;
     border-radius: 5px !important;
