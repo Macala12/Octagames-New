@@ -109,12 +109,11 @@ async function refetching() {
 }
 
 async function getLeaderboard(id) {
+    const refreshingStatus = document.getElementById("refreshingStatus");
+    refreshingStatus.style.fontSize = '12px';
+    refreshingStatus.style.fontWeight = '600px';
+    refreshingStatus.innerHTML = 'Updating...';
     try {
-        const refreshingStatus = document.getElementById("refreshingStatus");
-        refreshingStatus.style.fontSize = '12px';
-        refreshingStatus.style.fontWeight = '600px';
-        refreshingStatus.innerHTML = 'Updating...';
-
         const response = await fetch(`${API_BASE_URL}/getLeaderboard?Id=${id}`);
 
         if (!response.ok) {
@@ -183,8 +182,9 @@ async function getLeaderboard(id) {
             `;
 
             leaderboardTable.appendChild(row);
-            refreshingStatus.innerHTML = '';
         });
+
+        refreshingStatus.innerHTML = '';
 
         // Safely assign top 3 user images
         const topThree = leaderboard.slice(0, 3);
@@ -308,6 +308,7 @@ function updateTournamentUI(result) {
     }else{
         const tags = document.querySelector(".tags");
         const exclusiveCount = document.querySelector(".exclusive_count");
+        const topThreeImages = document.getElementById("topthree");
         const joinedSection = document.querySelector("._players_joined h5");
         const descParagraph = document.querySelector("._players_joined .desc p");
         const userImgContainer = document.querySelector("._players_joined_user_img");
@@ -330,6 +331,14 @@ function updateTournamentUI(result) {
             descParagraph.textContent = result.tournamentDesc;
         } else {
             console.warn("Missing: ._players_joined .desc p");
+        }
+
+        if (topThreeImages) {
+            topThreeImages.innerHTML = `
+                ${topOne}
+                ${topTwo}
+                ${topThree}
+            `;
         }
     
         if (timer) {
