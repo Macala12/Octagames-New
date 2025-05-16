@@ -773,7 +773,7 @@ app.use(express.json());
             const exclusivetournament = await liveTournament.find({ type: 'exclusive' });
 
             if (!exclusivetournament) {
-                return res.status(404).json({ message: "No Exclusive tournament avaliable" });
+                return res.status(404);
             }else{
                 res.json(exclusivetournament);
             }
@@ -789,7 +789,7 @@ app.use(express.json());
             const livetournament = await liveTournament.find({ status: 'active', type: 'regular' });
 
             if (livetournament.length === 0) {
-                return res.status(404).json({ message: "No live tournament available" });
+                return res.status(404);
             } else {
                 // Create a new array of plain objects
                 const updatedTournaments = [];
@@ -821,7 +821,7 @@ app.use(express.json());
             const livetournament = await liveTournament.find({ status: 'upcoming', type: 'regular' });
 
             if (livetournament.length === 0) {
-                return res.status(404).json({ message: "No live tournament available" });
+                return res.status(404);
             } else {
                 // Create a new array of plain objects
                 const updatedTournaments = [];
@@ -853,7 +853,7 @@ app.use(express.json());
             const userInGames = await Leaderboard.find({ userId: userid });
 
             if (!userInGames) {
-                return res.status(400).json({ message: "No active game" });
+                return res.status(404);
             }
 
             const leaderboardIds = userInGames.map(entry => entry.leaderboardId);
