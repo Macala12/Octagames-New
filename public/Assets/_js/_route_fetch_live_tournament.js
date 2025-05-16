@@ -396,7 +396,7 @@ async function fetchAndDisplayTournaments() {
     setTimeout(() => {
         document.querySelector("main").style.display = "block";
         document.getElementById("loader").style.display = "none";
-        setInterval(fetchAndDisplayTournaments, 60000);
+        setInterval(fetchAndDisplayTournaments, 60 * 1000);
     }, 10000);
 
 }

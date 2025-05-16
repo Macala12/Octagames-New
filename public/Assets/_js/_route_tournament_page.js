@@ -110,6 +110,11 @@ async function refetching() {
 
 async function getLeaderboard(id) {
     try {
+        const refreshingStatus = document.getElementById("refreshingStatus");
+        refreshingStatus.style.fontSize = '12px';
+        refreshingStatus.style.fontWeight = '600px';
+        refreshingStatus.innerHTML = 'Updating...';
+
         const response = await fetch(`${API_BASE_URL}/getLeaderboard?Id=${id}`);
 
         if (!response.ok) {
@@ -178,6 +183,7 @@ async function getLeaderboard(id) {
             `;
 
             leaderboardTable.appendChild(row);
+            refreshingStatus.innerHTML = '';
         });
 
         // Safely assign top 3 user images
