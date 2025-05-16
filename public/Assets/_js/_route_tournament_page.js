@@ -6,7 +6,7 @@ const tag = urlParams.get("tag");
 
 var topOne;
 var topTwo;
-var topThree;
+var topThreeUser;
 var rank;
 var tournamentStatus;
 var entryAmount;
@@ -109,11 +109,11 @@ async function refetching() {
 }
 
 async function getLeaderboard(id) {
-    const refreshingStatus = document.getElementById("refreshingStatus");
-    refreshingStatus.style.fontSize = '12px';
-    refreshingStatus.style.fontWeight = '600px';
-    refreshingStatus.innerHTML = 'Updating...';
     try {
+        const refreshingStatus = document.getElementById("refreshingStatus");
+        refreshingStatus.style.fontSize = '12px';
+        refreshingStatus.style.fontWeight = '600px';
+        refreshingStatus.innerHTML = 'Updating...';
         const response = await fetch(`${API_BASE_URL}/getLeaderboard?Id=${id}`);
 
         if (!response.ok) {
@@ -139,6 +139,7 @@ async function getLeaderboard(id) {
                     </td>
                 </tr>
             `;
+            refreshingStatus.innerHTML = '';
             return;
         }
 
@@ -190,7 +191,7 @@ async function getLeaderboard(id) {
         const topThree = leaderboard.slice(0, 3);
         topOne = topThree[0]?.userImg || "https://api.dicebear.com/9.x/big-smile/svg?seed=George&radius=50&backgroundType=gradientLinear&randomizeIds=true&skinColor=643d19,8c5a2b,a47539,c99c62&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf";
         topTwo = topThree[1]?.userImg || "https://api.dicebear.com/9.x/big-smile/svg?seed=Michael&radius=50&backgroundType=gradientLinear&randomizeIds=true&skinColor=643d19,8c5a2b,a47539,c99c62&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf";
-        topThree = topThree[2]?.userImg || "https://api.dicebear.com/9.x/big-smile/svg?seed=Vera&radius=50&backgroundType=gradientLinear&randomizeIds=true&skinColor=643d19,8c5a2b,a47539,c99c62&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf";
+        topThreeUser = topThree[2]?.userImg || "https://api.dicebear.com/9.x/big-smile/svg?seed=Vera&radius=50&backgroundType=gradientLinear&randomizeIds=true&skinColor=643d19,8c5a2b,a47539,c99c62&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf";
 
     } catch (error) {
         showAlert("Network error. Try again.");
@@ -247,9 +248,9 @@ function updateTournamentUI(result) {
 
         if (topThreeImages) {
             topThreeImages.innerHTML = `
-                ${topOne}
-                ${topTwo}
-                ${topThree}
+                <img src="${topOne}" alt=""> 
+                <img src="${topTwo}" alt=""> 
+                <img src="${topThreeUser}" alt=""> 
             `;
         }
     
@@ -334,11 +335,15 @@ function updateTournamentUI(result) {
         }
 
         if (topThreeImages) {
-            topThreeImages.innerHTML = `
-                ${topOne}
-                ${topTwo}
-                ${topThree}
-            `;
+            if (topOne || topTwo || topThreeUser !== undefined) {
+                topThreeImages.innerHTML = `
+                    <img src="${topOne}" alt=""> 
+                    <img src="${topTwo}" alt=""> 
+                    <img src="${topThreeUser}" alt=""> 
+                `;
+            }else{
+                topThreeImages.innerHTML = ``;
+            }
         }
     
         if (timer) {
@@ -502,19 +507,10 @@ async function joinedUsers() {
         if (!response.ok) {
             console.log(result.message);
         }else{
-
-            var playersnumber;
-            if (result.length < 4) {
-                playersnumber = 0;
-                document.getElementById("_players_numbers").innerHTML = `
-                    +${playersnumber} players joined
-                `;
-            }else{
-                var playersnumber = result.length - 3;
-                document.getElementById("_players_numbers").innerHTML = `
-                    +${playersnumber} players joined
-                `;
-            }
+            console.log("Player Number:", result)
+            document.getElementById("_players_numbers").innerHTML = `
+                +${result} players joined
+            `;
         }
 
     } catch (error) {

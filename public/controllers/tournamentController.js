@@ -10,7 +10,7 @@ const liveTournament = require('../models/LiveTournament');
 // Function to create a new tournament
 async function createNewTournament(tournamentName, tournamentImgUrl, tournamentDesc, tournamentReward, entryAmount, tournamentPlayUrl) {
     const now = new Date();
-    const lobbyDuration = 5 * 60 * 1000;  // Lobby duration (e.g., 5 minutes)
+    const lobbyDuration = 10 * 60 * 1000;  // Lobby duration (e.g., 5 minutes)
     const tournamentDuration = 10 * 60 * 1000; // Tournament duration (e.g., 10 minutes)
 
     // Set start and end times
@@ -275,7 +275,7 @@ async function handleMultipleTournaments() {
         handleTournamentLifecycle(basketballHoop._id);
         handleTournamentLifecycle(pieAttack._id);
         handleTournamentLifecycle(monsterCandy._id);
-    }, 9 * 60 * 1000); // Every 9 mins for regular tournament
+    }, 9.4 * 60 * 1000); // Every 10 mins for regular tournament
 
     setInterval(async () => {
         const trivia = await createNewExclusiveTournament(
