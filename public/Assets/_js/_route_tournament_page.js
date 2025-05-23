@@ -32,7 +32,6 @@ var _players_joinedinnerHTML = `
 
             </span>
             <div class="exclusive_count">
-                <p class="mt-2"><i class="fi fi-rr-joystick mr-1"></i> <kbd class="count"></kbd> players / 100 joined</p>
             </div>
             <div class="reward mt-3">
                 <div class="reward_box_">
@@ -82,23 +81,21 @@ async function refetching() {
 
         if (!response.ok) {
             console.log(result.message);
-            if (result.status == 'ended') {
-                try {
-                    const winnerRes = await fetch(`${API_BASE_URL}/tournament_winners?id=${id}`);
-                    const winnerResult = await winnerRes.json();
 
-                    if (!winnerRes.ok) {
-                        showAlert(winnerResult.message);
-                        window.location.href = "404.html";
-                    } else {
-                        displayWinners(winnerResult);
-                    }
-                } catch (err) {
-                    console.log("Error fetching winners:", err);
+            try {
+                const winnerRes = await fetch(`${API_BASE_URL}/tournament_winners?id=${id}`);
+                const winnerResult = await winnerRes.json();
+
+                if (!winnerRes.ok) {
+                    showAlert(winnerResult.message);
+                    window.location.href = "404.html";
+                } else {
+                    displayWinners(winnerResult.firstWinner, winnerResult.secondWinner, winnerResult.thirdWinner);
                 }
-            }else{
-                window.location.href = "404.html";
+            } catch (err) {
+                console.log("Error fetching winners:", err);
             }
+
             return;
         }
         updateTournamentUI(result);
@@ -209,8 +206,7 @@ function updateTournamentUI(result) {
         const tagOne = document.querySelector(".tagOne");
         const tagTwo = document.querySelector(".tagTwo");
         const tagThree = document.querySelector(".tagThree");
-        const exclusiveCount = document.querySelector(".exclusive_count");
-        const exclusiveKBD = document.querySelector(".count");
+        const exclusiveKBD = document.querySelector(".exclusive_count");
         const topThreeImages = document.getElementById("topthree");
         const joinedSection = document.querySelector("._players_joined h5");
         const descParagraph = document.querySelector("._players_joined .desc p");
@@ -284,7 +280,11 @@ function updateTournamentUI(result) {
         }
 
         if (exclusiveKBD) {
-            exclusiveKBD.textContent = result.playerJoinedCount;
+            if (result.maximumPlayers == "" || result.maximumPlayers == "null" || result.maximumPlayers == null) {
+                exclusiveKBD.innerHTML = "";
+            }else{
+                exclusiveKBD.innerHTML = `<p class="mt-2"><i class="fi fi-rr-joystick mr-1"></i> <kbd>${result.playerJoinedCount}</kbd> players / ${result.maximumPlayers} joined</p>`;
+            }
         }
     
         if (firstPrize) firstPrize.innerHTML = "N" + 0.4 * result.tournamentReward;
@@ -397,30 +397,85 @@ function updateTournamentUI(result) {
     }
 }
 
-function displayWinners(winners) {
+function displayWinners(firstWinner, secondWinner, thirdWinner) {
     const tournamentEnd = document.getElementById("tournament_end_content");
     tournamentEnd.innerHTML = ""; // clear first
     const sound = new Audio('./Assets/_sound/mixkit-game-level-completed-2059.wav');
 
-    winners.forEach(winner => {
-        const aWinner = document.createElement("div");
-        aWinner.classList.add('top_three_player');
-        aWinner.innerHTML = `
-            <div class="top_three_player">
-                <div class="t_t_l_user_img_box">
-                    <div class="_t_t_l_user_img text-center">
-                        <div class="glow"></div>
-                        <img src="${winner.userImg}" alt="">
-                    </div>
-                </div>
-                <div class="_t_t_l_user_name">${winner.username}</div>
-                <div class="_t_t_l_score">
-                    <b>Score:</b> ${winner.score}
+    // winners.forEach(winner => {
+    //     const aWinner = document.createElement("div");
+    //     aWinner.classList.add('top_three_player');
+    //     aWinner.innerHTML = `
+    //         <div class="top_three_player">
+    //             <div class="t_t_l_user_img_box">
+    //                 <div class="_t_t_l_user_img text-center">
+    //                     <div class="glow"></div>
+    //                     <img src="${winner.userImg}" alt="">
+    //                 </div>
+    //             </div>
+    //             <div class="_t_t_l_user_name">${winner.username}</div>
+    //             <div class="_t_t_l_score">
+    //                 //<b>Score:</b> ${winner.score}
+    //             </div>
+    //         </div>
+    //     `;
+    //     tournamentEnd.appendChild(aWinner);
+    // });
+
+    const firstWinner_ = document.createElement("div");
+    firstWinner_.classList.add('top_three_player');
+    firstWinner_.innerHTML = `
+    <div class="top_three_player">
+        <div class="t_t_l_user_img_box">
+            <div class="_t_t_l_user_img text-center">
+                <div class="glow"></div>
+                <img src="${firstWinner.userImg}" alt="">
+            </div>
+        </div>
+        <div class="_t_t_l_user_name">${firstWinner.username}</div>
+        <div class="_t_t_l_score">
+            //<b>Score:</b> ${firstWinner.score}
+        </div>
+    </div>
+    `;
+
+    const secondWinner_ = document.createElement("div");
+    secondWinner_.classList.add('top_three_player');
+    secondWinner_.innerHTML = `
+        <div class="top_three_player">
+            <div class="t_t_l_user_img_box">
+                <div class="_t_t_l_user_img text-center">
+                    <div class="glow"></div>
+                    <img src="${secondWinner.userImg}" alt="">
                 </div>
             </div>
-        `;
-        tournamentEnd.appendChild(aWinner);
-    });
+            <div class="_t_t_l_user_name">${secondWinner.username}</div>
+            <div class="_t_t_l_score">
+                //<b>Score:</b> ${secondWinner.score}
+            </div>
+        </div>
+    `;
+
+    const thirdWinner_ = document.createElement("div");
+    thirdWinner_.classList.add('top_three_player');
+    thirdWinner_.innerHTML = `
+    <div class="top_three_player">
+        <div class="t_t_l_user_img_box">
+            <div class="_t_t_l_user_img text-center">
+                <div class="glow"></div>
+                <img src="${thirdWinner.userImg}" alt="">
+            </div>
+        </div>
+        <div class="_t_t_l_user_name">${thirdWinner.username}</div>
+        <div class="_t_t_l_score">
+            //<b>Score:</b> ${thirdWinner.score}
+        </div>
+    </div>
+    `;
+
+    tournamentEnd.appendChild(firstWinner_);
+    tournamentEnd.appendChild(secondWinner_);
+    tournamentEnd.appendChild(thirdWinner_);
 
     const topPercent = rank ? (rank / playersNumber * 100).toFixed(2) : 0;
     document.getElementById("rankPercent").innerHTML = `You are among the top ${topPercent}% at rank ${rank}`;

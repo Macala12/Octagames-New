@@ -97,7 +97,7 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
             phoneNumber: document.getElementById("phoneNumber").value,
             password: document.getElementById("password").value,
             confirmpassword: document.getElementById("confirmpassword").value
-        };
+        }; 
     
         try {
             document.querySelector(".submitBtn").innerHTML = `

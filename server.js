@@ -32,6 +32,7 @@ const rewardInfo = require('./public/models/RewardInfo');
 const Coins = require('./public/models/Coins');
 const transactionHistories = require('./public/models/Transactionhistories');
 const payoutHistories = require('./public/models/PayoutHistories');
+const tournamentWinner = require('./public/models/TournamentWinners');
 const { error } = require("console");
 const { umask } = require('process');
 
@@ -52,8 +53,104 @@ app.use(express.json());
     })
     .catch(err => console.log("DB Connection Error:", err));
 
+    //Admin Route
+    app.get('/admin_user_count', async (req, res) => {
+       try {
+        const response = await User.find();
+        if (!response) {
+            return res.status(400).json({ message: 'could not get any user' })
+        }
+        res.status(200).json(response);
+       } catch (error) {
+        
+       } 
+    });
+
+    app.get('/admin_total_coin', async (req, res) => {
+       try {
+        const response = await transactionHistories.find();
+        if (!response) {
+            return res.status(400).json({ message: 'could not get any coin' })
+        }
+        res.status(200).json(response);
+       } catch (error) {
+        
+       } 
+    });
+
+    app.get('/admin_total_players', async (req, res) => {
+        try {
+        const response = await Leaderboard.find();
+        if (!response) {
+            return res.status(400).json({ message: 'could not get any players' })
+        }
+        res.status(200).json(response);
+        } catch (error) {
+        
+        } 
+    });
+
+    app.post('/create_new_exclusive_tournament', async (req, res) => {
+        try {
+            const {tournamentName, tournamentImgUrl, tournamentDesc, tournamentReward, entryAmount, type, tagOne, tagTwo, tagThree, maximumPlayers, tournamentPlayUrl, tournamentStartTime, tournamentEndTime} = req.body;
+            const newTournament = new liveTournament({
+                tournamentName,
+                tournamentImgUrl,
+                tournamentDesc,
+                tournamentReward,
+                entryAmount,
+                type,
+                tagOne,
+                tagTwo,
+                tagThree,
+                maximumPlayers,
+                tournamentPlayUrl,
+                tournamentStartTime,
+                tournamentEndTime
+            });
+            await newTournament.save();
+
+            if(!newTournament){
+                return res.status(400).json({ message: 'Error Trying to add tournament' })
+            }
+
+            res.status(200).json({ message: 'Success in adding new tournament' });
+        } catch (error) {
+            console.log(error)
+        }
+    })
+
 
     //Signup Route / Endpoint
+    app.post('/login/admin', async (req, res) => {
+        try {
+            const { email, password } = req.body;
+            const findUser = await User.findOne({ email });
+
+            if (!findUser) {
+                return res.status(400).json({message: 'Invalid Email'});
+            }
+
+            if (findUser.role !== 'admin') {
+                return res.status(400).json({message: 'You are not verified to enter'});  
+            }
+
+            const isMatched = await bcrypt.compare(password, findUser.password);
+            if (!isMatched) {
+                return res.status(400).json({message: 'Incorrect Password'});
+            }
+
+            const userId = findUser._id ? findUser._id.toString() : null;
+        
+            res.status(200).json({
+                message: 'Login Successful',
+                userid: userId
+            });
+        } catch (error) {
+            
+        }    
+    });
+
     app.post('/signup', async (req, res) => {
         try {
             const {userImg, firstName, lastName, username, email, phoneNumber, password} = req.body;
@@ -914,11 +1011,25 @@ app.use(express.json());
         try {
             const { id } = req.query;
 
-            const tournamentWinner = await Leaderboard.find({ leaderboardId: id }).sort({ score: -1 }).limit(3).exec();
-            if (tournamentWinner.length == 0) {
+            const objectId = new mongoose.Types.ObjectId(id);
+
+            const tournamentWinners = await tournamentWinner.find({ tournamentId: objectId }).sort({ score: -1 }).limit(3).exec();
+            if (tournamentWinners.length == 0) {
                 return res.status(400).json({ message: 'No player in tournament' });
             }else{
-                return res.status(200).json(tournamentWinner);
+                const firstWinnerId = new mongoose.Types.ObjectId(tournamentWinners.firstWinner);
+                const secondWinner = new mongoose.Types.ObjectId(tournamentWinners.secondWinner);
+                const thirdWinner = new mongoose.Types.ObjectId(tournamentWinners.thirdWinner);
+
+                const firstWinnerInfo = await User.findById({ _id: firstWinnerId });
+                const secondWinnerInfo = await User.findById({ _id: secondWinner });
+                const thirdWinnerInfo = await User.findById({ _id: thirdWinner });
+
+                if (!firstWinnerInfo && !secondWinnerInfo && !thirdWinnerInfo) {
+                    return res.status(400).json({ message: 'No Winners in tournament'})
+                }
+
+                return res.status(200).json({firstWinner: firstWinnerInfo, secondWinner: secondWinnerInfo, thirdWinner: thirdWinnerInfo});
             }
         } catch (error) {
             
@@ -967,6 +1078,16 @@ app.use(express.json());
                 }
             }
 
+            const playerCountChecker = await Leaderboard.find({ leaderboardId: id });
+            if (!playerCountChecker) {
+                return res.status(400).json({ message: "Could not find leaderBoard" });
+            }
+
+            const playerCount = playerCountChecker.length;
+            if(playerCount === getTournamentEntryfee.maximumPlayers){
+                return res.status(400).json({ message: "Total Maximum Players Reached" });
+            }
+
             const entryfee = getTournamentEntryfee.entryAmount;
 
             // Check if user coin is enough to join the tournament
@@ -985,7 +1106,8 @@ app.use(express.json());
                 const leaderboardUserId = await Leaderboard.findOne({ userId: userid, leaderboardId: id });
                 if (leaderboardUserId) {
                     return res.status(400).json({ message: "Unable to add user: User is already registered" });
-                } else {
+                }
+                else {
 
                     // Convert userId to ObjectId to search for the user
                     const userName = await User.findOne({ _id: objectUserId });

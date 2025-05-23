@@ -93,7 +93,7 @@ function handleTournamentLifecycle(tournamentId) {
                     { userid: { $nin: topThreeIds } },  // not in the first 3
                     { $set: { userStreak: 0 } }
                 );
-                if (!endStreak) {
+                if (!endStreak) { 
                     console.error(error);
                 }else{
                     console.log("Ended streaks of losers")
@@ -131,6 +131,7 @@ function handleTournamentLifecycle(tournamentId) {
                         gameId: tournament._id,
                         gameName: tournament.tournamentName,
                         gameReward: tournament.tournamentReward * 0.4,
+                        gameImg: tournament.tournamentImgUrl,
                         gameDateTime: tournament.tournamentEndTime
                     });
                     await saveRewardHistory.save(); 
@@ -169,6 +170,7 @@ function handleTournamentLifecycle(tournamentId) {
                         gameId: tournament._id,
                         gameName: tournament.tournamentName,
                         gameReward: tournament.tournamentReward * 0.2,
+                        gameImg: tournament.tournamentImgUrl,
                         gameDateTime: tournament.tournamentEndTime
                     });
                     await saveRewardHistory2.save();
@@ -207,6 +209,7 @@ function handleTournamentLifecycle(tournamentId) {
                         gameId: tournament._id,
                         gameName: tournament.tournamentName,
                         gameReward: tournament.tournamentReward * 0.1,
+                        gameImg: tournament.tournamentImgUrl,
                         gameDateTime: tournament.tournamentEndTime
                     });
                     await saveRewardHistory3.save();

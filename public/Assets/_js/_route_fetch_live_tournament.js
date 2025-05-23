@@ -91,6 +91,13 @@ async function fetchAndDisplayTournaments() {
 
                 tournaments.forEach(tournament => {
                     const tournamentDiv = document.createElement('div');
+                    const maximumPlayers = tournament.maximumPlayers;
+                    let text;
+                    if (maximumPlayers == "" || maximumPlayers == "null" || maximumPlayers == null) {
+                        text = ""
+                    }else{
+                        text = `<p class="mt-2"><i class="fi fi-rr-joystick mr-1"></i> <kbd>${tournament.playerJoinedCount}</kbd> players / ${tournament.maximumPlayers} joined</p>`;
+                    }
                     tournamentDiv.innerHTML = `
                         <div class="_exclusive" data-start-time="${tournament.tournamentStartTime}" data-end-time="${tournament.tournamentEndTime}" data-tournament-id="${tournament._id}">
                             <div class="_game_img exclusiveGameImg"></div>
@@ -113,7 +120,7 @@ async function fetchAndDisplayTournaments() {
                                 </div>
                                 <div class="_game_player_join">
                                     <div class="_player_joined mb-2">
-                                        <p class="mt-2"><i class="fi fi-rr-joystick mr-1"></i> <kbd>${tournament.playerJoinedCount}</kbd> players / 100 joined</p>
+                                        ${text}
                                     </div>
                                     <a href="./tournament_page.html?id=${tournament._id}&tag=live" class="btn mb-1">
                                         <div class="d-flex">
@@ -391,7 +398,94 @@ async function fetchAndDisplayTournaments() {
         }
     }
 
-    promises.push(exclusiveTournament(), liveTournament(), upcomingTournaments(), activeTournament());
+    const myTournament = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/get_reward_info?userid=${userid}`);
+            const tournaments = await response.json();
+            const myTournamentBox = document.getElementById('_myTournament');
+
+            if (!response.ok) {
+                const alert = document.createElement("div");
+                alert.classList.add('alert');
+                alert.classList.add('alertDanger');
+                alert.classList.add('alert-dismissible');
+                alert.classList.add('fade');
+                alert.classList.add('show');
+
+                alert.innerHTML = `
+                <i class="fi fi-rr-exclamation"></i> ${tournaments.message}!
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                `;
+
+                mainAlert.appendChild(alert);
+                console.log(tournaments.message);
+            }
+
+            if (tournaments.length == 0) {
+                console.log(tournaments);
+                activeTournamentBox.innerHTML = `
+                    <div class="_empty">
+                        <h6>You have no <b>active / joined</b> tournament</h6>
+                    </div>
+                `;
+                return;
+            }
+
+            // Create a temporary wrapper div for new content
+            const tempContainer = document.createElement("div");
+            
+            tournaments.forEach(tournament => {
+                const tournamentDiv = document.createElement('div');
+
+                const isoDate = tournament.gameDateTime;
+                const date = new Date(isoDate);
+                const readableDate = date.toLocaleString();
+
+                tournamentDiv.innerHTML = `
+                    <div class="_active_tournament">
+                        <div class="_game_img">
+                            <img src="${tournament.gameImg}" alt="">
+                        </div>
+                        <div class="pt-2 pl-3 pr-3 pb-2">
+                            <div class="_game_name">
+                                <h6>${tournament.gameName}</h6>
+                            </div>
+                            <div class="_game_desc">
+                                <div class="_game_win_amount">
+                                    Reward: <b>N${tournament.gameReward}</b>
+                                    <br/>
+                                    <text class="mb-2"><b>${readableDate}</b></text>
+                                </div>
+                            </div>
+                            <div class="_game_player_join">
+                                <div class="_player_joined mb-2">
+                                    <!-- <p class="mt-2">78 players</p> -->
+                                </div>
+                                <a href="./tournament_page.html?id=${tournament._id}&tag=live" class="btn mb-1">
+                                    <div class="d-flex">
+                                        <div class="pointDiv">
+                                            Ended
+                                        </div>
+                                        <div class="joinDiv">Open</div>
+                                    </div>
+                                </a>
+                            </div>             
+                        </div>
+                    </div>
+                `;
+
+                tempContainer.appendChild(tournamentDiv);        
+            }); 
+
+            // Once all is ready, replace the old content with the new one
+            myTournamentBox.innerHTML = ""
+            myTournamentBox.innerHTML = tempContainer.innerHTML;    
+        } catch (error) {
+            
+        }
+    }
+
+    promises.push(exclusiveTournament(), liveTournament(), upcomingTournaments(), activeTournament(), myTournament());
     await Promise.all(promises);
     setTimeout(() => {
         document.querySelector("main").style.display = "block";
