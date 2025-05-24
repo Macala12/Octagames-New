@@ -281,7 +281,7 @@ function updateTournamentUI(result) {
 
         if (exclusiveKBD) {
             if (result.maximumPlayers == "" || result.maximumPlayers == "null" || result.maximumPlayers == null) {
-                exclusiveKBD.innerHTML = "";
+                exclusiveKBD.innerHTML = ""; 
             }else{
                 exclusiveKBD.innerHTML = `<p class="mt-2"><i class="fi fi-rr-joystick mr-1"></i> <kbd>${result.playerJoinedCount}</kbd> players / ${result.maximumPlayers} joined</p>`;
             }

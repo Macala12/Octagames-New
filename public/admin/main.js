@@ -256,7 +256,7 @@ async function createNewExclusiveTournament(
   if (!mainAlert) {
     console.error("mainAlert element not found.");
     return;
-  }
+  } 
 
   const now = new Date();
   const lobbyDuration = 60 * 60 * 1000;

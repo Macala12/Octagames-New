@@ -66,7 +66,7 @@ async function topPlayers() {
 }
 
 async function fetchAndDisplayTournaments() {
-    const promises = [];
+    const promises = []; 
 
     const exclusiveTournament = async () => {
         try {

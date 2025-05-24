@@ -594,6 +594,23 @@ app.use(express.json());
         }
     });
 
+    app.get('/fetch_reward', async (req, res) =>{
+        try {
+            const { userid } = req.query;
+
+            const fetchedUser = await rewardInfo.findOne({ _id: new mongoose.Types.ObjectId(userid) });
+        
+            if (!fetchedUser) {
+                return res.status(400).json({ message: "No userid exist" });
+            }else{
+                res.status(200).json(fetchedUser);
+            }
+        } catch (error) {
+            console.error('Fetching error:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    });
+
     //Update User Info
     app.get('/update_user', async (req, res) => {
         try {

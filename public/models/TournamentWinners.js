@@ -10,7 +10,7 @@ const tournamentWinnerSchema = new mongoose.Schema({
     tournamentStartTime: { type: Date, default: Date.now },
     tournamentEndTime: { type: Date, default: Date.now },
     createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
+    updatedAt: { type: Date, default: Date.now } 
 }, {versionKey: false});
 
 const tournamentWinner = mongoose.model('tournamentwinner', tournamentWinnerSchema, 'tournamentwinner');

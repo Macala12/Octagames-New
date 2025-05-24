@@ -675,6 +675,18 @@ button{
     right: 11px;
     top: 8px;
 }
+.scrollNavigation{
+    position: fixed;
+    z-index: 100;
+    padding: 10px 5px;
+    top: 0px;
+    left: 0px;
+    justify-content: space-evenly !important;
+    background-color: #0B0C10;
+}
+.scrollNavigation a{
+    height: 35px;
+}
 
 /* Tournament / Game */
 ._tournament, ._exclusive_box{

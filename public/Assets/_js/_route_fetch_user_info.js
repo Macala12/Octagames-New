@@ -20,6 +20,8 @@ var fullName ;
 var email ;
 var accountVerified;
 var octaCoin;
+var rewardAmount;
+var userimg;
 var winStreak;
 var winRate;
 var percentCalculator;
@@ -179,6 +181,7 @@ function fetchUserInfo() {
             }
             if (document.getElementById("_us_img")) {
                 document.getElementById("_us_img").innerHTML = `<img src="${data.userImg}" alt="">`;
+                userimg = `<img src="${data.userImg}" alt="">`;
             }
             if (document.getElementById("joined_date")) {
                 const isoDate = data.createdAt;
@@ -186,6 +189,39 @@ function fetchUserInfo() {
                 const readableDate = date.toLocaleString();
                 document.getElementById("joined_date").innerHTML = readableDate;
             }
+        })
+        .catch(error => {
+            console.error('Error fetching user data:', error);
+        });
+    }else{
+        window.location.href = "login.html";
+    }
+}
+
+function fetchUserReward() {
+    if (userid) {
+        fetch(`${API_BASE_URL}/fetch_reward?userid=${userid}`)
+        .then(response => {
+            if (!response.ok) {
+                const alert = document.createElement("div");
+                alert.classList.add('alert');
+                alert.classList.add('alertDanger');
+                alert.classList.add('alert-dismissible');
+                alert.classList.add('fade');
+                alert.classList.add('show');
+
+                alert.innerHTML = `
+                   <i class="fi fi-rr-exclamation"></i> ${response.message}!
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                `;
+
+                mainAlert.appendChild(alert);
+                throw new Error('User not found');
+            }
+            return response.json();
+        })
+        .then(data => {
+            rewardAmount = data.rewardAmount;
         })
         .catch(error => {
             console.error('Error fetching user data:', error);
@@ -221,3 +257,4 @@ async function updateLevel() {
 
 fetchUserGameInfo();
 fetchUserInfo();
+fetchUserReward();

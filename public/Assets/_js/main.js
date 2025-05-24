@@ -31,3 +31,61 @@ function setupTournamentTimer(tournamentId, startTimeStr, endTimeStr) {
         }
     }, 1000); 
 }
+const initialNavigation = document.querySelector(".initial_navigation");
+const topNavigation = document.querySelector(".second_navigation");
+topNavigation.style.display = "none";
+
+  window.addEventListener('scroll', function () {
+    // Get the number of pixels the page has been scrolled vertically
+    const scrollPosition = window.scrollY;
+
+    // Change 300 to whatever threshold you want
+    if (scrollPosition > 50) {
+        initialNavigation.style.display = 'none';
+      // Perform your action here
+      console.log('Scrolled past 300px!');
+      // You can also call a custom function
+      triggerAction();
+    }else{
+        initialNavigation.style.display = 'flex';
+        topNavigation.style.display = "none";
+    }
+  });
+
+  function triggerAction() {
+    topNavigation.style.display = "flex";
+    topNavigation.classList.add('scrollNavigation');
+    topNavigation.innerHTML = `
+        <div class="_us_profile d-inline-flex mr-5">
+            <div class="_us_img" id="_us_img">
+                ${userimg}
+            </div>
+        <div class="_us_name mt-1 ml-2">
+            <h6><b>
+            </b></h6>
+        </div>
+        </div>
+        <div class="_us_credentials d-flex">
+            <a href="./points.html" class="d-flex">
+                <div class="top_coin_box">
+                    <img src="./Assets/_icons/coin.png" alt="">
+                </div>
+                <h6>
+                    ${octaCoin}
+                </h6>
+                <button class="btn">
+                    <i class="fi fi-br-add"></i>
+                </button>
+            </a>
+
+            <a href="./reward.html" class="d-flex ml-3">
+                <div class="top_coin_box">
+                    <img src="./Assets/_icons/money.png" alt="">
+                </div>
+                <h6>
+                    N${rewardAmount}
+                </h6>
+            </a>
+        </div>
+    `;
+  }
