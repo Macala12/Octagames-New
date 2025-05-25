@@ -3,12 +3,6 @@ const loader = document.getElementById("loader");
 const contentHolder = document.getElementById("mainContent");
 const mainAlert = document.getElementById("mainAlert");
 
-const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-if (!isMobile) {
-    window.location.href = "/not_allowed.html";
-}
-
 const activeNumber = sessionStorage.getItem("open_tournaments")
 if (activeNumber) {
     document.querySelector(".active_count").innerHTML = activeNumber;

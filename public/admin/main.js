@@ -1,6 +1,10 @@
 const userid = sessionStorage.getItem("userid");
 const mainAlert = document.getElementById("mainAlert");
 
+if (!userid) {
+    window.location.href = "auth.html";
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
 
    try {
