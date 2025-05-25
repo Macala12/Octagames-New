@@ -1560,6 +1560,16 @@ button{
     font-size: 16px;
     text-align: center;
 }
+._change_avatar button{
+    font-size: 13px;
+    font-weight: 700;
+}
+._change_avatar ._change_btn{
+    color: #66FCF1 !important;
+}
+._change_avatar ._confirm_btn{
+    display: none;
+}
 .profile_user_tag span{
     font-size: 13px;
     padding-right: 10px;

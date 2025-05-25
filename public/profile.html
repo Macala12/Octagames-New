@@ -44,11 +44,22 @@
                 <div class="relative_box">
                     <div class="img_box d-flex justify-content-center mb-2">
                         <div class="circular-progress">
+                            <span class="loaderImg">
+                                <span class="spinner-border spinner-border-sm"></span>
+                            </span>
                             <div class="circular-image"></div>
                         </div>
                     </div>
                     <div class="_profile_user_name">
                         <h5 class="username">@datboifromimo</h5>
+                    </div>
+                    <div class="_change_avatar d-flex justify-content-center">
+                        <button onclick="generateAvatar()" class="btn _change_btn">
+                            Change Avatar
+                        </button>
+                        <button onclick="saveAvatar()" class="btn btn-success ml-2 _confirm_btn">
+                            Confirm
+                        </button>
                     </div>
                     <div class="d-flex justify-content-center mt-3">
                         <div class="player_stats stat_level">

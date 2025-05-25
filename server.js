@@ -753,6 +753,23 @@ app.use(express.json());
         }
     });
 
+    app.get('/change_avatar', async (req, res) => {
+        try {
+            const { avatar, userid } = req.query;
+            const objectUserId = new mongoose.Types.ObjectId(userid);
+
+            const updateAvatar = await User.findById(objectUserId, { userImg: avatar });
+            if (!updateAvatar) {
+                return res.status(400).json({ message: 'Cannot update avatar' });
+            }
+
+            res.status(200).json({ message: 'Avatar Updated Successfully' });
+
+        } catch (error) {
+            
+        }
+    });
+
     app.get('/forgot_password', async (req, res) => {
         try {
             const { email } = req.query;

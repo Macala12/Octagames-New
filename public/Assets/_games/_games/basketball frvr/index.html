@@ -188,7 +188,7 @@ preloader loadbar div{
 }</style></head>
   <body>
     <div class="fever-notif" style="font-size:13px; font-family: 'Montserrat' sans-serif; color: #000000; position: absolute; top: 36vh; left: 20vw; z-index: 1000;">
-      <b id="fever-notif-text"></b>
+      <b id="notif-text"></b>
     </div>
     <!-- TODO debugcode, move me to provider -->
     <div id="debug" style="position:absolute; color:red; left:40px; z-index: 9999999"></div>
@@ -205,7 +205,7 @@ preloader loadbar div{
         setInterval(() => {
           const highscore = localStorage.getItem("basketballhighscore.v1");
           if(highscore > 0){
-            updateScore();
+            updateScore(); 
           }
         }, 5000);
         async function updateScore() {
@@ -216,11 +216,11 @@ preloader loadbar div{
 
               if (!response.ok) {
               console.log(result.message);
-              window.parent.location.href = "../../../../home.html";
+              // window.parent.location.href = "../../../../home.html";
               }
               else{
                 console.log("sure")
-                const text = document.getElementById("fever-notif-text");
+                const text = document.getElementById("notif-text");
                 text.innerHTML = `Your current leaderboard position: ${result.position}`;
                 setTimeout(() => {
                   text.innerHTML = '';

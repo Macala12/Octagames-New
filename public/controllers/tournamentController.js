@@ -138,7 +138,7 @@ function handleTournamentLifecycle(tournamentId) {
         
                     const updateReward = await rewardInfo.findByIdAndUpdate(objectId, { rewardAmount: newReward, hasWon: true, lastReward: tournament.tournamentReward * 0.4 });
                     if (!updateReward) {
-                        console.log('Could not find reward user');
+                        console.log('Could not update reward user');
                     }
         
                     const saveRewardHistory = new redeemRewardHistories({
@@ -238,9 +238,9 @@ function handleTournamentLifecycle(tournamentId) {
                     tournamentId: tournament._id,
                     tournamentReward: tournament.tournamentReward,
                     playerJoined: tournament.playerJoinedCount,
-                    firstWinner: new mongoose.Types.ObjectId(tournamentWinner[0].userId) || null,
-                    secondWinner: new mongoose.Types.ObjectId(tournamentWinner[1].userId) || null,
-                    thirdWinner: new mongoose.Types.ObjectId(tournamentWinner[2].userId) || null,
+                    firstWinner: tournamentWinner[0]?.userId ? new mongoose.Types.ObjectId(tournamentWinner[0].userId) : null,
+                    secondWinner: tournamentWinner[1]?.userId ? new mongoose.Types.ObjectId(tournamentWinner[0].userId) : null,
+                    thirdWinner: tournamentWinner[2]?.userId ? new mongoose.Types.ObjectId(tournamentWinner[0].userId) : null,
                     tournamentStartTime: tournament.tournamentStartTime,
                     tournamentEndTime: tournament.tournamentEndTime
                 });

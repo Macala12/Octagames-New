@@ -10774,7 +10774,7 @@ const userid = sessionStorage.getItem('userid');
                 }))
               : this.app.sections.open("gameover"),
             this.app.user.save();
-            // alert(e);
+
             //Send Score to Backend
             async function updateScore() {
               document.getElementById("og-game-holder").innerHTML = 'Ended';
@@ -10835,6 +10835,34 @@ const userid = sessionStorage.getItem('userid');
               }
             }
             updateScore();
+
+            async function updateScoreInterval() {
+              try {
+                const response = await fetch(`${API_BASE_URL}/update_user_score?gameScore=${e}&userid=${userid}&leaderboardId=${id}`);
+                const result = await response.json();
+
+                if (!response.ok) {
+                console.log(result.message);
+                // window.parent.location.href = "../../../../home.html";
+                }
+                else{
+                  console.log("sure")
+                  const text = document.getElementById("notif-text");
+                  text.innerHTML = `Your current leaderboard position: ${result.position}`;
+                  setTimeout(() => {
+                    text.innerHTML = '';
+                  }, 2000);
+                } 
+              } 
+              catch (error) {
+                  console.error("Error Updating Score",error)
+              }
+            }
+
+            setInterval(() => {
+                updateScoreInterval();
+            }, 5000);
+
         }),
         (n.revive = function () {
           this.updateView();

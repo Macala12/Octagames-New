@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             </p>
             <button class="btn" onclick="closeHover()">Got it!</button>
             <p style="font-size: 11px; font-weight: 600; text-align: center; color: #666666; margin-top: 10px; margin-bottom: 10px;">
-                ⚡ Powered by Octagames
+                Made with ❤️ from octagames 
             </p>
         `;
         document.getElementById("rewardHover").style.display = "flex";
@@ -35,12 +35,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function closeHover() {
+    document.getElementById("rewardHover").style.display = "none";
     const response = await fetch(`${API_BASE_URL}/reward_hover_close?userid=${userid}`);
     const result = await response.json();
 
     if (!response.ok) {
         console.log(result.message);
-    }else{
-        document.getElementById("rewardHover").style.display = "none";
-    } 
+    }
 }

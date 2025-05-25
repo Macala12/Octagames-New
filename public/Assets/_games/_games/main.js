@@ -7,10 +7,11 @@
     const loadingText = document.getElementById('loadingText');
   
     const texts = [
-    "Loading game engine...",
-    "Spawning enemies...",
-    "Placing rewards...",
-    "Get ready!"
+    "Loading game...",
+    "Getting Current Score...",
+    "Setting Players...",
+    "Get ready!",
+    "Go!"
     ]; 
   
     let progress = 0;
