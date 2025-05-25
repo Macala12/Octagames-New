@@ -92,7 +92,7 @@ app.use(express.json());
 
     app.post('/create_new_exclusive_tournament', async (req, res) => {
         try {
-            const {tournamentName, tournamentImgUrl, tournamentDesc, tournamentReward, entryAmount, type, tagOne, tagTwo, tagThree, maximumPlayers, tournamentPlayUrl, tournamentStartTime, tournamentEndTime} = req.body;
+            const {tournamentName, tournamentImgUrl, tournamentDesc, tournamentReward, entryAmount, type, tagOne, tagTwo, tagThree, maximumPlayers, minimum_players_boolean, minimum_players, tournamentPlayUrl, tournamentStartTime, tournamentEndTime} = req.body;
             const newTournament = new liveTournament({
                 tournamentName,
                 tournamentImgUrl,
@@ -104,6 +104,8 @@ app.use(express.json());
                 tagTwo,
                 tagThree,
                 maximumPlayers,
+                minimumPlayersBoolean: minimum_players_boolean,
+                minimumPlayers: minimum_players,
                 tournamentPlayUrl,
                 tournamentStartTime,
                 tournamentEndTime
@@ -1030,27 +1032,39 @@ app.use(express.json());
 
             const objectId = new mongoose.Types.ObjectId(id);
 
-            const tournamentWinners = await tournamentWinner.find({ tournamentId: objectId }).sort({ score: -1 }).limit(3).exec();
-            if (tournamentWinners.length == 0) {
+            const tournamentWinners = await tournamentWinner.findOne({ tournamentId: objectId });
+
+            if (tournamentWinners.length === 0) {
                 return res.status(400).json({ message: 'No player in tournament' });
-            }else{
-                const firstWinnerId = new mongoose.Types.ObjectId(tournamentWinners.firstWinner);
-                const secondWinner = new mongoose.Types.ObjectId(tournamentWinners.secondWinner);
-                const thirdWinner = new mongoose.Types.ObjectId(tournamentWinners.thirdWinner);
-
-                const firstWinnerInfo = await User.findById({ _id: firstWinnerId });
-                const secondWinnerInfo = await User.findById({ _id: secondWinner });
-                const thirdWinnerInfo = await User.findById({ _id: thirdWinner });
-
-                if (!firstWinnerInfo && !secondWinnerInfo && !thirdWinnerInfo) {
-                    return res.status(400).json({ message: 'No Winners in tournament'})
-                }
-
-                return res.status(200).json({firstWinner: firstWinnerInfo, secondWinner: secondWinnerInfo, thirdWinner: thirdWinnerInfo});
             }
+
+            // Get user IDs from the winners array
+            const firstWinnerId = tournamentWinners?.firstWinner ? new mongoose.Types.ObjectId(tournamentWinners.firstWinner) : null;
+            const secondWinnerId = tournamentWinners?.secondWinner ? new mongoose.Types.ObjectId(tournamentWinners.secondWinner) : null;
+            const thirdWinnerId = tournamentWinners?.thirdWinner ? new mongoose.Types.ObjectId(tournamentWinners.thirdWinner) : null;
+
+
+            const [firstWinnerInfo, secondWinnerInfo, thirdWinnerInfo] = await Promise.all([
+                firstWinnerId ? User.findById(firstWinnerId) : null,
+                secondWinnerId ? User.findById(secondWinnerId) : null,
+                thirdWinnerId ? User.findById(thirdWinnerId) : null
+            ]);
+
+            if (!firstWinnerInfo && !secondWinnerInfo && !thirdWinnerInfo) {
+                return res.status(400).json({ message: 'No Winners in tournament' });
+            }
+
+            return res.status(200).json({
+                firstWinner: firstWinnerInfo,
+                secondWinner: secondWinnerInfo,
+                thirdWinner: thirdWinnerInfo
+            });
+
         } catch (error) {
-            
+            console.error(error);
+            return res.status(500).json({ message: 'Something went wrong', error: error.message });
         }
+
     })
 
     app.get('/joined_users', async (req, res) => {
@@ -1067,9 +1081,6 @@ app.use(express.json());
         try {
             const { Id, tag } = req.query;
             const fetchedLeaderboard = await Leaderboard.find({leaderboardId: Id}).sort({ score: -1 }).exec();
-            // if (!fetchedLeaderboard) {
-            //     return res.status(400).json({ message: "No user in tournament yet" });
-            // }
             res.status(200).json({leaderboard: fetchedLeaderboard, number: fetchedLeaderboard.length});
         } catch (error) {
             console.error('Fetching error:', error);
@@ -1090,7 +1101,7 @@ app.use(express.json());
             }
 
             if (getTournamentEntryfee.type === 'exclusive') {
-                if (getTournamentEntryfee.playerJoinedCount === 100 ) {
+                if (getTournamentEntryfee.playerJoinedCount === getTournamentEntryfee.maximumPlayers ) {
                     return res.status(400).json({ message: 'Maximum Number of player joined' })
                 }
             }
@@ -1934,7 +1945,7 @@ app.use(express.json());
         const { userid } = req.query;
 
         const objectUserId = new mongoose.Types.ObjectId(userid);
-        const fetchUserRewardInfo = await redeemRewardHistories.find({userid: objectUserId}).sort({ createdAt: -1 });
+        const fetchUserRewardInfo = await redeemRewardHistories.find({userid: objectUserId}).sort({ gameDateTime: -1 });
 
         if (!fetchUserRewardInfo) {
             return res.status(400).json({ message: 'No Rewards avaliable' });

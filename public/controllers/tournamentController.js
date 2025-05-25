@@ -5,6 +5,7 @@ const rewardInfo = require('../models/RewardInfo');
 const redeemRewardHistories = require('../models/RedeemRewardHistories');
 const UserGameInfo = require('../models/UserGameInfo');
 const liveTournament = require('../models/LiveTournament');
+const tournamentwinner = require('../models/TournamentWinners');
 
 
 // Function to create a new tournament
@@ -74,6 +75,20 @@ function handleTournamentLifecycle(tournamentId) {
         }
 
         const now = new Date();
+
+        if (tournament.minimumPlayersBoolean === true || tournament.minimumPlayersBoolean === "true") {
+            if (tournament.minimumPlayers > tournament.playerJoinedCount) {
+                const now = new Date();
+                const lobbyDuration = 60 * 60 * 1000;  // Lobby duration (e.g., 1 hour)
+                const tournamentDuration = 60 * 60 * 1000; // Tournament duration (e.g., 1 hour)
+
+                // Set start and end times
+                const startTime = new Date(now.getTime() + lobbyDuration); // Start after 1 hour minutes from now
+                const endTime = new Date(startTime.getTime() + tournamentDuration); // End after 1 hour of active time
+
+                await Tournament.findByIdAndUpdate(tournamentId, { tournamentStartTime: startTime, tournamentEndTime: endTime });
+            }
+        }
 
         if (tournament.status === 'upcoming' && now >= tournament.tournamentStartTime && now < tournament.tournamentEndTime) {
             await Tournament.findByIdAndUpdate(tournamentId, { status: 'active' });
@@ -174,6 +189,7 @@ function handleTournamentLifecycle(tournamentId) {
                         gameDateTime: tournament.tournamentEndTime
                     });
                     await saveRewardHistory2.save();
+
                 }else{
                     console.log("No second player")
                 }
@@ -216,8 +232,21 @@ function handleTournamentLifecycle(tournamentId) {
                 }else{
                     console.log("No third player")
                 }
+
+                const saveTournamentWinner = new tournamentwinner({
+                    tournamentName: tournament.tournamentName,
+                    tournamentId: tournament._id,
+                    tournamentReward: tournament.tournamentReward,
+                    playerJoined: tournament.playerJoinedCount,
+                    firstWinner: new mongoose.Types.ObjectId(tournamentWinner[0].userId) || null,
+                    secondWinner: new mongoose.Types.ObjectId(tournamentWinner[1].userId) || null,
+                    thirdWinner: new mongoose.Types.ObjectId(tournamentWinner[2].userId) || null,
+                    tournamentStartTime: tournament.tournamentStartTime,
+                    tournamentEndTime: tournament.tournamentEndTime
+                });
+                await saveTournamentWinner.save();
     
-                console.log("User has been rewarded");
+                console.log("Users has been rewarded");
             }
         }
 

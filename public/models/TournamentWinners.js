@@ -4,6 +4,7 @@ const tournamentWinnerSchema = new mongoose.Schema({
     tournamentName: String,
     tournamentId: { type: mongoose.Types.ObjectId },
     tournamentReward: Number,
+    playerJoined: Number,
     firstWinner: { type: mongoose.Types.ObjectId },
     secondWinner: { type: mongoose.Types.ObjectId },
     thirdWinner: { type: mongoose.Types.ObjectId },

@@ -13,6 +13,8 @@ const LiveTournamentSchema = new mongoose.Schema({
     tagThree: { type: String, default: null },
     playerJoinedCount: {type: Number, default: 0},
     maximumPlayers: {type: Number, default: null},
+    minimumPlayersBoolean: { type: Boolean, default: false },
+    minimumPlayers: { type: Number, default: null },
     tournamentStartTime: { type: Date, default: Date.now },
     tournamentEndTime: { type: Date, default: Date.now },
     tournamentPlayUrl: String,

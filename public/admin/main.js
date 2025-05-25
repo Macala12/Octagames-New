@@ -173,10 +173,12 @@ if (document.getElementById('exclusive_form')) {
         const tag_two = document.getElementById("tag_two").value;
         const tag_three = document.getElementById("tag_three").value;
         const players_joined = document.getElementById("players_joined").value;
+        const minimum_players_boolean = document.getElementById("minimum_players_boolean").value;
+        const minimum_players = document.getElementById("minimum_players").value;
         const game_url = document.getElementById("game_url").value;
 
 
-        if (tournament_name == "" || tournament_img_url == "" || tournament_desc == "" || tournament_reward == "" || tournament_entry_amount == "" || tournament_type == "" || players_joined == "" || game_url == "") {
+        if (tournament_name == "" || tournament_img_url == "" || tournament_desc == "" || tournament_reward == "" || tournament_entry_amount == "" || tournament_type == "" || game_url == "") {
             const alert = document.createElement("div");
             alert.classList.add('alert');
             alert.classList.add('alertDanger');
@@ -195,7 +197,7 @@ if (document.getElementById('exclusive_form')) {
                 <span class="spinner-border spinner-border-sm"></span>
                 Loading..
             `;
-            createNewExclusiveTournament(tournament_name, tournament_img_url, tournament_desc, tournament_reward, tournament_entry_amount, tournament_type, tag_one, tag_two, tag_three, players_joined, game_url)
+            createNewExclusiveTournament(tournament_name, tournament_img_url, tournament_desc, tournament_reward, tournament_entry_amount, tournament_type, tag_one, tag_two, tag_three, players_joined, minimum_players_boolean, minimum_players, game_url)
         }
     });
 }
@@ -250,6 +252,8 @@ async function createNewExclusiveTournament(
   tagTwo,
   tagThree,
   playerJoinedCount,
+  minimum_players_boolean,
+  minimum_players,
   tournamentPlayUrl
 ) {
   const mainAlert = document.getElementById("mainAlert");
@@ -258,12 +262,20 @@ async function createNewExclusiveTournament(
     return;
   } 
 
-  const now = new Date();
-  const lobbyDuration = 60 * 60 * 1000;
-  const tournamentDuration = 60 * 60 * 1000;
+    const now = new Date();
+    const lobbyDuration = 60 * 60 * 1000;
+    const tournamentDuration = 60 * 60 * 1000;
 
-  const startTime = new Date(now.getTime() + lobbyDuration);
-  const endTime = new Date(startTime.getTime() + tournamentDuration);
+    let startTime;
+    let endTime;
+
+    if (minimum_players_boolean === "true" || minimum_players_boolean === true) {
+        startTime = null;
+        endTime = null;
+    }else{
+        startTime = new Date(now.getTime() + lobbyDuration);
+        endTime = new Date(startTime.getTime() + tournamentDuration);
+    }
 
   const tournament = {
     tournamentName: `${tournamentName}`,
@@ -276,6 +288,8 @@ async function createNewExclusiveTournament(
     tagTwo: `${tagTwo}`,
     tagThree: `${tagThree}`,
     maximumPlayers: `${playerJoinedCount}`,
+    minimum_players_boolean: minimum_players_boolean,
+    minimum_players: minimum_players,
     tournamentPlayUrl: `${tournamentPlayUrl}`,
     tournamentStartTime: startTime,
     tournamentEndTime: endTime,

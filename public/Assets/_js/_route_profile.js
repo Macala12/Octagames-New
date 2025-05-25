@@ -29,4 +29,5 @@ async function sendEmail() {
 
 async function logOut() {
     sessionStorage.clear();
+    window.location.href = "login.html";
 }

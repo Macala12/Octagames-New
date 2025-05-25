@@ -85,7 +85,7 @@ function fetchUserGameInfo() {
                 `;
             }
             if (document.getElementById("xp")) {
-                document.getElementById("xp").innerHTML = data.userXP + "/300XP";
+                document.getElementById("xp").innerHTML = data.userXP + "/500XP";
             }
             if (document.getElementById("wins")) {
                 document.getElementById("wins").innerHTML = data.userTopWins;
@@ -117,6 +117,7 @@ function fetchUserGameInfo() {
                 }
             }else{
                 if (progressBar1 & progressBar2) {
+                    document.getElementById("xp").innerHTML = data.userXP + "/1000XP";
                     percentCalculator = data.userXP * 100 / 1000;
                     progressBar1.style.width = "100%";
                     progressBar2.style.width = percentCalculator+"%"   

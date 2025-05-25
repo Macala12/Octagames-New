@@ -182,6 +182,9 @@ async function buyCoin(coinId) {
             const result = await response.json();
 
             if (!response.ok) {
+                document.querySelector(".modal-footer").innerHTML = `
+                    <button type="button" class="btn w-100">Payment Failed: <b>${result.message}</b></button>
+                `;
                 const alert = document.createElement("div");
                 alert.classList.add('alert');
                 alert.classList.add('alertDanger');

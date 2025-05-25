@@ -88,9 +88,12 @@ async function refetching() {
 
                 if (!winnerRes.ok) {
                     showAlert(winnerResult.message);
-                    window.location.href = "404.html";
+                    console.log(winnerResult.message);
+                    // window.location.href = "404.html";
                 } else {
+                    console.log(winnerResult)
                     displayWinners(winnerResult.firstWinner, winnerResult.secondWinner, winnerResult.thirdWinner);
+                    console.log(winnerResult.firstWinner)
                 }
             } catch (err) {
                 console.log("Error fetching winners:", err);
@@ -422,63 +425,84 @@ function displayWinners(firstWinner, secondWinner, thirdWinner) {
     //     tournamentEnd.appendChild(aWinner);
     // });
 
+    document.querySelector(".tooltip").style.display = "none";
+    let rank;
+
     const firstWinner_ = document.createElement("div");
     firstWinner_.classList.add('top_three_player');
-    firstWinner_.innerHTML = `
-    <div class="top_three_player">
-        <div class="t_t_l_user_img_box">
-            <div class="_t_t_l_user_img text-center">
-                <div class="glow"></div>
-                <img src="${firstWinner.userImg}" alt="">
-            </div>
-        </div>
-        <div class="_t_t_l_user_name">${firstWinner.username}</div>
-        <div class="_t_t_l_score">
-            //<b>Score:</b> ${firstWinner.score}
-        </div>
-    </div>
-    `;
-
-    const secondWinner_ = document.createElement("div");
-    secondWinner_.classList.add('top_three_player');
-    secondWinner_.innerHTML = `
+    if (firstWinner == null || firstWinner == "null") {
+        firstWinner_.innerHTML = "";
+    }else{
+        firstWinner_.innerHTML = `
         <div class="top_three_player">
             <div class="t_t_l_user_img_box">
                 <div class="_t_t_l_user_img text-center">
                     <div class="glow"></div>
-                    <img src="${secondWinner.userImg}" alt="">
+                    <img src="${firstWinner.userImg}" alt="">
                 </div>
             </div>
-            <div class="_t_t_l_user_name">${secondWinner.username}</div>
-            <div class="_t_t_l_score">
-                //<b>Score:</b> ${secondWinner.score}
-            </div>
+            <div class="_t_t_l_user_name">${firstWinner.username}</div>
         </div>
-    `;
+        `;
+        if (userId === firstWinner._id) {
+            rank = 1;
+        }
+    }
+
+    const secondWinner_ = document.createElement("div");
+    secondWinner_.classList.add('top_three_player');
+    if (secondWinner == null || secondWinner == "null") {
+        secondWinner_.innerHTML = "";
+    }else{
+        secondWinner_.innerHTML = `
+            <div class="top_three_player">
+                <div class="t_t_l_user_img_box">
+                    <div class="_t_t_l_user_img text-center">
+                        <div class="glow"></div>
+                        <img src="${secondWinner.userImg}" alt="">
+                    </div>
+                </div>
+                <div class="_t_t_l_user_name">${secondWinner.username}</div>
+            </div>
+        `;
+        if (userId === secondWinner._id) {
+            rank = 2;
+        }
+    }
 
     const thirdWinner_ = document.createElement("div");
     thirdWinner_.classList.add('top_three_player');
-    thirdWinner_.innerHTML = `
-    <div class="top_three_player">
-        <div class="t_t_l_user_img_box">
-            <div class="_t_t_l_user_img text-center">
-                <div class="glow"></div>
-                <img src="${thirdWinner.userImg}" alt="">
+    if (thirdWinner == null || thirdWinner == "null") {
+        thirdWinner_.innerHTML = "";
+    }else{
+        thirdWinner_.innerHTML = `
+        <div class="top_three_player">
+            <div class="t_t_l_user_img_box">
+                <div class="_t_t_l_user_img text-center">
+                    <div class="glow"></div>
+                    <img src="${thirdWinner.userImg}" alt="">
+                </div>
             </div>
+            <div class="_t_t_l_user_name">${thirdWinner.username}</div>
         </div>
-        <div class="_t_t_l_user_name">${thirdWinner.username}</div>
-        <div class="_t_t_l_score">
-            //<b>Score:</b> ${thirdWinner.score}
-        </div>
-    </div>
-    `;
+        `;
+        if (userId === thirdWinner._id) {
+            rank = 3;
+        }
+    }
 
-    tournamentEnd.appendChild(firstWinner_);
-    tournamentEnd.appendChild(secondWinner_);
-    tournamentEnd.appendChild(thirdWinner_);
+    if (firstWinner !== null || firstWinner !== "null") {
+        tournamentEnd.appendChild(firstWinner_);
+    }
+    if (secondWinner !== null || secondWinner !== "null") {
+        tournamentEnd.appendChild(secondWinner_);
+    }
+    if (thirdWinner !== null || thirdWinner !== "null") {
+        tournamentEnd.appendChild(thirdWinner_);
+    }
 
     const topPercent = rank ? (rank / playersNumber * 100).toFixed(2) : 0;
-    document.getElementById("rankPercent").innerHTML = `You are among the top ${topPercent}% at rank ${rank}`;
+    document.getElementById("rankPercent").innerHTML = `You are among the top 1% at rank ${rank}`;
     document.getElementById("tournament_end").style.display = "flex";
     sound.play();
 }
