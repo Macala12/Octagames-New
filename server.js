@@ -753,12 +753,12 @@ app.use(express.json());
         }
     });
 
-    app.get('/change_avatar', async (req, res) => {
+    app.post('/change_avatar', async (req, res) => {
         try {
-            const { avatar, userid } = req.query;
+            const { avatarurl, userid } = req.body;
             const objectUserId = new mongoose.Types.ObjectId(userid);
 
-            const updateAvatar = await User.findById(objectUserId, { userImg: avatar });
+            const updateAvatar = await User.findByIdAndUpdate(objectUserId, { userImg: avatarurl });
             if (!updateAvatar) {
                 return res.status(400).json({ message: 'Cannot update avatar' });
             }

@@ -1465,7 +1465,8 @@ button{
 
 /* Profile */
 ._profile{
-    margin-top: 65px;
+    margin-top: 100px;
+    margin-bottom: 60px;
 }
 ._profile_history h6{
     font-size: 14px;
