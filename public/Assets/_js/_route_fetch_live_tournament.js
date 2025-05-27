@@ -425,7 +425,7 @@ async function fetchAndDisplayTournaments() {
                 console.log(tournaments);
                 activeTournamentBox.innerHTML = `
                     <div class="_empty">
-                        <h6>You have no <b>active / joined</b> tournament</h6>
+                        <h6>You have no <b>tournament</b> record yet</h6>
                     </div>
                 `;
                 return;
@@ -461,7 +461,7 @@ async function fetchAndDisplayTournaments() {
                                 <div class="_player_joined mb-2">
                                     <!-- <p class="mt-2">78 players</p> -->
                                 </div>
-                                <a href="./tournament_page.html?id=${tournament._id}&tag=live" class="btn mb-1">
+                                <a href="./tournament_page.html?id=${tournament.gameId}&tag=live" class="btn mb-1">
                                     <div class="d-flex">
                                         <div class="pointDiv">
                                             Ended
