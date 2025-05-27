@@ -96,12 +96,9 @@ function handleTournamentLifecycle(tournamentId) {
         }
 
         if (tournament.status === 'active' && now >= tournament.tournamentEndTime) {
-            await Tournament.findByIdAndUpdate(tournamentId, { status: 'ended' });
-            console.log(`Tournament ${tournamentId} has ended.`);
-
             const tournamentWinner = await Leaderboard.find({ leaderboardId: tournamentId }).sort({ score: -1 }).limit(3).exec();
             if (tournamentWinner.length == 0) {
-                console.log(`No Player in this tournament`);
+                // console.log(`No Player in this tournament`);
             }else{
                 const topThreeIds = tournamentWinner.map(doc => doc.userId);
                 const endStreak = await UserGameInfo.updateMany(
@@ -233,7 +230,7 @@ function handleTournamentLifecycle(tournamentId) {
                     console.log("No third player")
                 }
 
-                const saveTournamentWinner = new tournamentwinner({
+                const saveTournamentWinner = await tournamentwinner.create({
                     tournamentName: tournament.tournamentName,
                     tournamentId: tournament._id,
                     tournamentReward: tournament.tournamentReward,
@@ -243,9 +240,15 @@ function handleTournamentLifecycle(tournamentId) {
                     thirdWinner: tournamentWinner[2]?.userId ? new mongoose.Types.ObjectId(tournamentWinner[0].userId) : null,
                     tournamentStartTime: tournament.tournamentStartTime,
                     tournamentEndTime: tournament.tournamentEndTime
-                });
-                await saveTournamentWinner.save();
-    
+                });    
+
+                if (!saveTournamentWinner) {
+                    console.log(error)
+                }else{
+                    await Tournament.findByIdAndUpdate(tournamentId, { status: 'ended' });
+                    console.log(`Tournament ${tournamentId} has ended.`);
+                }
+
                 console.log("Users has been rewarded");
             }
         }

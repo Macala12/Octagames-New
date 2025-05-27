@@ -11,11 +11,13 @@ const jwt = require('jsonwebtoken');
 const Flutterwave = require('flutterwave-node-v3');
 const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
+  host: `9.qservers.net`,
+  port: 465,
+  secure: true,
+  auth: {
+    user: `no-reply@octasub.com.ng`,
+    pass: `Modub_chibs`,
+  },
 });
 const { handleMultipleTournaments } = require('./public/controllers/tournamentController');
 const { startPaymentProcessor } = require('./public/controllers/paymentController');
@@ -343,7 +345,7 @@ app.use(express.json());
         const otp = generateOTP();
 
         await transporter.sendMail({
-            from: `"Octagames" <${process.env.EMAIL_USER}>`,
+            from: `"Octagames" <no-reply@octasub.com.ng>`,
             to: email,
             subject: "OTP Code",
             html: `
@@ -380,6 +382,10 @@ app.use(express.json());
                 </div>
             `
         });
+
+        if (!transporter) {
+             return console.error("Error:", error);
+        }
 
         const newOtp = new Otp({
             email,
@@ -1050,6 +1056,10 @@ app.use(express.json());
             const objectId = new mongoose.Types.ObjectId(id);
 
             const tournamentWinners = await tournamentWinner.findOne({ tournamentId: objectId });
+
+            if (!tournamentWinners) {
+                return res.status(400).json({ message: 'No player in tournament' });
+            }
 
             if (tournamentWinners.length === 0) {
                 return res.status(400).json({ message: 'No player in tournament' });
