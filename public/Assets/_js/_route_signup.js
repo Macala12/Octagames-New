@@ -1,9 +1,20 @@
 
+const userid = sessionStorage.getItem("userid");
 const alertBox = document.getElementById("_alert");
 const usernameChecker = document.getElementById("username");
 const passwordChecker = document.getElementById("password");
 const errorText = document.querySelector(".error_text");
-const errorTextPassword = document.querySelector(".error_text_password")
+const errorTextPassword = document.querySelector(".error_text_password");
+const input = document.querySelector("#phoneNumber");
+const iti = window.intlTelInput(input, {
+initialCountry: "ng", // Set default to Nigeria
+preferredCountries: ["ng", "us", "gb"],
+utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+});
+
+if (userid) {
+    window.location.href = "home.html"
+}
 
 function generateAvatar() {
     document.querySelector(".loaderImg").style.display = 'block';

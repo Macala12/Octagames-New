@@ -10,6 +10,8 @@ const userSchema = new mongoose.Schema({
   role: { type: String, default: 'user' },
   emailConfirmed: { type: Boolean, default: false },
   phoneNumber: String,
+  showTutorial: { type: Boolean, default: true },
+  completedTutorial: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 }, { versionKey: false }, { collection: 'users' });

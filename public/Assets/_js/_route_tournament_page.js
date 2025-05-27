@@ -89,7 +89,7 @@ async function refetching() {
                 if (!winnerRes.ok) {
                     showAlert(winnerResult.message);
                     console.log(winnerResult.message);
-                    // window.location.href = "404.html";
+                    window.location.href = "404.html";
                 } else {
                     console.log(winnerResult)
                     displayWinners(winnerResult.firstWinner, winnerResult.secondWinner, winnerResult.thirdWinner);
@@ -148,6 +148,7 @@ async function getLeaderboard(id) {
             row.id = `${player.userId}`;
 
             let statusIcon = player.status;
+            let reward;
             if (player.userId == userId) {
                 row.style.color = "#66FCF1";
                 row.style.fontWeight = "600";
@@ -170,6 +171,16 @@ async function getLeaderboard(id) {
                 }
             }
 
+            if (index == 0) {
+                reward = players.reward * 0.4;
+            }else if(index == 1){
+                reward = players.reward * 0.2;
+            }else if(index == 2){
+                reward = players.reward * 0.1;
+            }else{
+                reward = "---"
+            }
+
             row.innerHTML = `
                 <td>${statusIcon}</td>
                 <td>${index + 1}</td>
@@ -177,9 +188,8 @@ async function getLeaderboard(id) {
                     <img src="${player.userImg}" class="img-fluid mr-1" alt="user-pic" width="15px"> 
                     ${player.username}
                 </td>
-                <td>${player.played}</td>
                 <td>${player.score}</td>
-                <td></td>
+                <td>N${reward}</td>
             `;
 
             leaderboardTable.appendChild(row);
@@ -404,26 +414,6 @@ function displayWinners(firstWinner, secondWinner, thirdWinner) {
     const tournamentEnd = document.getElementById("tournament_end_content");
     tournamentEnd.innerHTML = ""; // clear first
     const sound = new Audio('./Assets/_sound/mixkit-game-level-completed-2059.wav');
-
-    // winners.forEach(winner => {
-    //     const aWinner = document.createElement("div");
-    //     aWinner.classList.add('top_three_player');
-    //     aWinner.innerHTML = `
-    //         <div class="top_three_player">
-    //             <div class="t_t_l_user_img_box">
-    //                 <div class="_t_t_l_user_img text-center">
-    //                     <div class="glow"></div>
-    //                     <img src="${winner.userImg}" alt="">
-    //                 </div>
-    //             </div>
-    //             <div class="_t_t_l_user_name">${winner.username}</div>
-    //             <div class="_t_t_l_score">
-    //                 //<b>Score:</b> ${winner.score}
-    //             </div>
-    //         </div>
-    //     `;
-    //     tournamentEnd.appendChild(aWinner);
-    // });
 
     document.querySelector(".tooltip").style.display = "none";
     let rank;

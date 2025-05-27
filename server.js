@@ -422,6 +422,68 @@ app.use(express.json());
         }
     });
 
+    app.get('/claim_tutorial_reward', async (req, res) => {
+        try {
+            const { userid } = req.query;
+            const objectuserId = new mongoose.Types.ObjectId(userid);
+            const updateTutorial = await User.findByIdAndUpdate(
+                objectuserId,
+                { 
+                    showTutorial: false, 
+                    completedTutorial: true 
+                }
+            );
+            if (!updateTutorial) {
+                return res.status(400).json({ message: 'Could Update Tutorials' });
+            }else{
+                const addReward = await UserGameInfo.findOneAndUpdate( { userId: objectuserId }, {
+                    $inc: { userOctacoin: 100 }
+                });
+
+                if (!addReward) {
+                    return res.status(400).json({ message: 'Could add Tutorial Reward' });
+                }
+
+                return res.status(200).json({ message: 'success' });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+    app.get('/check_skip_tutorials', async (req, res) => {
+       try {
+        const { userid } = req.query;
+        const objectId = new mongoose.Types.ObjectId(userid);
+        const check_skip_tutorials = await User.findById(objectId);
+        if (!check_skip_tutorials) {
+            return res.status(400).json({ message: 'Could not check tutorials' })
+        }
+        if (check_skip_tutorials.completedTutorial === false || check_skip_tutorials.completedTutorial === "false") {
+            if (check_skip_tutorials.showTutorial === false || check_skip_tutorials.showTutorial === "false") {
+                return res.status(200).json({ message: 'success' })
+            }
+        }
+       } catch (error) {
+        
+       } 
+    });
+
+    app.get('/skip_tutorial', async (req, res) => {
+        try {
+            const { userid } = req.query;
+            const objectuserId = new mongoose.Types.ObjectId(userid);
+            const updateSkipTutorial = await User.findByIdAndUpdate(objectuserId, {showTutorial: false});
+            if (!updateSkipTutorial) {
+                return res.status(400).json({ message: 'Could Skip Tutorials' });
+            }
+
+            return res.status(200).json({ message: 'success' });
+        } catch (error) {
+            
+        }
+    });
+
     //Verify Email Route
     app.get('/verify-email', async (req, res) => {
         const { token } = req.query;
@@ -940,7 +1002,7 @@ app.use(express.json());
                     const tournamentObj = tournament.toObject();
 
                     // Add the message property
-                    tournamentObj.message = isJoined ? 'Joined 😤' : 'Join';
+                    tournamentObj.message = isJoined ? 'Joined 😤' : 'Open';
 
                     updatedTournaments.push(tournamentObj);
                 }
@@ -1031,7 +1093,7 @@ app.use(express.json());
  
     app.get('/tournament_page', async (req, res) => {
         try {
-            const { Id, tag } = req.query;
+            const { Id } = req.query;
             const fetchedInfo = await liveTournament.findOne({_id: new mongoose.Types.ObjectId(Id)});
             if (!fetchedInfo) {
                 return res.status(400).json({ message: "No Tournament does not exist" });
@@ -1094,6 +1156,20 @@ app.use(express.json());
 
     })
 
+    app.get('/topScore', async (req, res) => {
+        try {
+            const { id } = req.query;
+            const topScore = await Leaderboard.find({ leaderboardId: id }).sort({ score: -1}).limit(3).exec();
+            if (!topScore) {
+                return res.status(400).json({ message: 'Could not get top score' });
+            }
+
+            return res.status(200).json(topScore);
+        } catch (error) {
+            
+        }
+    });
+
     app.get('/joined_users', async (req, res) => {
     const { id } = req.query;
     const fetchedLeaderboard = await Leaderboard.countDocuments({leaderboardId: id});
@@ -1107,8 +1183,10 @@ app.use(express.json());
     app.get('/getLeaderboard', async (req, res) => {
         try {
             const { Id, tag } = req.query;
+            const objectId =  new mongoose.Types.ObjectId(Id);
             const fetchedLeaderboard = await Leaderboard.find({leaderboardId: Id}).sort({ score: -1 }).exec();
-            res.status(200).json({leaderboard: fetchedLeaderboard, number: fetchedLeaderboard.length});
+            const fetchTournamentReward = await liveTournament.findById(objectId);
+            res.status(200).json({leaderboard: fetchedLeaderboard, number: fetchedLeaderboard.length, reward: fetchTournamentReward.tournamentReward});
         } catch (error) {
             console.error('Fetching error:', error);
             res.status(500).json({ message: 'Internal server error' });

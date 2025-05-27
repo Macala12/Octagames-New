@@ -10,8 +10,8 @@ if (activeNumber) {
     document.querySelector(".active_count").style.background = "transparent";
 }
 
-var fullName ;
-var email ;
+var fullName;
+var email;
 var accountVerified;
 var octaCoin;
 var rewardAmount;
@@ -19,6 +19,7 @@ var userimg;
 var winStreak;
 var winRate;
 var percentCalculator;
+let tutorialVideo;
 
 function fetchUserGameInfo() {
     if (userid) {
@@ -184,6 +185,16 @@ function fetchUserInfo() {
                 const readableDate = date.toLocaleString();
                 document.getElementById("joined_date").innerHTML = readableDate;
             }
+
+            if (data.completedTutorial === false || data.completedTutorial === "false") {
+                if (data.showTutorial === true || data.showTutorial === "true") {
+                    showTutorialModal();
+                }else{
+                    document.querySelector(".tutorial_container").style.display = "none";
+                }
+            }else{
+                document.querySelector(".tutorial_container").style.display = "none"; 
+            }
         })
         .catch(error => {
             console.error('Error fetching user data:', error);
@@ -244,6 +255,88 @@ async function updateLevel() {
             alertBox.appendChild(alert);
         }else{
             console.log("success");
+        }
+    } catch (error) {
+        
+    }
+}
+
+function showTutorialModal() {
+    if (document.querySelector(".tutorial_container")) {
+        let tutorialContainer = document.querySelector(".tutorial_container");
+        tutorialContainer.innerHTML = `
+            <div class="tutorial_box">
+                <img src="./Assets/_icons/logo.png" class="mb-3" width="50px" alt="">
+                <h5>Welcome to Octagames</h5>
+                    <p>
+                        Here's a <b>short and fun</b> video tutorial to show you how to explore our platform and start making money while having a blast!
+                        <br>
+                        <span>
+                            <b>Complete the video and get 100 free Octacoins to start playing and winning!</b>
+                        </span>
+                    </p>
+                    <video class="tutorial_video mt-3 mb-3" src="./Assets/_videos/test_video.MP4" width="100%" height="200px" controls muted autoplay>
+                        Your browser does not support the video tag.
+                    </video>
+
+                    <a href="" class="text-center">Click here to learn more about Octagames</a>
+                    <span class="tutorial_btn_box">
+                        <button class="btn w-100 disabled" id="tutorial_btn">Claim Free 100 Octacoin!</button>
+                    </span>
+                    <p class="text-center text-secondary mt-3" onclick="skipTutorial()">Skip tutorial and watch later</p>
+            </div>
+        `;
+        tutorialContainer.style.display = "flex";
+        tutorialVideo = document.querySelector(".tutorial_video");
+        removeDisableBtn(tutorialVideo)
+    }
+}
+
+function removeDisableBtn (tutorialVideo) {
+    tutorialVideo.addEventListener("ended", async () => {
+        const tutorialBtnBox = document.querySelector(".tutorial_btn_box");
+        tutorialBtnBox.innerHTML = `
+            <button class="btn w-100" id="tutorial_btn" onclick="claimTutorialCoin()">Claim Free 100 Octacoin!</button>
+        `;
+    });
+}
+
+async function claimTutorialCoin() {
+    document.getElementById("tutorial_btn").innerHTML = ` 
+        <span class="spinner-border spinner-border-sm"></span>
+    `;
+    try {
+        const response = await fetch(`${API_BASE_URL}/claim_tutorial_reward?userid=${userid}`);
+        const result = await response.json();
+
+        if (!response.ok) {
+            document.getElementById("tutorial_btn").innerHTML = ` 
+               ${result.message}l
+            `
+        }else{
+            console.log(result.message);
+            const Octacoin = document.getElementById("octacoin").innerHTML;
+            document.getElementById("octacoin").innerHTML = parseInt(Octacoin, 10) + 100;
+            document.querySelector(".tutorial_container").style.display = "none";
+            document.querySelector("._notification").style.display = "none";
+        }
+    } catch (error) {
+        
+    }
+
+}
+
+async function skipTutorial() {
+    document.querySelector(".tutorial_container").style.display = "none";
+    try {
+        const response = await fetch(`${API_BASE_URL}/skip_tutorial?userid=${userid}`);
+        const result = await response.json();
+
+        if (!response.ok) {
+            document.querySelector(".tutorial_container").style.display = "block";
+        }else{
+            console.log(result.message);
+            document.querySelector(".tutorial_container").style.display = "none";
         }
     } catch (error) {
         

@@ -10846,7 +10846,7 @@ const userid = sessionStorage.getItem('userid');
                 // window.parent.location.href = "../../../../home.html";
                 }
                 else{
-                  console.log("sure")
+                  console.log("sure");
                   const text = document.getElementById("notif-text");
                   text.innerHTML = `Your current leaderboard position: ${result.position}`;
                   setTimeout(() => {
@@ -10855,7 +10855,7 @@ const userid = sessionStorage.getItem('userid');
                 } 
               } 
               catch (error) {
-                  console.error("Error Updating Score",error)
+                  console.error("Error Updating Score", error)
               }
             }
 

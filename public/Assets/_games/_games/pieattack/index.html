@@ -171,6 +171,7 @@
 
 		async function updateScoreInterval() {
 			try {
+			const score = localStorage.getItem("PA_HIGHSCORE");
 			const response = await fetch(`${API_BASE_URL}/update_user_score?gameScore=${score}&userid=${userid}&leaderboardId=${id}`);
 			const result = await response.json();
 

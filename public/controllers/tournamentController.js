@@ -190,7 +190,7 @@ function handleTournamentLifecycle(tournamentId) {
                 }else{
                     console.log("No second player")
                 }
-
+ 
                 //Third Winner
                 if (tournamentWinner[2]) {
                     const winnerUsername3 = tournamentWinner[2].username;
@@ -242,12 +242,14 @@ function handleTournamentLifecycle(tournamentId) {
                     tournamentEndTime: tournament.tournamentEndTime
                 });    
 
-                if (!saveTournamentWinner) {
-                    console.log(error)
-                }else{
-                    await Tournament.findByIdAndUpdate(tournamentId, { status: 'ended' });
-                    console.log(`Tournament ${tournamentId} has ended.`);
-                }
+                await Tournament.findByIdAndUpdate(tournamentId, { status: 'ended' });
+                console.log(`Tournament ${tournamentId} has ended.`);
+
+                // if (!saveTournamentWinner) {
+                //     console.log(error)
+                // }else{
+
+                // }
 
                 console.log("Users has been rewarded");
             }

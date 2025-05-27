@@ -1,3 +1,7 @@
+const userid = sessionStorage.getItem("userid");
+if (userid) {
+    window.location.href = "home.html"
+}
 
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault(); 

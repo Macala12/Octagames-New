@@ -28,7 +28,7 @@
         else{
           setInterval(async() => {
             try {
-              const response = await fetch(`${API_BASE_URL}/tournament_winners?id=${id}`)
+              const response = await fetch(`${API_BASE_URL}/topScore?id=${id}`)
               const result = await response.json();
 
               if (!response.ok) {
