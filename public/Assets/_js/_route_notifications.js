@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             mainAlert.appendChild(alert);
         }
-    } catch (error) {
+    } catch (error) { 
         
     }
 })

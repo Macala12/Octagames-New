@@ -5,6 +5,9 @@ body{
     height: 100vh;
     position: relative;
 }
+.__logo{
+    border-radius: 50% !important;
+}
 a:focus{
     text-decoration: none !important;
     color: inherit !important;
@@ -281,6 +284,7 @@ button{
     overflow: hidden;
     color: #fff;
     position: relative;
+    z-index: 100;
   }
   .loader_box .spinner-border{
     color: #66FCF1;
@@ -432,6 +436,7 @@ button{
 }
 .carousel-indicators{
     bottom: -20% !important;
+    z-index: 0 !important;
 }
 /* User */
 ._us_name h6{
@@ -819,8 +824,7 @@ button{
 .tutorial_box p span{
     margin-top: 15px;
     display: block;
-    border-left: 5px solid #66FCF1;
-    background-color: #000;
+    color: #66FCF1;
     border-radius: 5px;
     padding: 10px;
     font-size: 12px !important;
@@ -1655,20 +1659,26 @@ button{
 }
 .alertInfo{
     background-color: #1F2833;
-    border-left: 4px solid #66FCF1 !important;
     font-weight: 500;
     font-size: 12px;
     padding: 15px !important;
     border-radius: 5px !important;
 }
+.alertInfo i {
+    font-size: 20px !important;
+    font-weight: 700;
+}
 .alertWarning{
     background-color: #66fcf1;
     color: #000 !important;
-    border-left: 4px solid #1F2833 !important;
     font-weight: 600;
     font-size: 12px;
     padding: 15px !important;
     border-radius: 5px !important;
+}
+.alertWarning i {
+    font-size: 15px !important;
+    font-weight: 700;
 }
 .container-fluid{
     position: relative;

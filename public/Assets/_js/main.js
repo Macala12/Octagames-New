@@ -3,7 +3,7 @@ function setupTournamentTimer(tournamentId, startTimeStr, endTimeStr) {
     const endTime = new Date(endTimeStr).getTime();
     const timerElement = document.getElementById(`timer-${tournamentId}`);
     const statusElement = document.getElementById(`status-${tournamentId}`);
-
+ 
     if (startTimeStr == null || startTimeStr == "null") {
         statusElement.innerText = "Waiting"; 
         timerElement.innerText = "";
@@ -39,6 +39,8 @@ function setupTournamentTimer(tournamentId, startTimeStr, endTimeStr) {
 }
 
 if (document.querySelector(".second_navigation")) {
+    let coinImg = `<img src="./Assets/_icons/coin.png" alt="">`;
+    let walletImg = `<img src="./Assets/_icons/money.png" alt="">`;
     const initialNavigation = document.querySelector(".initial_navigation");
 
     const topNavigation = document.querySelector(".second_navigation");
@@ -78,7 +80,7 @@ if (document.querySelector(".second_navigation")) {
         <div class="_us_credentials d-flex">
             <a href="./points.html" class="d-flex">
                 <div class="top_coin_box">
-                    <img src="./Assets/_icons/coin.png" alt="">
+                    ${coinImg}
                 </div>
                 <h6>
                     ${octaCoin}.00
@@ -90,7 +92,7 @@ if (document.querySelector(".second_navigation")) {
 
             <a href="./reward.html" class="d-flex ml-3">
                 <div class="top_coin_box">
-                    <img src="./Assets/_icons/money.png" alt="">
+                    ${walletImg}
                 </div>
                 <h6>
                     N${rewardAmount}.00

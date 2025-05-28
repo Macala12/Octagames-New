@@ -2,26 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- <link rel="stylesheet" href="/css/footer.css"> -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4874616183592939"
      crossorigin="anonymous"></script>
+    <title>Octagames</title>
+    <meta name="description" content="Octagames is your ultimate gaming destination for competitive tournaments, thrilling challenges, and exclusive rewards. Join, Play, Win, and Repeat!">
+    <link rel="shortcut icon" href="../../../../Assets/_icons/logo.png" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="🕹Opium Games is a free unblocked games service hosting over 100+ unblocked games, also includes many selectable proxies and emulators to use along with tab cloakers and history hiders! 🎮">
-    <meta name="author" content="CybriaTech">
-    <meta name="keywords" content="games, unblocked games, unblocked games, video games, unity, webgl, swf, html5, cybriagames, cybriagames sequel, emulators">
-    <!-- <link rel="stylesheet" href="/css/header.css"> -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <link rel="icon" href="/images/logo/favi/logo-16x16.png" sizes="16x16">
-    <link rel="icon" href="/images/logo/favi/logo-32x32.png" sizes="32x32">
-    <link rel="apple-touch-icon" href="/images/logo/favi/apple-touch-icon.png" sizes="180x180">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Boldonse&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../main.css">
-
-    <title>Subway Surfers NYC | Opium</title>
-    <!-- <link rel="stylesheet" href="/css/index.css"> -->
-    <!-- Google tag (gtag.js)
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-20CSCVKLF3"></script> -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -47,6 +37,13 @@
     font-size: 13px;
     color: #fff !important;
     text-align: center;
+  }
+  .loading-text .info_text{
+    color: #66FCF1 !important;
+    font-weight: 700;
+    background-color: #1F2833;
+    padding: 15px;
+    border-radius: 15px;
   }
   .loader-main{
     width: 100vw;
@@ -94,11 +91,14 @@
   <div class="loader-main"> 
     <div class="loader-container">
        <h5>Octagames</h5>
+
       <div class="loader-progress-wrapper">
         <div class="loading-bar"></div>
       </div>
+
       <div class="loading-text">
         <p id="loadingText"></p>
+        <p class="info_text">Gameplay will end 10s before tournament ends 🙂 <br> Let's Go!! 🚀</p>
       </div>
     </div>
   </div>
@@ -111,7 +111,8 @@
   </div> 
 <script src="../../../_js/config.js"></script>
 <script src="../../../_js/main.js"></script>
-<script>    const urlParams = new URLSearchParams(window.location.search);
+<script>    
+  const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
   const main = document.getElementById("main");
   const loaderMain = document.querySelector(".loader-main");
@@ -155,6 +156,7 @@
           } catch (error) {
           }
         }, 20000);
+
         console.log("Has not ended");
         const startTime = result.tournamentStartTime;
         const endTime = result.tournamentEndTime;
@@ -200,6 +202,83 @@
     catch (error) { 
     }
   });
+      function setupTournamentTimer(tournamentId, startTimeStr, endTimeStr) {
+      const startTime = new Date(startTimeStr).getTime();
+      const endTime = new Date(endTimeStr).getTime();
+      const timerElement = document.getElementById(`timer-${tournamentId}`);
+      const statusElement = document.getElementById(`status-${tournamentId}`);
+  
+      if (startTimeStr == null || startTimeStr == "null") {
+          statusElement.innerText = "Waiting"; 
+          timerElement.innerText = "";
+      }else{
+
+          if (!timerElement || !statusElement) return;
+
+          const interval = setInterval(() => {
+              const now = new Date().getTime();
+
+              if (now < startTime) {
+                  // Before tournament starts
+                  const timeLeft = startTime - now;
+                  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                  statusElement.innerText = "Starts in:";
+                  timerElement.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+              } else if (now >= startTime && now < endTime) {
+                  // Tournament is live
+                  const timeLeft = endTime - now;
+                  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                  statusElement.innerText = `Live - Ends in: `;
+                  timerElement.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                  if (timeLeft <= 10000) {
+                        main.innerHTML = `
+                        	<div>
+                            <box style="display: flex; justify-content: center; margin-top: 300px; height: fit-content;">
+                              <img src="../../../_icons/game-over.png" width="100px" alt="">
+                            </box>
+                            <h4 style="
+                              color: #66fcf1;
+                              text-align: center;
+                            ">
+                            Gameplay is over
+                            </h4>
+                            <p style="
+                              text-align: center;
+                                color: #fff;
+                                font-weight: 600;
+                                font-size: 13px;
+                              " id="countdown">
+                              Redirecting in 10s...
+                            </p>
+                          </div>
+                        `;
+                        let countdown = 10;
+                        const countdownElement = document.getElementById('countdown');
+
+                        const interval = setInterval(() => {
+                          countdown--;
+                          countdownElement.innerText = `Redirecting in ${countdown}s...`;
+
+                          if (countdown <= 0) {
+                            clearInterval(interval);
+                            window.location.href = "../../../../home.html";
+                          }
+                        }, 1000);
+
+                  }
+
+              } else {
+                  // Tournament has ended
+                  statusElement.innerText = "Ended";
+                  timerElement.innerText = "";
+                  clearInterval(interval);
+              }
+          }, 1000); 
+      }
+    } 
   </script>
 </body>
 </html>

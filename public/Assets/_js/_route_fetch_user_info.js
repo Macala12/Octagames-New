@@ -316,7 +316,28 @@ async function claimTutorialCoin() {
         }else{
             console.log(result.message);
             const Octacoin = document.getElementById("octacoin").innerHTML;
+            const sound = new Audio('./Assets/_sound/mixkit-game-level-completed-2059.wav');
             document.getElementById("octacoin").innerHTML = parseInt(Octacoin, 10) + 100;
+            document.querySelector(".rewardHover .text-center").innerHTML = `
+                <div class="icon_box">
+                    <img src="./Assets/_icons/confetti-no-bg.png" alt="">
+                </div>
+                <h6 class="mt-5"><b>Congratulations!</b> Tutorial Completed 🥳</h6>
+                <h5><img src="./Assets/_icons/coin.png" width="20px" class="" alt=""> +100</h5>
+
+                <p style="font-size: 11px; font-weight: 600; text-align: center; color: #666666; margin-top: 10px; margin-bottom: 0px;">
+                    Start <b>playing</b> and keeping <b>winning</b>
+                </p>
+
+                <button class="btn" onclick="closeHover()">Let's Go!</button>
+                <p style="font-size: 11px; font-weight: 600; text-align: center; color: #666666; margin-top: 10px; margin-bottom: 10px;">
+                    Made with ❤️ from octagames 
+                </p>
+            `;
+            document.getElementById("rewardHover").style.display = "flex";
+            sound.play();
+
+            //Close the tutorial container and the notififcation container
             document.querySelector(".tutorial_container").style.display = "none";
             document.querySelector("._notification").style.display = "none";
         }
@@ -336,6 +357,15 @@ async function skipTutorial() {
             document.querySelector(".tutorial_container").style.display = "block";
         }else{
             console.log(result.message);
+            const mainAlert = document.querySelector("._notification");
+            const alert = document.createElement('div')
+            alert.classList.add('mb-2');
+            alert.innerHTML = `
+                <div class="alert alertWarning fade show" onclick="showTutorialModal()">
+                    &#x1F3A5 You haven't completed your tutorial video yet. <i class="fi fi-rr-angle-small-right float-right"></i>
+                </div>
+            `;
+            mainAlert.appendChild(alert);
             document.querySelector(".tutorial_container").style.display = "none";
         }
     } catch (error) {

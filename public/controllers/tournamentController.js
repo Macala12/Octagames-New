@@ -242,17 +242,10 @@ function handleTournamentLifecycle(tournamentId) {
                     tournamentEndTime: tournament.tournamentEndTime
                 });    
 
-                await Tournament.findByIdAndUpdate(tournamentId, { status: 'ended' });
-                console.log(`Tournament ${tournamentId} has ended.`);
-
-                // if (!saveTournamentWinner) {
-                //     console.log(error)
-                // }else{
-
-                // }
-
                 console.log("Users has been rewarded");
             }
+            await Tournament.findByIdAndUpdate(tournament._id, { status: 'ended' });
+            console.log(`Tournament ${tournament._id} has ended.`);
         }
 
         if (tournament.status === 'ended') {

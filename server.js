@@ -215,13 +215,13 @@ app.use(express.json());
                     <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0;">
                     <tr>
                         <td style="padding: 30px;">
-                        <h2 style="color: #FFC107; margin: 0 0 20px;">Verify Your Email</h2>
+                        <h2 style="color: #66fcf1; margin: 0 0 20px;">Verify Your Email</h2>
                         <p style="font-size: 12px; line-height: 1.6; margin: 0 0 20px;">
                             Hey there, Chief<br><br>
                             You're just one click away from entering the arena! To verify your email and activate your Octagames account, tap the button below:
                         </p>
                         <div style="text-align: center; margin: 30px 0;">
-                            <a href="${verificationLink}" style="width: 70%; background-color: #FFC107; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
+                            <a href="${verificationLink}" style="width: 70%; background-color: #66fcf1; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
                             Verify Email
                             </a>
                             <p style="font-size: 13px; color: #cccccc; margin-top: 10px;">Expires in 1hr</p>
@@ -290,13 +290,13 @@ app.use(express.json());
                     <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0;">
                     <tr>
                         <td style="padding: 30px;">
-                        <h2 style="color: #FFC107; margin: 0 0 20px;">Verify Your Email</h2>
+                        <h2 style="color: #66fcf1; margin: 0 0 20px;">Verify Your Email</h2>
                         <p style="font-size: 12px; line-height: 1.6; margin: 0 0 20px;">
                             Hey there, Chief<br><br>
                             You're just one click away from entering the arena! To verify your email and activate your Octagames account, tap the button below:
                         </p>
                         <div style="text-align: center; margin: 30px 0;">
-                            <a href="${verificationLink}" style="width: 70%; background-color: #FFC107; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
+                            <a href="${verificationLink}" style="width: 70%; background-color: #66fcf1; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
                             Verify Email
                             </a>
                             <p style="font-size: 13px; color: #cccccc; margin-top: 10px;">Expires in 1hr</p>
@@ -351,7 +351,7 @@ app.use(express.json());
             html: `
                 <div style="width: 100%; display: flex; font-family: 'Montserrat', sans-serif; border-radius: 10px; background-color: #1a1a1a; color: #ffffff; max-width: 600px; margin: auto;">
                     <div style="padding: 30px;">
-                        <h2 style="text-align: left; color: #FFC107;">Redeem Reward OTP</h2>
+                        <h2 style="text-align: left; color: #66fcf1;">Redeem Reward OTP</h2>
                         <p style="font-size: 16px; text-align: left; line-height: 1.6;">
                         Hey ${userEmail.firstName + " " + userEmail.lastName} ,<br><br>
                         To complete your redeem request please enter the OTP code provided below in the website. The code will expire in <b>15 minutes</b>
@@ -359,7 +359,7 @@ app.use(express.json());
                         <div style="text-align: center; margin: 30px 0;">
                         <span style="font-size: 20px; margin-right: 10px;"><b>${otp}</b></span>
                         </div>
-                        <div style="width: 90%; font-weight: 600; text-align: left; padding: 15px; background-color: #fff3cd; color: #856404; border-radius: 10px;">
+                        <div style="width: 90%; font-weight: 600; text-align: left; padding: 15px; background-color: #fff3cd; color:#409e98; border-radius: 10px;">
                         <i class="fi fi-rr-triangle-warning"></i> OTP code will expire in <span style="font-weight: 700;">15 minutes</span>
                         </div>
                         <p style="font-size: 14px; color: #cccccc; line-height: 1.6;">
@@ -766,13 +766,13 @@ app.use(express.json());
         html: `
               <div style="width: 100%; display: flex; font-family: 'Montserrat', sans-serif; border-radius: 10px; background-color: #1a1a1a; color: #ffffff; max-width: 600px; margin: auto;">
                 <div style="padding: 30px;">
-                    <h2 style="text-align: left; color: #FFC107;">Update Your Password</h2>
+                    <h2 style="text-align: left; color: #66fcf1;">Update Your Password</h2>
                     <p style="font-size: 16px; text-align: left; line-height: 1.6;">
                         Hey Michael,<br><br>
                         It looks like you requested to update your password. To continue, please click the button below:
                     </p>
                     <div style="text-align: center; margin: 30px 0;">
-                        <a href="${verificationLink}" style="background-color: #FFC107; width: 80%; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
+                        <a href="${verificationLink}" style="background-color: #66fcf1; width: 80%; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
                             Update Password
                         </a>
                     </div>
@@ -864,14 +864,14 @@ app.use(express.json());
             html: `
                   <div style="width: 100%; display: flex; font-family: 'Montserrat', sans-serif; border-radius: 10px; background-color: #1a1a1a; color: #ffffff; max-width: 600px; margin: auto;">
                     <div style="padding: 30px;">
-                        <h2 style="text-align: left; color: #FFC107;">Forgot Your Password</h2>
+                        <h2 style="text-align: left; color: #66fcf1;">Forgot Your Password</h2>
                         <p style="font-size: 16px; text-align: left; line-height: 1.6;">
                             Hey ${checkEmail.firstName},<br><br>
                             We received a request to reset your Octagames account password. Don’t worry — we’ve got you covered.
                             To update your password securely, just click the button below:
                         </p>
                         <div style="text-align: center; margin: 30px 0;">
-                            <a href="${verificationLink}" style="background-color: #FFC107; width: 80%; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
+                            <a href="${verificationLink}" style="background-color: #66fcf1; width: 80%; color: #1a1a1a; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
                                 Update Password
                             </a>
                         </div>
@@ -1094,7 +1094,8 @@ app.use(express.json());
     app.get('/tournament_page', async (req, res) => {
         try {
             const { Id } = req.query;
-            const fetchedInfo = await liveTournament.findOne({_id: new mongoose.Types.ObjectId(Id)});
+            const objectid = new mongoose.Types.ObjectId(Id)
+            const fetchedInfo = await liveTournament.findOne({_id: objectid});
             if (!fetchedInfo) {
                 return res.status(400).json({ message: "No Tournament does not exist" });
             }

@@ -87,3 +87,81 @@
       catch (error) { 
       }
     });
+
+    function setupTournamentTimer(tournamentId, startTimeStr, endTimeStr) {
+      const startTime = new Date(startTimeStr).getTime();
+      const endTime = new Date(endTimeStr).getTime();
+      const timerElement = document.getElementById(`timer-${tournamentId}`);
+      const statusElement = document.getElementById(`status-${tournamentId}`);
+  
+      if (startTimeStr == null || startTimeStr == "null") {
+          statusElement.innerText = "Waiting"; 
+          timerElement.innerText = "";
+      }else{
+
+          if (!timerElement || !statusElement) return;
+
+          const interval = setInterval(() => {
+              const now = new Date().getTime();
+
+              if (now < startTime) {
+                  // Before tournament starts
+                  const timeLeft = startTime - now;
+                  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                  statusElement.innerText = "Starts in:";
+                  timerElement.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+              } else if (now >= startTime && now < endTime) {
+                  // Tournament is live
+                  const timeLeft = endTime - now;
+                  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                  statusElement.innerText = `Live - Ends in: `;
+                  timerElement.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                  if (timeLeft <= 10000) {
+                        main.innerHTML = `
+                        	<div>
+                            <box style="display: flex; justify-content: center; margin-top: 300px; height: fit-content;">
+                              <img src="../../../_icons/game-over.png" width="100px" alt="">
+                            </box>
+                            <h4 style="
+                              color: #66fcf1;
+                              text-align: center;
+                            ">
+                            Gameplay is over
+                            </h4>
+                            <p style="
+                              text-align: center;
+                                color: #fff;
+                                font-weight: 600;
+                                font-size: 13px;
+                              " id="countdown">
+                              Redirecting in 10s...
+                            </p>
+                          </div>
+                        `;
+                        let countdown = 10;
+                        const countdownElement = document.getElementById('countdown');
+
+                        const interval = setInterval(() => {
+                          countdown--;
+                          countdownElement.innerText = `Redirecting in ${countdown}s...`;
+
+                          if (countdown <= 0) {
+                            clearInterval(interval);
+                            window.location.href = "../../../home.html";
+                          }
+                        }, 1000);
+
+                  }
+
+              } else {
+                  // Tournament has ended
+                  statusElement.innerText = "Ended";
+                  timerElement.innerText = "";
+                  clearInterval(interval);
+              }
+          }, 1000); 
+      }
+    } 
