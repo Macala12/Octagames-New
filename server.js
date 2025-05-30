@@ -542,7 +542,7 @@ app.use(express.json());
               <div class="container">
                 <h4>Email Verified ✨</h4>
                 <p>Yay! Email has been verified. You can now join the play, win, and repeat vibe 😎</p>
-                <a href="https://octagames-new-production.up.railway.app/login.html">Login</a>
+                <a href="https://octagames.onrender.com/login.html">Login</a>
               </div>
             </body>
             </html>
