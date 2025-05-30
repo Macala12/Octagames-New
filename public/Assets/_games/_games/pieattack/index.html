@@ -229,7 +229,7 @@
 
 				const interval = setInterval(() => {
 					countdown--;
-					countdownElement.innerText = `Redirecting in ${countdown}s...`;
+					countdownElement.innerText = `Finalizing in ${countdown}s...`;
 
 					if (countdown <= 0) {
 						clearInterval(interval);
@@ -251,6 +251,7 @@
 								console.log(result.message);
 								window.parent.location.href = "../../../../home.html";
 							}else{
+								document.querySelector(".gamePlayOver").style.display = "none";
 								gameOverBox.innerHTML = `
 									<div>
 										<box style="display: flex; justify-content: center;">
@@ -296,7 +297,7 @@
 					}
 				}, 1000);
 			}
-		}, 500);
+		}, 1000);
 		
 		// Size the canvas to fill the browser viewport.
 		jQuery(window).resize(function() {

@@ -11433,7 +11433,7 @@ setInterval(() => {
 
               const interval = setInterval(() => {
                 countdown--;
-                countdownElement.innerText = `Redirecting in ${countdown}s...`;
+                countdownElement.innerText = `Finalizing in ${countdown}s...`;
 
                 if (countdown <= 0) {
                   clearInterval(interval);
@@ -11455,6 +11455,7 @@ setInterval(() => {
                         console.log(result.message);
                         window.parent.location.href = "../../../../home.html";
                       }else{
+                        document.querySelector(".gamePlayOver").style.display = "none";
                         gameOverBox.innerHTML = `
                             <div>
                               <box style="display: flex; justify-content: center;">
@@ -11463,7 +11464,7 @@ setInterval(() => {
                               <gameDetails style="display: flex; justify-content: space-evenly; color: #fff; padding: 15px;">
                                 <gameDetailsBox>
                                   <h6>Current Score</h6>
-                                  <p>${e}</p>
+                                  <p>${gamePlayOverScore}</p>
                                 </gameDetailsBox>
                                 <gameDetailsBox>
                                   <h6>leaderboard position</h6>
@@ -11502,7 +11503,7 @@ setInterval(() => {
             }else{
               console.log("Not yet gameplay");
             }
-          }, 500);
+          }, 1000);
 
           this.app.game.state === pn.IDLE && (nn.a.sendCustomMessage("mainMenu", "pressPlay", {}), (this.tapToPlayArea.interactive = !1), this.app.nav.playGame());
         }),

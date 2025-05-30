@@ -263,7 +263,7 @@ preloader loadbar div{
 
             const interval = setInterval(() => {
               countdown--;
-              countdownElement.innerText = `Redirecting in ${countdown}s...`;
+              countdownElement.innerText = `Finalizing in ${countdown}s...`;
 
               if (countdown <= 0) {
                 clearInterval(interval);
@@ -296,7 +296,7 @@ preloader loadbar div{
               }
             }, 1000);
           }
-        }, 500);
+        }, 1000);
       </script>
 
       <script>
