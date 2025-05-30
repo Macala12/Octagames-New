@@ -206,7 +206,7 @@ app.use(express.json());
 
             const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-            const verificationLink = `https://octagames-new-production.up.railway.app/verify-email?token=${token}`;
+            const verificationLink = `https://octagames.onrender.com/verify-email?token=${token}`;
 
             await transporter.sendMail({
             from: `"Octagames" <no-reply@octasub.com.ng>`,
@@ -243,7 +243,7 @@ app.use(express.json());
                             Level up your gaming experience with our competitive tournaments, rewards, and non-stop action.
                         </p>
                         </td>
-                        <td style="width: 230px; background-image: url('https://octagames-new-production.up.railway.app/Assets/_games/_img/auth_background3.png'); background-size: cover; background-position: center;"></td>
+                        <td style="width: 150px; background-image: url('https://octagames.onrender.com/Assets/_games/_img/auth_background3.png'); background-size: cover; background-position: center;"></td>
                     </tr>
                     </table>
                 </div>  
@@ -361,7 +361,7 @@ app.use(express.json());
                         <div style="text-align: center; margin: 30px 0;">
                         <span style="font-size: 20px; margin-right: 10px;"><b>${otp}</b></span>
                         </div>
-                        <div style="width: 90%; font-weight: 600; text-align: left; padding: 15px; background-color: #fff3cd; color:#409e98; border-radius: 10px;">
+                        <div style="width: 90%; font-weight: 600; text-align: left; padding: 15px; background-color: #66fcf1; color:#000; border-radius: 10px;">
                         <i class="fi fi-rr-triangle-warning"></i> OTP code will expire in <span style="font-weight: 700;">15 minutes</span>
                         </div>
                         <p style="font-size: 14px; color: #cccccc; line-height: 1.6;">
