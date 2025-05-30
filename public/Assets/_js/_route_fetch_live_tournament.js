@@ -482,7 +482,7 @@ async function fetchAndDisplayTournaments() {
         document.querySelector("main").style.display = "block";
         document.getElementById("loader").style.display = "none";
         setInterval(fetchAndDisplayTournaments, 60 * 1000);
-    }, 10000);
+    }, 3000);
 
 }
 

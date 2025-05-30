@@ -209,7 +209,7 @@ app.use(express.json());
             const verificationLink = `https://octagames-new-production.up.railway.app/verify-email?token=${token}`;
 
             await transporter.sendMail({
-            from: `"Octagames" <${process.env.EMAIL_USER}>`,
+            from: `"Octagames" <no-reply@octasub.com.ng>`,
             to: email,
             subject: "Verify Your Email",
             html: `

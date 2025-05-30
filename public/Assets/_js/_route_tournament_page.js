@@ -513,7 +513,7 @@ async function startTournamentRefetching() {
     while (true) {
         await refetching();
         if (!addUserRequest) {
-            await new Promise(resolve => setTimeout(resolve, 10000));
+            await new Promise(resolve => setTimeout(resolve, 3000));
             setTimeout(() => {
                 document.querySelector("main").style.display = "block";
                 document.getElementById("loader").style.display = "none";

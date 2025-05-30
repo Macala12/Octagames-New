@@ -10821,7 +10821,6 @@ setInterval(() => {
       var n = GameScreen.prototype;
       return (
         (n.onShow = function () {
-          sessionStorage.setItem("Playing", "true");
           this._firstRun || ((this._firstRun = !0), nn.a.sendCustomMessage("game", "play", {})),
             this.app.game.onRun.add(this),
             this.app.game.onPause.add(this),
@@ -10840,9 +10839,6 @@ setInterval(() => {
               (this.btnPause.y = 35)),
             this.addChild(this.btnPause),
             (this.btnPause.visible = !0);
-            setTimeout(() => {
-              console.log("Game object:", this.app.game);
-            }, 2000);
         }),
         (n.onHide = function () {
           this.app.game.onPause.remove(this), this.app.game.onResume.remove(this), this.app.game.onGameover.remove(this), this.app.game.onRevive.remove(this);
@@ -10869,28 +10865,6 @@ setInterval(() => {
             });
           } else this.finishRunComplete();
         }),
-        // setInterval(() => {
-        //   if (sessionStorage.getItem("Playing")) {
-        //     (n.finishRunComplete = function () {
-        //       var t = this,
-        //         e = this.app.game.stats.score;
-        //       (this.app.user.coins += this.app.game.stats.coins),
-        //         e > this.app.user.score
-        //           ? ((this.app.user.score = e),
-        //             nn.a.SDK.happyTime(1),
-        //             nn.a.hangout.saveHighscore(this.app.user.name, e).then(function () {
-        //               t.app.sections.open("gameover");
-        //             }))
-        //           : this.app.sections.open("gameover"),
-        //         this.app.user.save();
-
-        //         alert(e);
-        //     })
-        //     n.finishRunComplete()
-        //   }else{
-        //     console.log("no e")
-        //   }
-        // }, 500),
         (n.finishRunComplete = function () {
           var t = this,
             e = this.app.game.stats.score;
