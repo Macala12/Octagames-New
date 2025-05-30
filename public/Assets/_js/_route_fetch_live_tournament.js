@@ -40,28 +40,19 @@ async function topPlayers() {
                 <img class="mx-auto d-block" src="${topPlayerTwo.userImg}" alt="">
                 <h5>${topPlayerTwo.username}</h5>
             `;
+        }else{
+            document.querySelector("._tp_two").style.display = "none";
         }
 
         if (topPlayerThree) {
-            const topUser = document.querySelector("._tp_three .player_info").innerHTML = `
+            const topUser = document.querySelector("._tp_three").innerHTML = `
                 <img class="mx-auto d-block" src="${topPlayerThree.userImg}" alt="">
                 <h5>${topPlayerThree.username}</h5>
             `;
         }
-
-        // if (topPlayerOne) {
-        //     const topUser = document.querySelector("._tp_one .player_info").innerHTML = `
-        //         <img class="mx-auto d-block" src="${topPlayerOne.userImg}" alt="">
-        //         <h5>${topPlayerOne.usernamer}</h5>
-        //     `;
-        // }
-
-        // if (topPlayerOne) {
-        //     const topUser = document.querySelector("._tp_one .player_info").innerHTML = `
-        //         <img class="mx-auto d-block" src="${topPlayerOne.userImg}" alt="">
-        //         <h5>${topPlayerOne.usernamer}</h5>
-        //     `;
-        // }
+            else{
+                document.querySelector("._tp_three").style.display = "none";
+            }
     }
 }
 

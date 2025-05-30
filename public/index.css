@@ -185,6 +185,7 @@ button{
 ._top_player{
     min-width: fit-content;
     margin-right: -10px;
+    display: flex;
 }
 ._top_player .img-fluid{
     width: 100px !important;
@@ -283,8 +284,9 @@ button{
     height: 100vh;
     overflow: hidden;
     color: #fff;
-    position: relative;
-    z-index: 100;
+    position: fixed;
+    z-index: 1000;
+    width: 100vw
   }
   .loader_box .spinner-border{
     color: #66FCF1;

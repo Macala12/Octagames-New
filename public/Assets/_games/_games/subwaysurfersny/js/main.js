@@ -1,6 +1,109 @@
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
 const userid = sessionStorage.getItem('userid');
+let gamePlayOverScore;
+
+setInterval(() => {
+  const gamePlayOver = sessionStorage.getItem("gameplayover");
+  if (gamePlayOver) {
+    document.getElementById("og-game-holder").style.display = "none";
+    const gameplayoverbox = document.querySelector(".gamePlayOver");
+    gameplayoverbox.innerHTML = `
+      <div>
+        <box style="display: flex; justify-content: center; margin-top: 300px; height: fit-content;">
+          <img src="../../../_icons/game-over.png" width="100px" alt="">
+        </box>
+        <h4 style="
+          color: #66fcf1;
+          text-align: center;
+        ">
+        Gameplay is over
+        </h4>
+        <p style="
+          text-align: center;
+          color: #fff;
+          font-weight: 600;
+          font-size: 13px;
+          " id="countdown">
+          Finalizing in 5s...
+        </p>
+      </div>
+    `;
+    let countdown = 5;
+    const countdownElement = document.getElementById('countdown');
+
+    const interval = setInterval(() => {
+      countdown--;
+      countdownElement.innerText = `Redirecting in ${countdown}s...`;
+
+      if (countdown <= 0) {
+        clearInterval(interval);
+        sessionStorage.removeItem("gameplayover");
+        async function updateScore() {
+          document.getElementById("og-game-holder").innerHTML = 'Ended';
+          document.getElementById("og-game-holder").style.display = "none";
+          const gameOverBox = document.querySelector(".game-over-contanier");
+          const soundOver = new Audio("../../../_sound/mixkit-player-losing-or-failing-2042.wav");
+          try {
+            gameOverBox.style.display = "flex";
+            gameOverBox.innerHTML = `
+              <h6 style="color: #66FCF1; width: 100vw;">Loading...</h6>
+            `;
+            const response = await fetch(`${API_BASE_URL}/update_user_score?gameScore=${gamePlayOverScore}&userid=${userid}&leaderboardId=${id}`);
+            const result = await response.json();
+
+            if (!response.ok) {
+              console.log(result.message);
+              window.parent.location.href = "../../../../home.html";
+            }else{
+              gameOverBox.innerHTML = `
+                  <div>
+                    <box style="display: flex; justify-content: center;">
+                      <img src="../../../_icons/game-over.png" width="100px" alt="">
+                    </box>
+                    <gameDetails style="display: flex; justify-content: space-evenly; color: #fff; padding: 15px;">
+                      <gameDetailsBox>
+                        <h6>Current Score</h6>
+                        <p>${e}</p>
+                      </gameDetailsBox>
+                      <gameDetailsBox>
+                        <h6>leaderboard position</h6>
+                        <p>${result.position}</p>
+                      </gameDetailsBox>
+                      <gameDetailsBox>
+                        <h6>Best Score</h6>
+                        <p>${result.score}</p>
+                      </gameDetailsBox>
+                    </gameDetails>
+                    <a id="playAgain">Play again</a>
+                    <a id="backToGame" class="btn">
+                    Back to game page
+                    </a>
+                  </div>
+              `;
+              soundOver.play();
+              
+              const playagain = document.getElementById("playAgain");
+              const backtohome = document.getElementById("backToGame");
+              
+              playagain.addEventListener('click', async () => {
+              window.parent.location.reload();
+              });
+              backtohome.addEventListener('click', async () => {
+                window.parent.history.back();
+              });
+            }
+          } catch (error) {
+            console.error("Error Updating Score",error)
+          }
+        }
+        updateScore();
+      }
+    }, 1000);
+  }else{
+    console.log("Not yet gameplay");
+  }
+}, 500);
 
 !(function (h) {
   function webpackJsonpCallback(t) {
@@ -10718,6 +10821,7 @@ const userid = sessionStorage.getItem('userid');
       var n = GameScreen.prototype;
       return (
         (n.onShow = function () {
+          sessionStorage.setItem("Playing", "true");
           this._firstRun || ((this._firstRun = !0), nn.a.sendCustomMessage("game", "play", {})),
             this.app.game.onRun.add(this),
             this.app.game.onPause.add(this),
@@ -10736,6 +10840,9 @@ const userid = sessionStorage.getItem('userid');
               (this.btnPause.y = 35)),
             this.addChild(this.btnPause),
             (this.btnPause.visible = !0);
+            setTimeout(() => {
+              console.log("Game object:", this.app.game);
+            }, 2000);
         }),
         (n.onHide = function () {
           this.app.game.onPause.remove(this), this.app.game.onResume.remove(this), this.app.game.onGameover.remove(this), this.app.game.onRevive.remove(this);
@@ -10762,6 +10869,28 @@ const userid = sessionStorage.getItem('userid');
             });
           } else this.finishRunComplete();
         }),
+        // setInterval(() => {
+        //   if (sessionStorage.getItem("Playing")) {
+        //     (n.finishRunComplete = function () {
+        //       var t = this,
+        //         e = this.app.game.stats.score;
+        //       (this.app.user.coins += this.app.game.stats.coins),
+        //         e > this.app.user.score
+        //           ? ((this.app.user.score = e),
+        //             nn.a.SDK.happyTime(1),
+        //             nn.a.hangout.saveHighscore(this.app.user.name, e).then(function () {
+        //               t.app.sections.open("gameover");
+        //             }))
+        //           : this.app.sections.open("gameover"),
+        //         this.app.user.save();
+
+        //         alert(e);
+        //     })
+        //     n.finishRunComplete()
+        //   }else{
+        //     console.log("no e")
+        //   }
+        // }, 500),
         (n.finishRunComplete = function () {
           var t = this,
             e = this.app.game.stats.score;
@@ -10858,7 +10987,6 @@ const userid = sessionStorage.getItem('userid');
                   console.error("Error Updating Score", error)
               }
             }
-
             setInterval(() => {
                 updateScoreInterval();
             }, 5000);
@@ -11284,7 +11412,6 @@ const userid = sessionStorage.getItem('userid');
           t.repeat || 32 !== t.which || (this.app.game.state === pn.IDLE && this.playGame());
         }),
         (n.playGame = function () {
-          console.info(window.productTitle);
           dataLayer.push({
             event: "ga_event",
             ga_category: "Gamepage",
@@ -11292,6 +11419,116 @@ const userid = sessionStorage.getItem('userid');
             ga_label: window.productTitle,
             ga_noninteraction: false,
           });
+
+          setInterval(() => {
+            const distance = this.app.game.stats.data.distance;
+            const score = Math.floor(distance / 10.15);
+            const formattedScore = String(score);
+            gamePlayOverScore = formattedScore;
+            console.info(gamePlayOverScore);
+          }, 1000);
+
+          setInterval(() => {
+            const gamePlayOver = sessionStorage.getItem("gameplayover");
+            if (gamePlayOver) {
+              document.getElementById("og-game-holder").style.display = "none";
+              const gameplayoverbox = document.querySelector(".gamePlayOver");
+              gameplayoverbox.innerHTML = `
+                <div>
+                  <box style="display: flex; justify-content: center; margin-top: 300px; height: fit-content;">
+                    <img src="../../../_icons/game-over.png" width="100px" alt="">
+                  </box>
+                  <h4 style="
+                    color: #66fcf1;
+                    text-align: center;
+                  ">
+                  Gameplay is over
+                  </h4>
+                  <p style="
+                    text-align: center;
+                    color: #fff;
+                    font-weight: 600;
+                    font-size: 13px;
+                    " id="countdown">
+                    Finalizing in 5s...
+                  </p>
+                </div>
+              `;
+              let countdown = 5;
+              const countdownElement = document.getElementById('countdown');
+
+              const interval = setInterval(() => {
+                countdown--;
+                countdownElement.innerText = `Redirecting in ${countdown}s...`;
+
+                if (countdown <= 0) {
+                  clearInterval(interval);
+                  sessionStorage.removeItem("gameplayover");
+                  async function updateScore() {
+                    document.getElementById("og-game-holder").innerHTML = 'Ended';
+                    document.getElementById("og-game-holder").style.display = "none";
+                    const gameOverBox = document.querySelector(".game-over-contanier");
+                    const soundOver = new Audio("../../../_sound/mixkit-player-losing-or-failing-2042.wav");
+                    try {
+                      gameOverBox.style.display = "flex";
+                      gameOverBox.innerHTML = `
+                        <h6 style="color: #66FCF1; width: 100vw;">Loading...</h6>
+                      `;
+                      const response = await fetch(`${API_BASE_URL}/update_user_score?gameScore=${gamePlayOverScore}&userid=${userid}&leaderboardId=${id}`);
+                      const result = await response.json();
+
+                      if (!response.ok) {
+                        console.log(result.message);
+                        window.parent.location.href = "../../../../home.html";
+                      }else{
+                        gameOverBox.innerHTML = `
+                            <div>
+                              <box style="display: flex; justify-content: center;">
+                                <img src="../../../_icons/game-over.png" width="100px" alt="">
+                              </box>
+                              <gameDetails style="display: flex; justify-content: space-evenly; color: #fff; padding: 15px;">
+                                <gameDetailsBox>
+                                  <h6>Current Score</h6>
+                                  <p>${e}</p>
+                                </gameDetailsBox>
+                                <gameDetailsBox>
+                                  <h6>leaderboard position</h6>
+                                  <p>${result.position}</p>
+                                </gameDetailsBox>
+                                <gameDetailsBox>
+                                  <h6>Best Score</h6>
+                                  <p>${result.score}</p>
+                                </gameDetailsBox>
+                              </gameDetails>
+                              <a id="playAgain">Play again</a>
+                              <a id="backToGame" class="btn">
+                              Back to game page
+                              </a>
+                            </div>
+                        `;
+                        soundOver.play();
+                        
+                        const playagain = document.getElementById("playAgain");
+                        const backtohome = document.getElementById("backToGame");
+                        
+                        playagain.addEventListener('click', async () => {
+                        window.parent.location.reload();
+                        });
+                        backtohome.addEventListener('click', async () => {
+                          window.parent.history.back();
+                        });
+                      }
+                    } catch (error) {
+                      console.error("Error Updating Score",error)
+                    }
+                  }
+                  updateScore();
+                }
+              }, 1000);
+            }else{
+              console.log("Not yet gameplay");
+            }
+          }, 500);
 
           this.app.game.state === pn.IDLE && (nn.a.sendCustomMessage("mainMenu", "pressPlay", {}), (this.tapToPlayArea.interactive = !1), this.app.nav.playGame());
         }),

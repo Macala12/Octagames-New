@@ -80,6 +80,7 @@
 		</canvas>
 		
 	</div>
+	<div class="gamePlayOver"></div>
 	<div class="game-over-contanier" style="text-align: center;">
     </div>
     <div class="fever-notif" style="font-size:13px; font-family: 'Montserrat' sans-serif; color: #66fcf1; position: absolute; top: 36vh; left: 20vw; z-index: 1000;">
@@ -196,6 +197,106 @@
 		setInterval(() => {
 			updateScoreInterval();
 		}, 5000);
+
+		setInterval(() => {
+			const gamePlayOver = sessionStorage.getItem("gameplayover");
+			if (gamePlayOver) {
+				document.getElementById("c2canvasdiv").style.display = "none";
+				const gameplayoverbox = document.querySelector(".gamePlayOver");
+				gameplayoverbox.innerHTML = `
+					<div>
+						<box style="display: flex; justify-content: center; margin-top: 300px; height: fit-content;">
+							<img src="../../../_icons/game-over.png" width="100px" alt="">
+						</box>
+						<h4 style="
+							color: #66fcf1;
+							text-align: center;
+						">
+						Gameplay is over
+						</h4>
+						<p style="
+							text-align: center;
+							color: #fff;
+							font-weight: 600;
+							font-size: 13px;
+							" id="countdown">
+							Finalizing in 5s...
+						</p>
+					</div>
+				`;
+				let countdown = 5;
+				const countdownElement = document.getElementById('countdown');
+
+				const interval = setInterval(() => {
+					countdown--;
+					countdownElement.innerText = `Redirecting in ${countdown}s...`;
+
+					if (countdown <= 0) {
+						clearInterval(interval);
+						const score = localStorage.getItem("PA_HIGHSCORE");
+						sessionStorage.removeItem("gameplayover");
+						async function updateScore() {
+							document.getElementById("c2canvasdiv").style.display = "none";
+							const gameOverBox = document.querySelector(".game-over-contanier");
+							const soundOver = new Audio("../../../_sound/mixkit-player-losing-or-failing-2042.wav");
+							try {
+								gameOverBox.style.display = "flex";
+								gameOverBox.innerHTML = `
+								<h6 style="color: #66FCF1; width: 100vw;">Loading...</h6>
+								`;
+								const response = await fetch(`${API_BASE_URL}/update_user_score?gameScore=${score}&userid=${userid}&leaderboardId=${id}`);
+								const result = await response.json();
+
+								if (!response.ok) {
+								console.log(result.message);
+								window.parent.location.href = "../../../../home.html";
+							}else{
+								gameOverBox.innerHTML = `
+									<div>
+										<box style="display: flex; justify-content: center;">
+										<img src="../../../_icons/game-over.png" width="100px" alt="">
+										</box>
+										<gameDetails style="display: flex; justify-content: space-evenly; color: #fff; padding: 15px;">
+										<gameDetailsBox>
+											<h6>Current Score</h6>
+											<p>${score}</p>
+										</gameDetailsBox>
+										<gameDetailsBox>
+											<h6>leaderboard position</h6>
+											<p>${result.position}</p>
+										</gameDetailsBox>
+										<gameDetailsBox>
+											<h6>Best Score</h6>
+											<p>${result.score}</p>
+										</gameDetailsBox>
+										</gameDetails>
+										<a id="playAgain">Play again</a>
+										<a id="backToGame" class="btn">
+										Back to game page
+										</a> 
+									</div>
+								`;
+								soundOver.play();
+
+								const playagain = document.getElementById("playAgain");
+								const backtohome = document.getElementById("backToGame");
+								
+								playagain.addEventListener('click', async () => {
+								window.parent.location.reload();
+								});
+								backtohome.addEventListener('click', async () => {
+									window.parent.history.back();
+								});
+								}
+							} catch (error) {
+								console.error("Error Updating Score",error)
+							}
+						}
+						updateScore();
+					}
+				}, 1000);
+			}
+		}, 500);
 		
 		// Size the canvas to fill the browser viewport.
 		jQuery(window).resize(function() {

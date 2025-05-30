@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken');
 const Flutterwave = require('flutterwave-node-v3');
 const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
-  host: `9.qservers.net`,
+  host: `mail.octasub.com.ng`,
   port: 465,
   secure: true,
   auth: {
@@ -179,6 +179,8 @@ app.use(express.json());
                 username,
                 email,
                 phoneNumber,
+                showTutorial: true,
+                completedTutorial: false,
                 password: hashedPassword
             });
             await newUser.save();
@@ -1034,7 +1036,7 @@ app.use(express.json());
                     const tournamentObj = tournament.toObject();
 
                     // Add the message property
-                    tournamentObj.message = isJoined ? 'Joined' : 'Join';
+                    tournamentObj.message = isJoined ? 'Joined 😤' : 'Open';
 
                     updatedTournaments.push(tournamentObj);
                 }

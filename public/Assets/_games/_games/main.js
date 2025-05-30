@@ -120,40 +120,7 @@
                   timerElement.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
                   if (timeLeft <= 10000) {
-                        main.innerHTML = `
-                        	<div>
-                            <box style="display: flex; justify-content: center; margin-top: 300px; height: fit-content;">
-                              <img src="../../../_icons/game-over.png" width="100px" alt="">
-                            </box>
-                            <h4 style="
-                              color: #66fcf1;
-                              text-align: center;
-                            ">
-                            Gameplay is over
-                            </h4>
-                            <p style="
-                              text-align: center;
-                                color: #fff;
-                                font-weight: 600;
-                                font-size: 13px;
-                              " id="countdown">
-                              Redirecting in 10s...
-                            </p>
-                          </div>
-                        `;
-                        let countdown = 10;
-                        const countdownElement = document.getElementById('countdown');
-
-                        const interval = setInterval(() => {
-                          countdown--;
-                          countdownElement.innerText = `Redirecting in ${countdown}s...`;
-
-                          if (countdown <= 0) {
-                            clearInterval(interval);
-                            window.location.href = "../../../home.html";
-                          }
-                        }, 1000);
-
+                        sessionStorage.setItem("gameplayover", "true");
                   }
 
               } else {
