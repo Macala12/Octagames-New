@@ -412,7 +412,7 @@ function updateTournamentUI(result) {
 
 function displayWinners(firstWinner, secondWinner, thirdWinner) {
     const tournamentEnd = document.getElementById("tournament_end_content");
-    tournamentEnd.innerHTML = ""; // clear first
+    tournamentEnd.innerHTML = "";
     const sound = new Audio('./Assets/_sound/mixkit-game-level-completed-2059.wav');
 
     document.querySelector(".tooltip").style.display = "none";

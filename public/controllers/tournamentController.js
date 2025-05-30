@@ -236,8 +236,8 @@ function handleTournamentLifecycle(tournamentId) {
                     tournamentReward: tournament.tournamentReward,
                     playerJoined: tournament.playerJoinedCount,
                     firstWinner: tournamentWinner[0]?.userId ? new mongoose.Types.ObjectId(tournamentWinner[0].userId) : null,
-                    secondWinner: tournamentWinner[1]?.userId ? new mongoose.Types.ObjectId(tournamentWinner[0].userId) : null,
-                    thirdWinner: tournamentWinner[2]?.userId ? new mongoose.Types.ObjectId(tournamentWinner[0].userId) : null,
+                    secondWinner: tournamentWinner[1]?.userId ? new mongoose.Types.ObjectId(tournamentWinner[1].userId) : null,
+                    thirdWinner: tournamentWinner[2]?.userId ? new mongoose.Types.ObjectId(tournamentWinner[2].userId) : null,
                     tournamentStartTime: tournament.tournamentStartTime,
                     tournamentEndTime: tournament.tournamentEndTime
                 });    
