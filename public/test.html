@@ -367,6 +367,8 @@
         </p>
     </div>
   </div>
+
+  <p id="countdown"></p>
   
 
   <button class="" style="background-color: yellow; padding: 15px; font-weight: 700;" onclick="testPaystack()">Test Paystack recipient</button>
@@ -374,6 +376,25 @@
   <button class="" style="background-color: yellow; padding: 15px; font-weight: 700;" id="notif">Test Notification</button>
 </body>
 <script>
+  // let countdown = 5;
+  // setInterval(() => {
+  //   const countdownElement = document.getElementById('countdown');
+
+  //   countdown--;
+  //   countdownElement.innerText = `Finalizing in ${countdown}s...`;
+
+  //   if (countdown <= 0) {
+  //     alert("Countdown Over");
+  //   }
+  // }, 1000);
+
+  let clickCounter = 0;
+  document.querySelector("body").addEventListener("click", () => {
+    clickCounter++
+    console.log(clickCounter);
+    sessionStorage.setItem("Pie_Attack", clickCounter);
+  });
+
   const notif = document.getElementById("notif");
   notif.addEventListener("click", () => {
     Notification.requestPermission().then(perm => {

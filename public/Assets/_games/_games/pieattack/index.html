@@ -64,7 +64,6 @@
 	
 	<!-- The canvas must be inside a div called c2canvasdiv -->
 	<div id="c2canvasdiv">
-	
 		<!-- The canvas the project will render to.  If you change its ID, don't forget to change the
 		ID the runtime looks for in the jQuery events above (ready() and cr_sizeCanvas()). -->
 		<canvas id="c2canvas" width="590" height="1003">
@@ -77,9 +76,9 @@
 			<a href="http://www.google.com/chrome/">Google Chrome</a><br/>
 			<a href="http://www.apple.com/safari/download/">Apple Safari</a><br/>
 			<a href="http://www.google.com/chromeframe">Google Chrome Frame for Internet Explorer</a><br/></h1>
-		</canvas>
-		
+		</canvas>	
 	</div>
+	
 	<div class="gamePlayOver"></div>
 	<div class="game-over-contanier" style="text-align: center;">
     </div>
@@ -198,58 +197,58 @@
 			updateScoreInterval();
 		}, 5000);
 
-		setInterval(() => {
+		let countdown = 5;
+		const gamePlayOverInterval = setInterval(() => {
 			const gamePlayOver = sessionStorage.getItem("gameplayover");
 			if (gamePlayOver) {
 				document.getElementById("c2canvasdiv").style.display = "none";
 				const gameplayoverbox = document.querySelector(".gamePlayOver");
 				gameplayoverbox.innerHTML = `
-					<div>
-						<box style="display: flex; justify-content: center; margin-top: 300px; height: fit-content;">
-							<img src="../../../_icons/game-over.png" width="100px" alt="">
-						</box>
-						<h4 style="
-							color: #66fcf1;
-							text-align: center;
-						">
-						Gameplay is over
-						</h4>
-						<p style="
-							text-align: center;
-							color: #fff;
-							font-weight: 600;
-							font-size: 13px;
-							" id="countdown">
-							Finalizing in 5s...
-						</p>
-					</div>
+				<div>
+					<box style="display: flex; justify-content: center; margin-top: 300px; height: fit-content;">
+					<img src="../../../_icons/game-over.png" width="100px" alt="">
+					</box>
+					<h4 style="
+					color: #66fcf1;
+					text-align: center;
+					">
+					Gameplay is over
+					</h4>
+					<p style="
+					text-align: center;
+					color: #fff;
+					font-weight: 600;
+					font-size: 13px;
+					" id="countdown">
+					Finalizing in 5s...
+					</p>
+				</div>
 				`;
-				let countdown = 5;
+
 				const countdownElement = document.getElementById('countdown');
 
-				const interval = setInterval(() => {
-					countdown--;
-					countdownElement.innerText = `Finalizing in ${countdown}s...`;
+				countdown--;
+				countdownElement.innerText = `Finalizing in ${countdown}s...`;
 
-					if (countdown <= 0) {
-						clearInterval(interval);
-						const score = localStorage.getItem("PA_HIGHSCORE");
-						sessionStorage.removeItem("gameplayover");
-						async function updateScore() {
-							document.getElementById("c2canvasdiv").style.display = "none";
-							const gameOverBox = document.querySelector(".game-over-contanier");
-							const soundOver = new Audio("../../../_sound/mixkit-player-losing-or-failing-2042.wav");
-							try {
-								gameOverBox.style.display = "flex";
-								gameOverBox.innerHTML = `
+				if (countdown <= 0) {
+					clearInterval(gamePlayOverInterval);
+					sessionStorage.removeItem("gameplayover");
+					const score = sessionStorage.getItem("Pie_Attack");
+					async function updateScore() {
+						document.getElementById("c2canvasdiv").style.display = "none";
+						const gameOverBox = document.querySelector(".game-over-contanier");
+						const soundOver = new Audio("../../../_sound/mixkit-player-losing-or-failing-2042.wav");
+						try {
+							gameOverBox.style.display = "flex";
+							gameOverBox.innerHTML = `
 								<h6 style="color: #66FCF1; width: 100vw;">Loading...</h6>
-								`;
-								const response = await fetch(`${API_BASE_URL}/update_user_score?gameScore=${score}&userid=${userid}&leaderboardId=${id}`);
-								const result = await response.json();
+							`;
+							const response = await fetch(`${API_BASE_URL}/update_user_score?gameScore=${score}&userid=${userid}&leaderboardId=${id}`);
+							const result = await response.json();
 
-								if (!response.ok) {
+							if (!response.ok) {
 								console.log(result.message);
-								window.parent.location.href = "../../../../home.html";
+								window.parent.location.href = "../../../../404.html";
 							}else{
 								document.querySelector(".gamePlayOver").style.display = "none";
 								gameOverBox.innerHTML = `
@@ -279,6 +278,8 @@
 								`;
 								soundOver.play();
 
+								sessionStorage.removeItem("Pie_Attack");
+
 								const playagain = document.getElementById("playAgain");
 								const backtohome = document.getElementById("backToGame");
 								
@@ -289,15 +290,17 @@
 									window.parent.history.back();
 								});
 								}
-							} catch (error) {
-								console.error("Error Updating Score",error)
-							}
+						} catch (error) {
+							console.error("Error Updating Score",error)
 						}
-						updateScore();
 					}
-				}, 1000);
+					updateScore();
+				}
+			}else{
+				console.log("Not yet gameplay");
 			}
 		}, 1000);
+
 		
 		// Size the canvas to fill the browser viewport.
 		jQuery(window).resize(function() {

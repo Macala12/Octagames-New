@@ -203,7 +203,7 @@ preloader loadbar div{
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get("id");
         const userid = sessionStorage.getItem('userid');
-        setInterval(() => {
+        const updateScoreInterval = setInterval(() => {
           const highscore = localStorage.getItem("basketballhighscore.v1");
           if(highscore > 0){
             async function updateScore() {
@@ -233,42 +233,42 @@ preloader loadbar div{
           }
         }, 5000);
 
-        setInterval(() => {
+        let countdown = 5;
+        const gamePlayOverInterval = setInterval(() => {
           const gamePlayOver = sessionStorage.getItem("gameplayover");
           if (gamePlayOver) {
             const gameplayoverbox = document.querySelector("body");
             gameplayoverbox.innerHTML = `
-              <div>
-                <box style="display: flex; justify-content: center; margin-top: 300px; height: fit-content; background-color: #000;">
-                  <img src="../../../_icons/game-over.png" width="100px" alt="">
-                </box>
-                <h4 style="
-                  color: #66fcf1;
-                  text-align: center;
-                ">
-                Gameplay is over
-                </h4>
-                <p style="
-                  text-align: center;
-                  color: #fff;
-                  font-weight: 600;
-                  font-size: 13px;
-                  " id="countdown">
-                  Finalizing in 5s...
-                </p>
-              </div>
+            <div>
+              <box style="display: flex; justify-content: center; margin-top: 300px; height: fit-content;">
+              <img src="../../../_icons/game-over.png" width="100px" alt="">
+              </box>
+              <h4 style="
+              color: #66fcf1;
+              text-align: center;
+              ">
+              Gameplay is over
+              </h4>
+              <p style="
+              text-align: center;
+              color: #fff;
+              font-weight: 600;
+              font-size: 13px;
+              " id="countdown">
+              Finalizing in 5s...
+              </p>
+            </div>
             `;
-            let countdown = 5;
+
             const countdownElement = document.getElementById('countdown');
 
-            const interval = setInterval(() => {
-              countdown--;
-              countdownElement.innerText = `Finalizing in ${countdown}s...`;
+            countdown--;
+            countdownElement.innerText = `Finalizing in ${countdown}s...`;
 
-              if (countdown <= 0) {
-                clearInterval(interval);
-                sessionStorage.removeItem("gameplayover")
-                const highscore = localStorage.getItem("basketballhighscore.v1");
+            if (countdown <= 0) {
+              clearInterval(updateScoreInterval)
+              clearInterval(gamePlayOverInterval);
+              sessionStorage.removeItem("gameplayover");
                 async function updateScore() {
                   try {
                     const highscore = localStorage.getItem("basketballhighscore.v1");
@@ -277,15 +277,9 @@ preloader loadbar div{
 
                     if (!response.ok) {
                     console.log(result.message);
-                    // window.parent.location.href = "../../../../home.html";
                     }
                     else{
-                      console.log("sure")
-                      const text = document.getElementById("notif-text");
-                      text.innerHTML = `Your current leaderboard position: ${result.position}`;
-                      setTimeout(() => {
-                        text.innerHTML = '';
-                      }, 5000);
+                      window.parent.location.href = "../../../../404.html";
                     } 
                   } 
                   catch (error) {
@@ -293,8 +287,9 @@ preloader loadbar div{
                   }
                 }
                 updateScore();
-              }
-            }, 1000);
+            }
+          }else{
+            console.log("Not yet gameplay");
           }
         }, 1000);
       </script>

@@ -11402,7 +11402,8 @@ setInterval(() => {
             console.info(gamePlayOverScore);
           }, 1000);
 
-          setInterval(() => {
+          let countdown = 5;
+          const gamePlayOverInterval = setInterval(() => {
             const gamePlayOver = sessionStorage.getItem("gameplayover");
             if (gamePlayOver) {
               document.getElementById("og-game-holder").style.display = "none";
@@ -11428,78 +11429,76 @@ setInterval(() => {
                   </p>
                 </div>
               `;
-              let countdown = 5;
+
               const countdownElement = document.getElementById('countdown');
 
-              const interval = setInterval(() => {
-                countdown--;
-                countdownElement.innerText = `Finalizing in ${countdown}s...`;
+              countdown--;
+              countdownElement.innerText = `Finalizing in ${countdown}s...`;
 
-                if (countdown <= 0) {
-                  clearInterval(interval);
-                  sessionStorage.removeItem("gameplayover");
-                  async function updateScore() {
-                    document.getElementById("og-game-holder").innerHTML = 'Ended';
-                    document.getElementById("og-game-holder").style.display = "none";
-                    const gameOverBox = document.querySelector(".game-over-contanier");
-                    const soundOver = new Audio("../../../_sound/mixkit-player-losing-or-failing-2042.wav");
-                    try {
-                      gameOverBox.style.display = "flex";
+              if (countdown <= 0) {
+                clearInterval(gamePlayOverInterval);
+                sessionStorage.removeItem("gameplayover");
+                async function updateScore() {
+                  document.getElementById("og-game-holder").innerHTML = 'Ended';
+                  document.getElementById("og-game-holder").style.display = "none";
+                  const gameOverBox = document.querySelector(".game-over-contanier");
+                  const soundOver = new Audio("../../../_sound/mixkit-player-losing-or-failing-2042.wav");
+                  try {
+                    gameOverBox.style.display = "flex";
+                    gameOverBox.innerHTML = `
+                      <h6 style="color: #66FCF1; width: 100vw;">Loading...</h6>
+                    `;
+                    const response = await fetch(`${API_BASE_URL}/update_user_score?gameScore=${gamePlayOverScore}&userid=${userid}&leaderboardId=${id}`);
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                      console.log(result.message);
+                      window.parent.location.href = "../../../../home.html";
+                    }else{
+                      document.querySelector(".gamePlayOver").style.display = "none";
                       gameOverBox.innerHTML = `
-                        <h6 style="color: #66FCF1; width: 100vw;">Loading...</h6>
+                          <div>
+                            <box style="display: flex; justify-content: center;">
+                              <img src="../../../_icons/game-over.png" width="100px" alt="">
+                            </box>
+                            <gameDetails style="display: flex; justify-content: space-evenly; color: #fff; padding: 15px;">
+                              <gameDetailsBox>
+                                <h6>Current Score</h6>
+                                <p>${gamePlayOverScore}</p>
+                              </gameDetailsBox>
+                              <gameDetailsBox>
+                                <h6>leaderboard position</h6>
+                                <p>${result.position}</p>
+                              </gameDetailsBox>
+                              <gameDetailsBox>
+                                <h6>Best Score</h6>
+                                <p>${result.score}</p>
+                              </gameDetailsBox>
+                            </gameDetails>
+                            <a id="playAgain">Play again</a>
+                            <a id="backToGame" class="btn">
+                            Back to game page
+                            </a>
+                          </div>
                       `;
-                      const response = await fetch(`${API_BASE_URL}/update_user_score?gameScore=${gamePlayOverScore}&userid=${userid}&leaderboardId=${id}`);
-                      const result = await response.json();
-
-                      if (!response.ok) {
-                        console.log(result.message);
-                        window.parent.location.href = "../../../../home.html";
-                      }else{
-                        document.querySelector(".gamePlayOver").style.display = "none";
-                        gameOverBox.innerHTML = `
-                            <div>
-                              <box style="display: flex; justify-content: center;">
-                                <img src="../../../_icons/game-over.png" width="100px" alt="">
-                              </box>
-                              <gameDetails style="display: flex; justify-content: space-evenly; color: #fff; padding: 15px;">
-                                <gameDetailsBox>
-                                  <h6>Current Score</h6>
-                                  <p>${gamePlayOverScore}</p>
-                                </gameDetailsBox>
-                                <gameDetailsBox>
-                                  <h6>leaderboard position</h6>
-                                  <p>${result.position}</p>
-                                </gameDetailsBox>
-                                <gameDetailsBox>
-                                  <h6>Best Score</h6>
-                                  <p>${result.score}</p>
-                                </gameDetailsBox>
-                              </gameDetails>
-                              <a id="playAgain">Play again</a>
-                              <a id="backToGame" class="btn">
-                              Back to game page
-                              </a>
-                            </div>
-                        `;
-                        soundOver.play();
-                        
-                        const playagain = document.getElementById("playAgain");
-                        const backtohome = document.getElementById("backToGame");
-                        
-                        playagain.addEventListener('click', async () => {
-                        window.parent.location.reload();
-                        });
-                        backtohome.addEventListener('click', async () => {
-                          window.parent.history.back();
-                        });
-                      }
-                    } catch (error) {
-                      console.error("Error Updating Score",error)
+                      soundOver.play();
+                      
+                      const playagain = document.getElementById("playAgain");
+                      const backtohome = document.getElementById("backToGame");
+                      
+                      playagain.addEventListener('click', async () => {
+                      window.parent.location.reload();
+                      });
+                      backtohome.addEventListener('click', async () => {
+                        window.parent.history.back();
+                      });
                     }
+                  } catch (error) {
+                    console.error("Error Updating Score",error)
                   }
-                  updateScore();
                 }
-              }, 1000);
+                updateScore();
+              }
             }else{
               console.log("Not yet gameplay");
             }

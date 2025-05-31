@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 coinContainer = document.getElementById("_coins");
                 coins.forEach(coin => {
                     const coinDiv = document.createElement('div');
-                    const bonus = coin.bonusAmount * coin.nairaAmount;
+                    const bonus = coin.bonusAmount * 100 + coin.nairaAmount;
                     const totalCoinAmount = coin.coinAmount + bonus;
                     coinDiv.innerHTML = `
                         <div class="_coin_box">
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             </div>
                             <button type="button" class="btn" data-toggle="modal" data-target="#payModal" onclick="payModal('${totalCoinAmount}', '${coin.nairaAmount}', '${coin._id}')">Buy Coin <br> <b>N${coin.nairaAmount}</b></button>
                         </div>
-                    `;
+                    `; 
                     coinContainer.appendChild(coinDiv);            
                 }) 
             }

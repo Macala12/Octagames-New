@@ -50,7 +50,7 @@ function fetchUserGameInfo() {
             if (winRate == NaN) {
                 winRate = 0;
             }
-
+ 
             console.log('User data:', data); 
             if (document.getElementById("octacoin")) {
                 document.getElementById("octacoin").innerHTML = data.userOctacoin + ".00";
@@ -63,7 +63,7 @@ function fetchUserGameInfo() {
             }
             if (document.getElementById("winRate")) {
                 let winRateHome = Math.round(data.userTopWins / data.userGamesPlayed * 100) + "%";
-                if (winRateHome == NaN) {
+                if (winRateHome === NaN || winRateHome === "NaN") {
                     winRateHome = 0;
                     document.getElementById("winRate").innerHTML = winRateHome;
                 }else{
