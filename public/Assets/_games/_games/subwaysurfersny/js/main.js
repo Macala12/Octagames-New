@@ -3,108 +3,6 @@ const id = urlParams.get("id");
 const userid = sessionStorage.getItem('userid');
 let gamePlayOverScore;
 
-setInterval(() => {
-  const gamePlayOver = sessionStorage.getItem("gameplayover");
-  if (gamePlayOver) {
-    document.getElementById("og-game-holder").style.display = "none";
-    const gameplayoverbox = document.querySelector(".gamePlayOver");
-    gameplayoverbox.innerHTML = `
-      <div>
-        <box style="display: flex; justify-content: center; margin-top: 300px; height: fit-content;">
-          <img src="../../../_icons/game-over.png" width="100px" alt="">
-        </box>
-        <h4 style="
-          color: #66fcf1;
-          text-align: center;
-        ">
-        Gameplay is over
-        </h4>
-        <p style="
-          text-align: center;
-          color: #fff;
-          font-weight: 600;
-          font-size: 13px;
-          " id="countdown">
-          Finalizing in 5s...
-        </p>
-      </div>
-    `;
-    let countdown = 5;
-    const countdownElement = document.getElementById('countdown');
-
-    const interval = setInterval(() => {
-      countdown--;
-      countdownElement.innerText = `Redirecting in ${countdown}s...`;
-
-      if (countdown <= 0) {
-        clearInterval(interval);
-        sessionStorage.removeItem("gameplayover");
-        async function updateScore() {
-          document.getElementById("og-game-holder").innerHTML = 'Ended';
-          document.getElementById("og-game-holder").style.display = "none";
-          const gameOverBox = document.querySelector(".game-over-contanier");
-          const soundOver = new Audio("../../../_sound/mixkit-player-losing-or-failing-2042.wav");
-          try {
-            gameOverBox.style.display = "flex";
-            gameOverBox.innerHTML = `
-              <h6 style="color: #66FCF1; width: 100vw;">Loading...</h6>
-            `;
-            const response = await fetch(`${API_BASE_URL}/update_user_score?gameScore=${gamePlayOverScore}&userid=${userid}&leaderboardId=${id}`);
-            const result = await response.json();
-
-            if (!response.ok) {
-              console.log(result.message);
-              window.parent.location.href = "../../../../home.html";
-            }else{
-              gameOverBox.innerHTML = `
-                  <div>
-                    <box style="display: flex; justify-content: center;">
-                      <img src="../../../_icons/game-over.png" width="100px" alt="">
-                    </box>
-                    <gameDetails style="display: flex; justify-content: space-evenly; color: #fff; padding: 15px;">
-                      <gameDetailsBox>
-                        <h6>Current Score</h6>
-                        <p>${e}</p>
-                      </gameDetailsBox>
-                      <gameDetailsBox>
-                        <h6>leaderboard position</h6>
-                        <p>${result.position}</p>
-                      </gameDetailsBox>
-                      <gameDetailsBox>
-                        <h6>Best Score</h6>
-                        <p>${result.score}</p>
-                      </gameDetailsBox>
-                    </gameDetails>
-                    <a id="playAgain">Play again</a>
-                    <a id="backToGame" class="btn">
-                    Back to game page
-                    </a>
-                  </div>
-              `;
-              soundOver.play();
-              
-              const playagain = document.getElementById("playAgain");
-              const backtohome = document.getElementById("backToGame");
-              
-              playagain.addEventListener('click', async () => {
-              window.parent.location.reload();
-              });
-              backtohome.addEventListener('click', async () => {
-                window.parent.history.back();
-              });
-            }
-          } catch (error) {
-            console.error("Error Updating Score",error)
-          }
-        }
-        updateScore();
-      }
-    }, 1000);
-  }else{
-    console.log("Not yet gameplay");
-  }
-}, 500);
-
 !(function (h) {
   function webpackJsonpCallback(t) {
     for (var e, i, n = t[0], o = t[1], s = t[2], a = 0, r = []; a < n.length; a++) (i = n[a]), d[i] && r.push(d[i][0]), (d[i] = 0);
@@ -10937,33 +10835,9 @@ setInterval(() => {
                 console.error("Error Updating Score",error)
               }
             }
-            updateScore();
-
-            async function updateScoreInterval() {
-              try {
-                const response = await fetch(`${API_BASE_URL}/update_user_score?gameScore=${e}&userid=${userid}&leaderboardId=${id}`);
-                const result = await response.json();
-
-                if (!response.ok) {
-                console.log(result.message);
-                // window.parent.location.href = "../../../../home.html";
-                }
-                else{
-                  console.log("sure");
-                  const text = document.getElementById("notif-text");
-                  text.innerHTML = `Your current leaderboard position: ${result.position}`;
-                  setTimeout(() => {
-                    text.innerHTML = '';
-                  }, 2000);
-                } 
-              } 
-              catch (error) {
-                  console.error("Error Updating Score", error)
-              }
+            if (!sessionStorage.getItem("gameplayover")) {
+                  updateScore();
             }
-            setInterval(() => {
-                updateScoreInterval();
-            }, 5000);
 
         }),
         (n.revive = function () {
@@ -11403,6 +11277,7 @@ setInterval(() => {
           }, 1000);
 
           let countdown = 5;
+
           const gamePlayOverInterval = setInterval(() => {
             const gamePlayOver = sessionStorage.getItem("gameplayover");
             if (gamePlayOver) {
@@ -11437,10 +11312,15 @@ setInterval(() => {
 
               if (countdown <= 0) {
                 clearInterval(gamePlayOverInterval);
-                sessionStorage.removeItem("gameplayover");
                 async function updateScore() {
-                  document.getElementById("og-game-holder").innerHTML = 'Ended';
-                  document.getElementById("og-game-holder").style.display = "none";
+
+                  gameplayoverbox.remove();
+
+                  const gameDiv = document.getElementById("og-game-holder");
+                  gameDiv.style.display = "none";
+                  gameDiv.remove();
+
+                  
                   const gameOverBox = document.querySelector(".game-over-contanier");
                   const soundOver = new Audio("../../../_sound/mixkit-player-losing-or-failing-2042.wav");
                   try {
@@ -11455,7 +11335,6 @@ setInterval(() => {
                       console.log(result.message);
                       window.parent.location.href = "../../../../home.html";
                     }else{
-                      document.querySelector(".gamePlayOver").style.display = "none";
                       gameOverBox.innerHTML = `
                           <div>
                             <box style="display: flex; justify-content: center;">
@@ -11475,7 +11354,6 @@ setInterval(() => {
                                 <p>${result.score}</p>
                               </gameDetailsBox>
                             </gameDetails>
-                            <a id="playAgain">Play again</a>
                             <a id="backToGame" class="btn">
                             Back to game page
                             </a>
@@ -11483,12 +11361,8 @@ setInterval(() => {
                       `;
                       soundOver.play();
                       
-                      const playagain = document.getElementById("playAgain");
                       const backtohome = document.getElementById("backToGame");
                       
-                      playagain.addEventListener('click', async () => {
-                      window.parent.location.reload();
-                      });
                       backtohome.addEventListener('click', async () => {
                         window.parent.history.back();
                       });
@@ -11498,6 +11372,7 @@ setInterval(() => {
                   }
                 }
                 updateScore();
+                sessionStorage.removeItem("gameplayover");
               }
             }else{
               console.log("Not yet gameplay");

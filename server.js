@@ -281,12 +281,12 @@ app.use(express.json());
             
             const token = jwt.sign({ userId: fetchedUserId._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-            const verificationLink = `https://octagames-new-production.up.railway.app/verify-email?token=${token}`;
+            const verificationLink = `https://octagames.onrender.com/verify-email?token=${token}`;
 
             await transporter.sendMail({
-            from: `"Octagames" <${process.env.EMAIL_USER}>`,
+            from: `"Octagames" <no-reply@octasub.com.ng>`,
             to: email,
-            subject: "Verify Your Email (Resend)",
+            subject: "(Resend) Email",
             html: `
                 <div style="width: 100%; max-width: 600px; margin: auto; font-family: 'Montserrat', sans-serif; background-color: #1a1a1a; color: #ffffff; border-radius: 10px; overflow: hidden;">
                     <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0;">
@@ -748,21 +748,12 @@ app.use(express.json());
             return res.status(400).json({ message: "User not found" });
         }
 
-        const nodemailer = require('nodemailer');
-        const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-        },
-        });
-
         const token = jwt.sign({ userId: userEmail._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        const verificationLink = `https://octagames-new-production.up.railway.app/update_password.html?id=${userid}`;
+        const verificationLink = `https://octagames.onrender.com/update_password.html?id=${userid}`;
 
         await transporter.sendMail({
-        from: `"Octagames" <${process.env.EMAIL_USER}>`,
+        from: `"Octagames" <no-reply@octasub.com.ng>`,
         to: userEmail.email,
         subject: "Update Your Password",
         html: `
@@ -849,18 +840,9 @@ app.use(express.json());
                 return res.status(400).json({ message: 'Invalid Email' })
             }
 
-            const nodemailer = require('nodemailer');
-            const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
-            },
-            });
-
-            const verificationLink = `https://octagames-new-production.up.railway.app/update_forgot_password.html?email=${email}&userid=${checkEmail._id}`;
+            const verificationLink = `https://octagames.onrender.com/update_forgot_password.html?email=${email}&userid=${checkEmail._id}`;
             await transporter.sendMail({
-            from: `"Octagames" <${process.env.EMAIL_USER}>`,
+            from: `"Octagames" <no-reply@octasub.com.ng>`,
             to: email,
             subject: "Forgot Your Password",
             html: `
@@ -1375,72 +1357,39 @@ app.use(express.json());
         }
     }); 
 
-// Korapay Logics -------------------------------------------------------------------------//
     app.get('/fetch_bank', async (req, res) => {
-        var config = {
-        method: 'get',
-        maxBodyLength: Infinity,
-        url: 'https://api.korapay.com/merchant/api/v1/misc/banks?countryCode=NG',
-        headers: { 
-            'Authorization': 'Bearer pk_test_bZPeyZAuUhUi3P1uev3p4WVP7F1ev7vDXbDKDKkz', 
-            'Content-Type': 'application/json'
+        axios.get('https://api.paystack.co/bank', {
+        headers: {
+            Authorization: `Bearer ${process.env.PYK_SECRET_KEY}` 
         }
-        };
-    
-        try {
-        const response = await axios(config);
-        const result = response.data;
-    
-        console.log(response.data.message);
-    
-        if (response.data.message === "Successful") {
-            return res.status(200).json(result);
-        } else {
-            return res.status(500).json({ error: "Failed to fetch bank data." });
-        }
-        } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: "An error occurred while fetching banks." });
-        }
+        })
+        .then(response => {
+        return res.status(200).json(response.data);
+        })
+        .catch(error => {
+        console.error(error.response ? error.response.data : error.message);
+        });
     });
 
     app.post('/fetch_bank_account', async (req, res) => {
         try {
             const { bank, account } = req.body;
-            
-            console.log(bank, account);
-            
-            var data = JSON.stringify({
-                "bank": bank,
-                "account": account
+            axios.get(`https://api.paystack.co/bank/resolve`, {
+            params: {
+                account_number: account,
+                bank_code: bank
+            },
+            headers: {
+                Authorization: `Bearer ${process.env.PYK_SECRET_KEY}`
+            }
+            })
+            .then(response => {
+            console.log(response.data);
+            return res.status(200).json(response.data)
+            })
+            .catch(error => {
+            console.error(error.response ? error.response.data : error.message);
             });
-    
-            var config = {
-                method: 'post',
-                maxBodyLength: Infinity,
-                url: 'https://api.korapay.com/merchant/api/v1/misc/banks/resolve',
-                headers: { 
-                  'Content-Type': 'application/json'
-                },
-                data : data
-            };
-        
-            try {
-            const response = await axios(config);
-            const result = response.data;
-        
-            console.log(response.data.message);
-            console.log(result);
-        
-            if (response.data.message == "Request completed") {
-                return res.status(200).json(result);
-            } else {
-                return res.status(500).json({ error: "Failed to fetch bank data." });
-            }
-            } catch (error) {
-            console.error(error);
-            return res.status(500).json({ error: "An error occurred while fetching banks." });
-            }
         } catch (error) {
             console.error('Error fetching bank account: ', error)
         }

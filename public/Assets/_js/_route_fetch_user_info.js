@@ -74,8 +74,16 @@ function fetchUserGameInfo() {
                 document.getElementById("level").innerHTML = "Lv " + data.userLevel;
             }
             if (document.querySelector(".stat_level")) {
+                let levelImg;
+                if (data.userLevel === 1) {
+                    levelImg = "./Assets/_icons/one.png";
+                }else if (data.userLevel === 2) {
+                    levelImg = "./Assets/_icons/two.png";
+                }else if (data.userLevel === 3) {
+                    levelImg = "./Assets/_icons/three.png";
+                }
                 document.querySelector(".stat_level").innerHTML = `
-                    <img src="./Assets/_icons/one.png" class="img-fluid" width="18px" alt="">
+                    <img src="${levelImg}" class="img-fluid" width="18px" alt="">
                     Level ${data.userLevel}
                 `;
             }
@@ -125,6 +133,7 @@ function fetchUserGameInfo() {
         });
     }else{
         window.location.href = "login.html";
+        sessionStorage.clear();
     }
 }
 
@@ -201,6 +210,7 @@ function fetchUserInfo() {
         });
     }else{
         window.location.href = "login.html";
+        sessionStorage.clear();
     }
 }
 

@@ -130,7 +130,20 @@ h5{
     border: none !important;
 }
 .navbar-brand{
-    font-weight: 700;
+    font-weight: 900;
+}
+.navbar-collapse{
+    background-color: #000 !important;
+    padding: 10px !important;
+    border-radius: 10px;
+}
+.navbar-collapse li{
+    list-style: none !important;
+}
+.navbar-collapse li a{
+    color: #66FCF1 !important;
+    font-weight: 600;
+    font-size: 13px !important;
 }
 .header{
     padding: 15px;

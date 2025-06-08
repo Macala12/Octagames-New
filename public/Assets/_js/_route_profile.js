@@ -2,6 +2,9 @@ document.querySelector("._confirm_btn").style.display = "none";
 
 async function sendEmail() {
     try {
+        document.getElementById("reset--password").innerHTML = `
+            Reset Password    <span class="spinner-border spinner-border-sm float-right"></span>.
+        `;
         const response = await fetch(`${API_BASE_URL}/send_email?userid=${userid}`);
         const result = await response.json();
     
@@ -12,13 +15,16 @@ async function sendEmail() {
             alert.classList.add('alert-dismissible');
             alert.classList.add('fade');
             alert.classList.add('show');
-
+ 
             alert.innerHTML = `
                <i class="fi fi-rr-exclamation"></i> ${result.message}!
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
             `;
 
             mainAlert.appendChild(alert);
+            document.getElementById("reset--password").innerHTML = `
+                Reset Password <i class="fi fi-rr-angle-small-right float-right" ></i>
+            `;
             console.log(result.message);
         }else{
             window.location.href= "password_reset_link.html";

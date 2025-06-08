@@ -121,6 +121,8 @@
 
                   if (timeLeft <= 10000) {
                         sessionStorage.setItem("gameplayover", "true");
+                  }else if (timeLeft <= 5000) {
+                      sessionStorage.removeItem("gameplayover");
                   }
 
               } else {

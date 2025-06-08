@@ -3,7 +3,7 @@ document.getElementById('forgotPasswordForm').addEventListener('submit', async (
     e.preventDefault(); 
 
     document.querySelector(".btn").innerHTML = `
-    <span class="spinner-border spinner-border-sm"></span>
+        <span class="spinner-border spinner-border-sm"></span>
     `;
 
     const email = document.getElementById("email").value;
@@ -25,7 +25,7 @@ document.getElementById('forgotPasswordForm').addEventListener('submit', async (
 
         mainAlert.appendChild(alert);
         document.querySelector(".btn").innerHTML = `
-            Send Password Reset Link
+            ${result.message}
         `;
         console.log(result.message);
     }else{

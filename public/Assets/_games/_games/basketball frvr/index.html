@@ -71,10 +71,8 @@
     <style>
 
 body {
-    background:#c8c8c8;
     overflow:hidden;
     position:fixed;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     border:0px;padding:0px;margin:0px;
     width:100%;
     height:100%;
@@ -229,15 +227,19 @@ preloader loadbar div{
                   console.error("Error Updating Score", error)
               }
             }
-            updateScore(); 
+            if (!sessionStorage.getItem("gameplayover")) {
+                  updateScore();
+            }
           }
         }, 5000);
 
         let countdown = 5;
         const gamePlayOverInterval = setInterval(() => {
+          console.info("Checking");
           const gamePlayOver = sessionStorage.getItem("gameplayover");
           if (gamePlayOver) {
             const gameplayoverbox = document.querySelector("body");
+            gameplayoverbox.style.backgroundColor = "#000";
             gameplayoverbox.innerHTML = `
             <div>
               <box style="display: flex; justify-content: center; margin-top: 300px; height: fit-content;">
@@ -268,7 +270,6 @@ preloader loadbar div{
             if (countdown <= 0) {
               clearInterval(updateScoreInterval)
               clearInterval(gamePlayOverInterval);
-              sessionStorage.removeItem("gameplayover");
                 async function updateScore() {
                   try {
                     const highscore = localStorage.getItem("basketballhighscore.v1");
@@ -287,6 +288,7 @@ preloader loadbar div{
                   }
                 }
                 updateScore();
+                sessionStorage.removeItem("gameplayover");
             }
           }else{
             console.log("Not yet gameplay");

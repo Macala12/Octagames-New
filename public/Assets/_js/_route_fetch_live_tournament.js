@@ -152,20 +152,6 @@ async function fetchAndDisplayTournaments() {
             const tournaments = await response.json();
 
             if (!response.ok) {
-                const alert = document.createElement("div");
-                alert.classList.add('alert');
-                alert.classList.add('alertDanger');
-                alert.classList.add('alert-dismissible');
-                alert.classList.add('fade');
-                alert.classList.add('show');
-
-                alert.innerHTML = `
-                <i class="fi fi-rr-exclamation"></i> ${tournaments.message}!
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                `;
-
-                mainAlert.appendChild(alert);
-                throw new Error('Failed to fetch tournament');
             }
 
             const liveTournamentContainer = document.getElementById('_tournamentLive');
@@ -228,20 +214,6 @@ async function fetchAndDisplayTournaments() {
             const tournaments = await response.json();
 
             if (!response.ok) {
-                const alert = document.createElement("div");
-                alert.classList.add('alert');
-                alert.classList.add('alertDanger');
-                alert.classList.add('alert-dismissible');
-                alert.classList.add('fade');
-                alert.classList.add('show');
-
-                alert.innerHTML = `
-                <i class="fi fi-rr-exclamation"></i> ${tournaments.message}!
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                `;
-
-                mainAlert.appendChild(alert);
-                throw new Error('Failed to fetch tournament');
             }
 
             const liveTournamentContainer = document.getElementById('_tournamentUpcoming');
@@ -304,20 +276,6 @@ async function fetchAndDisplayTournaments() {
             const activeTournamentBox = document.getElementById('_tournamentActive');
 
             if (!response.ok) {
-                const alert = document.createElement("div");
-                alert.classList.add('alert');
-                alert.classList.add('alertDanger');
-                alert.classList.add('alert-dismissible');
-                alert.classList.add('fade');
-                alert.classList.add('show');
-
-                alert.innerHTML = `
-                <i class="fi fi-rr-exclamation"></i> ${tournaments.message}!
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                `;
-
-                mainAlert.appendChild(alert);
-                console.log(tournaments.message);
             }
             
             const timerCount = sessionStorage.setItem("open_tournaments", tournaments.length);
@@ -364,7 +322,7 @@ async function fetchAndDisplayTournaments() {
                                     <div class="d-flex">
                                         <div class="pointDiv">
                                             <img src="./Assets/_icons/coin.png" width="20px" class="" alt="">
-                                            100
+                                            ${tournament.tournament.entryAmount}
                                         </div>
                                         <div class="joinDiv">Open</div>
                                     </div>

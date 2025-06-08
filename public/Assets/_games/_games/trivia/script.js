@@ -2,6 +2,7 @@ const userid = sessionStorage.getItem('userid');
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
 
+
 const categories = [
     { id: 1, name: "General Knowledge" },
     { id: 2, name: "History" },
@@ -37,32 +38,32 @@ const categories = [
   const scoreElem = document.getElementById("score");
   const liveElem = document.getElementById("live_counter");
   
-  // Display initial score
-  scoreElem.innerHTML = `Score: ${score}`;
+    // Display initial score
+    scoreElem.innerHTML = `Score: ${score}`;
 
-  //Display initial live
-  liveElem.innerHTML = `${live}`
-  
-  // Update the timer display
-  function updateTimerDisplay() {
-    timerElem.textContent = `⏱ ${currentTime}s`;
-  }
-  
-  // Start the timer
-  function startTimer() {
-    clearInterval(timerInterval);
-    updateTimerDisplay();
-    soundTimer.play();
+    //Display initial live
+    liveElem.innerHTML = `${live}`
     
-    timerInterval = setInterval(() => {
-      currentTime--;
+    // Update the timer display
+    function updateTimerDisplay() {
+      timerElem.textContent = `⏱ ${currentTime}s`;
+    }
+  
+    // Start the timer
+    function startTimer() {
+      clearInterval(timerInterval);
       updateTimerDisplay();
-      if (currentTime <= 0) {
-        clearInterval(timerInterval);
-        handleAnswer(null); // timeout
-      }
-    }, 1000);
-  }
+      soundTimer.play();
+      
+      timerInterval = setInterval(() => {
+        currentTime--;
+        updateTimerDisplay();
+        if (currentTime <= 0) {
+          clearInterval(timerInterval);
+          handleAnswer(null); // timeout
+        }
+      }, 1000);
+    }
   
     // Load a random question
     function loadRandomQuestion() {
@@ -101,11 +102,11 @@ const categories = [
         startTimer();
     }
   
-  // Disable all answer buttons
-  function disableAllButtons() {
-    const buttons = document.querySelectorAll(".option-btn");
-    buttons.forEach(btn => btn.disabled = true);
-  }
+    // Disable all answer buttons
+    function disableAllButtons() {
+      const buttons = document.querySelectorAll(".option-btn");
+      buttons.forEach(btn => btn.disabled = true);
+    }
   
     // Handle answer selection
     function handleAnswer(selectedOption, selectedButton = null) {
@@ -129,81 +130,84 @@ const categories = [
     
         // Carry-over timer logic
         if (isCorrect) {
-        soundTimer.pause();
-        soundTimer.currentTime = 0;
-        soundCorrect.play();
-        const carryOver = currentTime;
-        scoreElem.innerHTML = `Score: ${score += 10}`;  // Update score
-        currentTime = Math.min(10 + carryOver, maxTime);  // Add carry-over time
+          soundTimer.pause();
+          soundTimer.currentTime = 0;
+          soundCorrect.play();
+          const carryOver = currentTime;
+          scoreElem.innerHTML = `Score: ${score += 10}`;  // Update score
+          currentTime = Math.min(10 + carryOver, maxTime);  // Add carry-over time
+
         } else {
           soundTimer.pause();
           soundTimer.currentTime = 0;
           soundFailed.play();
-        liveElem.innerHTML = `${--live}`
-        if (live == 0) {
-            //Send Score to Backend
-            async function updateScore() {
-                document.getElementById("gameBox").style.display = "none";
-                document.querySelector("body").style.background = "url('./')";
-                const gameOverBox = document.querySelector(".game-over-contanier");
-                const soundOver = new Audio("../../../_sound/mixkit-player-losing-or-failing-2042.wav");
-                try {
-                    gameOverBox.style.display = "flex";
-                    gameOverBox.innerHTML = `
-                    <h6 style="color: #66FCF1; width: 100vw;">Loading...</h6>
-                    `;
-                    const response = await fetch(`${API_BASE_URL}/update_user_score?gameScore=${score}&userid=${userid}&leaderboardId=${id}`);
-                    const result = await response.json();
+          liveElem.innerHTML = `${--live}`
+          if (live == 0) {
+              //Send Score to Backend
+              async function updateScore() {
+                  document.getElementById("gameBox").style.display = "none";
+                  document.querySelector("body").style.background = "url('./')";
+                  const gameOverBox = document.querySelector(".game-over-contanier");
+                  const soundOver = new Audio("../../../_sound/mixkit-player-losing-or-failing-2042.wav");
+                  try {
+                      gameOverBox.style.display = "flex";
+                      gameOverBox.innerHTML = `
+                      <h6 style="color: #66FCF1; width: 100vw;">Loading...</h6>
+                      `;
+                      const response = await fetch(`${API_BASE_URL}/update_user_score?gameScore=${score}&userid=${userid}&leaderboardId=${id}`);
+                      const result = await response.json();
 
-                    if (!response.ok) {
-                    console.log(result.message);
-                    window.parent.location.href = "../../../../home.html";
-                }else{
-                    gameOverBox.innerHTML = `
-                        <div>
-                            <box style="display: flex; justify-content: center;">
-                            <img src="../../../_icons/game-over.png" width="100px" alt="">
-                            </box>
-                            <gameDetails style="display: flex; justify-content: space-evenly; color: #fff; padding: 15px;">
-                            <gameDetailsBox>
-                                <h6>Current Score</h6>
-                                <p>${score}</p>
-                            </gameDetailsBox>
-                            <gameDetailsBox>
-                                <h6>leaderboard position</h6>
-                                <p>${result.position}</p>
-                            </gameDetailsBox>
-                            <gameDetailsBox>
-                                <h6>Best Score</h6>
-                                <p>${result.score}</p>
-                            </gameDetailsBox>
-                            </gameDetails>
-                            <a id="playAgain">Play again</a>
-                            <a id="backToGame" class="btn">
-                            Back to game page
-                            </a>
-                        </div>
-                    `;
-                    soundOver.play();
+                      if (!response.ok) {
+                      console.log(result.message);
+                      window.parent.location.href = "../../../../home.html";
+                  }else{
+                      gameOverBox.innerHTML = `
+                          <div>
+                              <box style="display: flex; justify-content: center;">
+                              <img src="../../../_icons/game-over.png" width="100px" alt="">
+                              </box>
+                              <gameDetails style="display: flex; justify-content: space-evenly; color: #fff; padding: 15px;">
+                              <gameDetailsBox>
+                                  <h6>Current Score</h6>
+                                  <p>${score}</p>
+                              </gameDetailsBox>
+                              <gameDetailsBox>
+                                  <h6>leaderboard position</h6>
+                                  <p>${result.position}</p>
+                              </gameDetailsBox>
+                              <gameDetailsBox>
+                                  <h6>Best Score</h6>
+                                  <p>${result.score}</p>
+                              </gameDetailsBox>
+                              </gameDetails>
+                              <a id="playAgain">Play again</a>
+                              <a id="backToGame" class="btn">
+                              Back to game page
+                              </a>
+                          </div>
+                      `;
+                      soundOver.play();
 
-                    const playagain = document.getElementById("playAgain");
-                    const backtohome = document.getElementById("backToGame");
-                    
-                    playagain.addEventListener('click', async () => {
-                    window.parent.location.reload();
-                    });
-                    backtohome.addEventListener('click', async () => {
-                    // window.location.href = "../../../../home.html";
-                        window.parent.history.back();
-                    });
-                    }
-                } catch (error) {
-                    console.error("Error Updating Score",error)
-                }
-            }
-            updateScore();
-        }
-        currentTime = 10;  // Reset time if answer is incorrect
+                      const playagain = document.getElementById("playAgain");
+                      const backtohome = document.getElementById("backToGame");
+                      
+                      playagain.addEventListener('click', async () => {
+                      window.parent.location.reload();
+                      });
+                      backtohome.addEventListener('click', async () => {
+                      // window.location.href = "../../../../home.html";
+                          window.parent.history.back();
+                      });
+                      }
+                  } catch (error) {
+                      console.error("Error Updating Score",error)
+                  }
+              }
+              if (sessionStorage.getItem("gameplayover")) {
+                updateScore();
+              }
+          }
+          currentTime = 10;  // Reset time if answer is incorrect
         }
     
         // Next question after a short delay
@@ -224,3 +228,105 @@ const categories = [
     })
     .catch(error => console.error('Error loading the questions:', error));
   
+
+    let countdown = 5;
+    const gamePlayOverInterval = setInterval(() => {
+    const gamePlayOver = sessionStorage.getItem("gameplayover");
+    if (gamePlayOver) {
+    document.getElementById("gameBox").remove()
+    const gameplayoverbox = document.querySelector(".gamePlayOver");
+    gameplayoverbox.innerHTML = `
+      <div>
+        <box style="display: flex; justify-content: center; margin-top: 300px; height: fit-content;">
+          <img src="../../../_icons/game-over.png" width="100px" alt="">
+        </box>
+        <h4 style="
+          color: #66fcf1;
+          text-align: center;
+        ">
+        Gameplay is over
+        </h4>
+        <p style="
+          text-align: center;
+          color: #fff;
+          font-weight: 600;
+          font-size: 13px;
+          " id="countdown">
+          Finalizing in 5s...
+        </p>
+      </div>
+    `;
+
+    const countdownElement = document.getElementById('countdown');
+
+    countdown--;
+    countdownElement.innerText = `Finalizing in ${countdown}s...`;
+
+    if (countdown <= 0) {
+      clearInterval(gamePlayOverInterval);
+      async function updateScore() {
+
+        gameplayoverbox.remove();
+
+        const gameDiv = document.getElementById("gameBox");
+        gameDiv.style.display = "none";
+        gameDiv.remove();
+
+        
+        const gameOverBox = document.querySelector(".game-over-contanier");
+        const soundOver = new Audio("../../../_sound/mixkit-player-losing-or-failing-2042.wav");
+        try {
+          gameOverBox.style.display = "flex";
+          gameOverBox.innerHTML = `
+            <h6 style="color: #66FCF1; width: 100vw;">Loading...</h6>
+          `;
+          const response = await fetch(`${API_BASE_URL}/update_user_score?gameScore=${score}&userid=${userid}&leaderboardId=${id}`);
+          const result = await response.json();
+
+          if (!response.ok) {
+            console.log(result.message);
+            window.parent.location.href = "../../../../home.html";
+          }else{
+            gameOverBox.innerHTML = `
+                <div>
+                  <box style="display: flex; justify-content: center;">
+                    <img src="../../../_icons/game-over.png" width="100px" alt="">
+                  </box>
+                  <gameDetails style="display: flex; justify-content: space-evenly; color: #fff; padding: 15px;">
+                    <gameDetailsBox>
+                      <h6>Current Score</h6>
+                      <p>${gamePlayOverScore}</p>
+                    </gameDetailsBox>
+                    <gameDetailsBox>
+                      <h6>leaderboard position</h6>
+                      <p>${result.position}</p>
+                    </gameDetailsBox>
+                    <gameDetailsBox>
+                      <h6>Best Score</h6>
+                      <p>${result.score}</p>
+                    </gameDetailsBox>
+                  </gameDetails>
+                  <a id="backToGame" class="btn">
+                  Back to game page
+                  </a>
+                </div>
+            `;
+            soundOver.play();
+            
+            const backtohome = document.getElementById("backToGame");
+            
+            backtohome.addEventListener('click', async () => {
+              window.parent.history.back();
+            });
+          }
+        } catch (error) {
+          console.error("Error Updating Score",error)
+        }
+      }
+      updateScore();
+      sessionStorage.removeItem("gameplayover");
+    }
+    }else{
+    console.log("Not yet gameplay");
+    }
+    }, 1000);

@@ -36,12 +36,12 @@ async function createNewTournament(tournamentName, tournamentImgUrl, tournamentD
 
 async function createNewExclusiveTournament(tournamentName, tournamentImgUrl, tournamentDesc, tournamentReward, entryAmount, type, tagOne, tagTwo, tagThree, playerJoinedCount, tournamentPlayUrl) {
     const now = new Date();
-    const lobbyDuration = 60 * 60 * 1000;  // Lobby duration (e.g., 1 hour)
-    const tournamentDuration = 60 * 60 * 1000; // Tournament duration (e.g., 1 hour)
+    const lobbyDuration = 15 * 60 * 1000;  // Lobby duration (e.g., 1 hour, 15 minutes)
+    const tournamentDuration = 15 * 60 * 1000; // Tournament duration (e.g., 15 minutes)
 
     // Set start and end times
-    const startTime = new Date(now.getTime() + lobbyDuration); // Start after 1 hour minutes from now
-    const endTime = new Date(startTime.getTime() + tournamentDuration); // End after 1 hour of active time
+    const startTime = new Date(now.getTime() + lobbyDuration); // Start after 15 minutes from now
+    const endTime = new Date(startTime.getTime() + tournamentDuration); // End after 15 minutes of active time
 
     // Create new tournament document in MongoDB
     const tournament = await Tournament.create({
@@ -285,27 +285,20 @@ async function handleMultipleTournaments() {
             100,
             "./Assets/_games/_games/basketball frvr/main.html"
         );
-        const pieAttack = await createNewTournament(
-            "Pie Attack",
-            "./Assets/_games/_img/pie attack.png",
-            "Ready, aim, and fire pies like a true champion! 🥧💥 Smash moving targets, rack up crazy combos, and watch the points fly. Fast hands and sharp aim are the name of the game — miss too many, and it's game over!",
+        const fruitNinja = await createNewTournament(
+            "Fruit Ninja",
+            "./Assets/_games/_img/fruit.jpeg",
+            "Get ready to slice, dice, and dominate! In this fast-paced Fruit Ninja tournament, your goal is simple: cut as many fruits as you can while avoiding the bombs. The faster and cleaner your cuts, the higher your score! Only the top scorers will climb the leaderboard and claim the cash prize. Swipe smart, aim for combos, and don’t let any fruit escape!",
             0,
             100,
-            "./Assets/_games/_games/pieattack/main.html"
+            "./Assets/_games/_games/fruit ninja/main.html"
         );
-        const monsterCandy = await createNewTournament(
-            "Monster Candy",
-            "./Assets/_games/_img/monstercandy.png",
-            "This little monster’s got a serious sweet tooth — and it’s up to you to keep the candy flowing! 🍭👾 Catch as many candies as you can, dodge the nasty bombs, and stack up a high score before time runs out.",
-            0,
-            100,
-            "./Assets/_games/_games/monstercandy/main.html"
-        );
+
         handleTournamentLifecycle(subwaySurfers._id);
         handleTournamentLifecycle(basketballHoop._id);
-        handleTournamentLifecycle(pieAttack._id);
-        handleTournamentLifecycle(monsterCandy._id);
-    }, 9.4 * 60 * 1000); // Every 10 mins for regular tournament
+        handleTournamentLifecycle(fruitNinja._id);
+        
+    }, 9.4 * 60 * 1000); // Every 9 mins 40 seconds for regular tournament
 
     setInterval(async () => {
         const trivia = await createNewExclusiveTournament(
@@ -334,8 +327,7 @@ async function handleMultipleTournaments() {
             0
         );
         handleTournamentLifecycle(trivia._id);
-        handleTournamentLifecycle(codm._id);
-    }, 240 * 60 * 1000); // Every 4 hours for exclusive tournament
+    }, 15 * 60 * 1000); // Every 4 hours for exclusive tournament
 }
 
 

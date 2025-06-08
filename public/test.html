@@ -370,23 +370,25 @@
 
   <p id="countdown"></p>
   
-
+<img src="" alt="">
   <button class="" style="background-color: yellow; padding: 15px; font-weight: 700;" onclick="testPaystack()">Test Paystack recipient</button>
   <br>
   <button class="" style="background-color: yellow; padding: 15px; font-weight: 700;" id="notif">Test Notification</button>
 </body>
 <script>
-  // let countdown = 5;
-  // setInterval(() => {
-  //   const countdownElement = document.getElementById('countdown');
+  navigator.getBattery().then(battery => {
+  const level = battery.level * 100; // Convert to percentage
+  console.log(`Battery level: ${level}%`);
 
-  //   countdown--;
-  //   countdownElement.innerText = `Finalizing in ${countdown}s...`;
+  // // Display it on your site
+  // document.getElementById('battery').textContent = `Battery: ${level}%`;
 
-  //   if (countdown <= 0) {
-  //     alert("Countdown Over");
-  //   }
-  // }, 1000);
+  // // Optional: update when battery level changes
+  // battery.onlevelchange = () => {
+  //   document.getElementById('battery').textContent = `Battery: ${battery.level * 100}%`;
+  // };
+});
+
 
   let clickCounter = 0;
   document.querySelector("body").addEventListener("click", () => {

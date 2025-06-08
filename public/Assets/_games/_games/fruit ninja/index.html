@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+	function checkOrientation() {
+	const warning = document.getElementById('rotate-warning');
+	const content = document.getElementById('extra');
+
+	if (window.innerHeight > window.innerWidth) {
+	// Portrait mode
+	warning.style.display = 'flex';
+	content.style.display = 'none';
+	} else {
+	// Landscape mode
+	warning.style.display = 'none';
+	content.style.display = 'block';
+	}
+}
+
+	window.addEventListener('resize', checkOrientation);
+	window.addEventListener('load', checkOrientation);
+	setInterval(() => {
+		checkOrientation();
+	}, 1000);
+</script>
+<meta charset="utf-8">
+<meta name="description" content="A simple HTML5 Template">
+<meta name="author" content="dron">
+<meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="images/index.css">
+</head>
+<body>
+<div id="rotate-warning">
+	<img src="../../../_icons/rotate.png" alt="Rotate Icon">
+	<p>Please rotate your device to landscape mode to continue.</p>
+</div>
+<div id="extra">
+
+</div>
+<div class="gamePlayOver"></div>
+<div class="game-over-contanier" style="text-align: center;">
+</div>
+<div id="desc">
+	<div id="browser"></div>
+</div>
+<script src="scripts/all.js"></script>
+<script src="../../../_js/config.js"></script>
+</body>
+</html>

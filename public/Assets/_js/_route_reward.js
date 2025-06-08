@@ -552,9 +552,8 @@ async function addBank() {
 
             mainAlert.appendChild(alert);
         }else{
-            document.querySelector(".modal-footer .btn").innerHTML = ` 
-                Add Bank Account`
-            ;
+            document.querySelector(".modal-backdrop").remove();
+            document.querySelector(".modal").style.display = "none";
             Swal.fire({
                 title: "Successful!",
                 text: "You're bank account has been added successfully, you can now redeem your rewards",

@@ -59,6 +59,10 @@
 
                 <label for="lastname">Lastname</label>
                 <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Doe" required>
+                <p class="error_text_info pl-2">
+                    <i class="fi fi-rr-info"></i>
+                    Please enter your <b>names</b> exactly as it appears on your official documents.
+                </p>
 
                 <label for="username">Username</label>
                 <input type="text" name="firstname" id="username" class="form-control" placeholder="@johndoe" onblur="checkDetails()" required>
@@ -82,7 +86,9 @@
                 <label for="confirmpassword">Confirm Password</label>
                 <input type="password" name="confirmpassword" id="confirmpassword" class="form-control password" placeholder="********" required>
 
-                <p>By signing up you agree to Octagames terms and conditions blah blah</p>
+                <p class="terms_text">
+                    By signing up, you agree to Octagames’ <a href="./terms.html" target="_blank">Terms and Conditions</a> and <a href="./privacy.html" target="_blank">Privacy Policy</a>.
+                </p>
 
                 <button type="submit" class="btn submitBtn w-100">Sign Up</button>
 

@@ -140,6 +140,8 @@ async function buyCoin(coinId) {
                 console.log(result.message);
             }else{
                 if (result.message == 'success') {
+                    document.querySelector(".modal-backdrop").remove();
+                    document.querySelector(".modal").style.display = "none";
                     Swal.fire({
                         title: "Purchase Successful!",
                         text: "You're loaded now let's get back to gaming",

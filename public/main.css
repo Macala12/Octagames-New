@@ -67,6 +67,9 @@ body{
 ._auth_box input::placeholder{
     font-size: 14px;
 }
+.error_text_info{
+    color: #66FCF1;
+}
 /* ._auth_box button{
     background-color: #FFC107;
     color: #000 !important;
@@ -106,4 +109,10 @@ body{
     position: absolute;
     top: 14px;
     right: 20px;
+}
+.terms_text{
+    text-align: center !important;
+}
+.terms_text a{
+    color: #66FCF1 !important;
 }
