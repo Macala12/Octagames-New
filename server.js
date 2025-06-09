@@ -19,6 +19,7 @@ const transporter = nodemailer.createTransport({
     pass: `Modub_chibs`,
   },
 });
+const base_url = "https://octagames-new-production.up.railway.app";
 const { handleMultipleTournaments } = require('./public/controllers/tournamentController');
 const { startPaymentProcessor } = require('./public/controllers/paymentController');
 
@@ -206,7 +207,7 @@ app.use(express.json());
 
             const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-            const verificationLink = `https://octagames.onrender.com/verify-email?token=${token}`;
+            const verificationLink = `${base_url}/verify-email?token=${token}`;
 
             await transporter.sendMail({
             from: `"Octagames" <no-reply@octasub.com.ng>`,
@@ -243,7 +244,7 @@ app.use(express.json());
                             Level up your gaming experience with our competitive tournaments, rewards, and non-stop action.
                         </p>
                         </td>
-                        <td style="width: 150px; background-image: url('https://octagames.onrender.com/Assets/_games/_img/auth_background3.png'); background-size: cover; background-position: center;"></td>
+                        <td style="width: 150px; background-image: url('${base_url}/Assets/_games/_img/auth_background3.png'); background-size: cover; background-position: center;"></td>
                     </tr>
                     </table>
                 </div>  
@@ -281,7 +282,7 @@ app.use(express.json());
             
             const token = jwt.sign({ userId: fetchedUserId._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-            const verificationLink = `https://octagames.onrender.com/verify-email?token=${token}`;
+            const verificationLink = `${base_url}/verify-email?token=${token}`;
 
             await transporter.sendMail({
             from: `"Octagames" <no-reply@octasub.com.ng>`,
@@ -318,7 +319,7 @@ app.use(express.json());
                             Level up your gaming experience with our competitive tournaments, rewards, and non-stop action.
                         </p>
                         </td>
-                        <td style="width: 230px; background-image: url('https://octagames-new-production.up.railway.app/Assets/_games/_img/auth_background3.png'); background-size: cover; background-position: center;"></td>
+                        <td style="width: 230px; background-image: url('${base_url}/Assets/_games/_img/auth_background3.png'); background-size: cover; background-position: center;"></td>
                     </tr>
                     </table>
                 </div>  
@@ -542,7 +543,7 @@ app.use(express.json());
               <div class="container">
                 <h4>Email Verified ✨</h4>
                 <p>Yay! Email has been verified. You can now join the play, win, and repeat vibe 😎</p>
-                <a href="https://octagames.onrender.com/login.html">Login</a>
+                <a href="${base_url}/login.html">Login</a>
               </div>
             </body>
             </html>
@@ -750,7 +751,7 @@ app.use(express.json());
 
         const token = jwt.sign({ userId: userEmail._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        const verificationLink = `https://octagames.onrender.com/update_password.html?id=${userid}`;
+        const verificationLink = `${base_url}/update_password.html?id=${userid}`;
 
         await transporter.sendMail({
         from: `"Octagames" <no-reply@octasub.com.ng>`,
@@ -840,7 +841,7 @@ app.use(express.json());
                 return res.status(400).json({ message: 'Invalid Email' })
             }
 
-            const verificationLink = `https://octagames.onrender.com/update_forgot_password.html?email=${email}&userid=${checkEmail._id}`;
+            const verificationLink = `${base_url}/update_forgot_password.html?email=${email}&userid=${checkEmail._id}`;
             await transporter.sendMail({
             from: `"Octagames" <no-reply@octasub.com.ng>`,
             to: email,
@@ -1699,7 +1700,7 @@ app.use(express.json());
             const data = {
             email: email,
             amount: coin.nairaAmount * 100,
-            callback_url: `https://octagames-new-production.up.railway.app/verify_payment.html?id=${coinid}`
+            callback_url: `${base_url}/verify_payment.html?id=${coinid}`
             };
 
             axios.post(url, data, {
