@@ -1056,7 +1056,15 @@ button{
 }
 ._leaderboard table{
     color: #fff !important;
-    font-size: 13px;
+    font-size: 13px; 
+}
+._leaderboard table .d-flex{
+    width: 90%;
+    height: 15px;
+    margin-top: 5px;
+    white-space: pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 ._leaderboard table .d-flex img{
     width: 15px;

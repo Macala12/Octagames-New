@@ -9,7 +9,6 @@ html, body{
 
 @import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css');
 body{
-	position: fixed;
     background-color: #0B0C10 !important;
     font-family: "Montserrat", sans-serif !important;
 }

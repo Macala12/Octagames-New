@@ -36,21 +36,21 @@ var _players_joinedinnerHTML = `
             <div class="reward mt-3">
                 <div class="reward_box_">
                     <div class="d-flex justify-content-center mb-3">
-                        <img src="./Assets/_icons/1st-prize.png" width="30px" alt="">
+                        <img src="./Assets/_icons/number-1.png" width="30px" alt="">
                     </div>
                     <h5 id="firstPrize"></h5>
                     <h6>1st Place Prize</h6>
                 </div>
                 <div class="reward_box_">
                     <div class="d-flex justify-content-center mb-3">
-                        <img src="./Assets/_icons/2nd-place.png" width="30px" alt="">
+                        <img src="./Assets/_icons/number-2.png" width="30px" alt="">
                     </div>
                     <h5 id="secondPrize"></h5>
                     <h6>2nd Place Prize</h6>
                 </div>
                 <div class="reward_box_">
                     <div class="d-flex justify-content-center mb-3">
-                        <img src="./Assets/_icons/3rd-place.png" width="30px" alt="">
+                        <img src="./Assets/_icons/number-3.png" width="30px" alt="">
                     </div>
                     <h5 id="thirdPrize"></h5>
                     <h6>3rd Place Prize</h6>
@@ -184,7 +184,7 @@ async function getLeaderboard(id) {
             row.innerHTML = `
                 <td>${statusIcon}</td>
                 <td>${index + 1}</td>
-                <td class="d-flex align-items-center">
+                <td class="d-flex align-items-center"> 
                     <img src="${player.userImg}" class="img-fluid mr-1" alt="user-pic" width="15px"> 
                     ${player.username}
                 </td>

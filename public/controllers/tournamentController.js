@@ -294,39 +294,72 @@ async function handleMultipleTournaments() {
             "./Assets/_games/_games/fruit ninja/main.html"
         );
 
+        for (let i = 0; i < 2; i++) {
         handleTournamentLifecycle(subwaySurfers._id);
         handleTournamentLifecycle(basketballHoop._id);
-        handleTournamentLifecycle(fruitNinja._id);
+        }
         
     }, 9.4 * 60 * 1000); // Every 9 mins 40 seconds for regular tournament
 
     setInterval(async () => {
-        const trivia = await createNewExclusiveTournament(
-            "Octagames Trivia",
-            "./Assets/_games/_img/trivia.jpeg",
-            "Test your knowledge across multiple categories in fast-paced, fun trivia battles! Compete against friends or players worldwide, climb the leaderboards, and take on daily challenges for rewards. Who’s the trivia master? Play now and find out!",
+        // const trivia = await createNewExclusiveTournament(
+        //     "Octagames Trivia",
+        //     "./Assets/_games/_img/trivia.jpeg",
+        //     "Test your knowledge across multiple categories in fast-paced, fun trivia battles! Compete against friends or players worldwide, climb the leaderboards, and take on daily challenges for rewards. Who’s the trivia master? Play now and find out!",
+        //     0,
+        //     1000,
+        //     'exclusive',
+        //     'Trivia',
+        //     'BrainTeaser',
+        //     'QuizGame',
+        //     0,
+        //     './Assets/_games/_games/trivia/main.html'
+        // );
+        // const codm = await createNewExclusiveTournament(
+        //     "Call of Duty Mobile: Single",
+        //     "./Assets/_games/_img/codm.jpg",
+        //     "Join the ultimate CODM showdown! Battle it out with players from around the world in intense, fast-paced matches. Test your skills, claim your victory, and rise to the top of the leaderboard. Whether you're a sharpshooter or a strategist, this tournament is your chance to prove you're the best.",
+        //     0,
+        //     1000,
+        //     'exclusive',
+        //     'CODM',
+        //     'Battle Royale',
+        //     'No Team',
+        //     0
+        // );
+        
+        const subwaySurfers = await createNewExclusiveTournament(
+            "Exclusive Subway Surfers",
+            "./Assets/_games/_img/subway.jpeg",
+            "Dodge, dash, and surf your way through busy train tracks in this epic Subway Surfers tournament! 🚄💨 Collect coins, power-ups, and boosters as you race for the highest score. It's not just about speed — it's about style, skill, and non-stop fun!",
             0,
             1000,
             'exclusive',
-            'Trivia',
-            'BrainTeaser',
-            'QuizGame',
+            'Endless Runner',
+            'TrainTracksMadness',
+            '',
             0,
-            './Assets/_games/_games/trivia/main.html'
+            "./Assets/_games/_games/subwaysurfersny/index.html"
         );
-        const codm = await createNewExclusiveTournament(
-            "Call of Duty Mobile: Single",
-            "./Assets/_games/_img/codm.jpg",
-            "Join the ultimate CODM showdown! Battle it out with players from around the world in intense, fast-paced matches. Test your skills, claim your victory, and rise to the top of the leaderboard. Whether you're a sharpshooter or a strategist, this tournament is your chance to prove you're the best.",
+
+        const basketballHoop = await createNewExclusiveTournament(
+            "Basketball Hoop",
+            "./Assets/_games/_img/basketballhoop.jpg",
+            "Time to show off those shooting skills! 🎯🏀 Swipe, aim, and sink as many baskets as you can before the clock runs out. The more perfect shots you hit, the higher your score — it’s all about precision and speed!",
             0,
             1000,
             'exclusive',
-            'CODM',
-            'Battle Royale',
-            'No Team',
-            0
+            'BasketballShootout',
+            'BasketballFrenzy',
+            'ArcadeBasketball',
+            0,
+            "./Assets/_games/_games/basketball frvr/main.html"
         );
-        handleTournamentLifecycle(trivia._id);
+        
+        for (let i = 0; i < 2; i++) {
+            handleTournamentLifecycle(subwaySurfers._id);
+            handleTournamentLifecycle(basketballHoop._id);
+        }
     }, 15 * 60 * 1000); // Every 4 hours for exclusive tournament
 }
 

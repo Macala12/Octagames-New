@@ -11282,6 +11282,7 @@ let gamePlayOverScore;
             const gamePlayOver = sessionStorage.getItem("gameplayover");
             if (gamePlayOver) {
               document.getElementById("og-game-holder").style.display = "none";
+              document.querySelector(".game-over-contanier").style.disable = "none";
               const gameplayoverbox = document.querySelector(".gamePlayOver");
               gameplayoverbox.innerHTML = `
                 <div>
@@ -11355,7 +11356,7 @@ let gamePlayOverScore;
                               </gameDetailsBox>
                             </gameDetails>
                             <a id="backToGame" class="btn">
-                            Back to game page
+                              Tournament Over
                             </a>
                           </div>
                       `;
