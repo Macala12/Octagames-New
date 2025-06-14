@@ -19,7 +19,16 @@ const transporter = nodemailer.createTransport({
     pass: `Modub_chibs`,
   },
 });
-const base_url = "https://octagames-new-production.up.railway.app";
+
+let base_url = '';
+if (window.location.hostname === 'localhost') {
+  base_url = 'http://localhost:3000';
+} else if (window.location.hostname.includes('octagames-new-production.up.railway.app')) {
+  base_url = 'https://octagames-new-production.up.railway.app';
+} else if (window.location.hostname.includes('octagames.onrender.com')) {
+  base_url = 'https://octagames.onrender.com';
+} 
+// const base_url = "https://octagames-new-production.up.railway.app";
 const { handleMultipleTournaments } = require('./public/controllers/tournamentController');
 const { startPaymentProcessor } = require('./public/controllers/paymentController');
 
