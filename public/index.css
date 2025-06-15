@@ -209,6 +209,7 @@ button{
     max-width: 76px;
     overflow: hidden;
     text-align: center;
+    white-space: nowrap;
 }
 ._tournament::-webkit-scrollbar, ._exclusive_box::-webkit-scrollbar{
     display: none;
@@ -474,7 +475,7 @@ button{
     border-radius: 7px;
 }
 ._us_credentials a .top_coin_box{
-    width: 25px;
+    width: 20px;
     height: 35px;
     margin-left: 5px;
 }
@@ -485,11 +486,10 @@ button{
 }
 ._us_credentials a h6{
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     padding-top: 10px;
     padding-left: 5px;
     padding-right: 12px;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 ._us_credentials span{
     display: block;

@@ -102,7 +102,7 @@ async function fetchAndDisplayTournaments() {
                                     <span class="badge">${tournament.tagThree}</span>
                                 </div>
                                 <div class="_game_desc">
-                                    <p class="mb-2"><span id="status-${tournament._id}"></span><b id="timer-${tournament._id}">--:--</b></p>
+                                    <p class="mb-2"><span id="status-${tournament._id}"></span><b id="timer-${tournament._id}"></b></p>
                                     <div class="_game_win_amount">
                                         <span>${tournament.tournamentDesc}</span>
                                         Reward: <b>N40,000</b> 
@@ -172,7 +172,7 @@ async function fetchAndDisplayTournaments() {
                                             <h6>${tournament.tournamentName} <span class="badge">New!</span></h6>
                                         </div>
                                         <div class="_game_desc">
-                                            <p class="mb-2"><span id="status-${tournament._id}"></span> <b id="timer-${tournament._id}">--:--</b></p>
+                                            <p class="mb-2"><span id="status-${tournament._id}"></span> <b id="timer-${tournament._id}"></b></p>
                                             <div class="_game_win_amount">Reward: N10,000</div>
                                             <a class="" onclick="howItWorks('${tournament.tournamentName}')"><i class="fi fi-rr-info"></i> How to Win</a>
                                         </div>
@@ -235,7 +235,7 @@ async function fetchAndDisplayTournaments() {
                                             <h6>${tournament.tournamentName} <span class="badge">New!</span></h6>
                                         </div>
                                         <div class="_game_desc">
-                                            <p class="mb-2"><span id="status-${tournament._id}"></span> <b id="timer-${tournament._id}">--:--</b></p>
+                                            <p class="mb-2"><span id="status-${tournament._id}"></span> <b id="timer-${tournament._id}"></b></p>
                                             <div class="_game_win_amount">Reward: N10,000</div>
                                             <a class="" onclick="howItWorks('${tournament.tournamentName}')"><i class="fi fi-rr-info"></i> How to Win</a>
                                         </div>
@@ -311,7 +311,7 @@ async function fetchAndDisplayTournaments() {
                                 <h6>${tournament.tournament.tournamentName}<span class="ml-1 badge badge-success">Active!</span></h6>
                             </div>
                             <div class="_game_desc">
-                                <p class="mb-2"><span id="status-${tournament.tournament._id}"></span><b id="timer-${tournament.tournament._id}">--:--</b></p>
+                                <p class="mb-2"><span id="status-${tournament.tournament._id}"></span><b id="timer-${tournament.tournament._id}"></b></p>
                                 <div class="_game_win_amount">Reward: <b>N${tournament.tournament.tournamentReward}</b></div>
                                 <a class=""  onclick="howItWorks('${tournament.tournament.tournamentName}')"><i class="fi fi-rr-info"></i> How to Win</a>
                             </div>
